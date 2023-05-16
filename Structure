@@ -1,0 +1,26 @@
+Tipout
+
+An app to calculate nightly distribution of tips by by a restaurant employer.
+
+Basic Structure:
+
+Models
+Employer - Pays the tip out
+Employee Roles-
+--Server - Kind of employee that recives tips and collects tips
+--Busser - Kind of employee that recives tips
+--Bartender- Kind of employee that recives tips and collects tips and
+--Kitchen - Kind of employee that recives tips
+Tips - What is collected daily
+
+View
+--Homepage with the ability to enter tips collected by employee,
+will return what is due to each employee
+--Page to add employees
+--Page to edit/delete employees
+
+Extended Features:
+--Control access to who can see what
+--User can have multiple roles
+--Custom Roles
+--Custom events ie parties
