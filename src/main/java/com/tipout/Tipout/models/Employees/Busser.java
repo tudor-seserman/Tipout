@@ -6,10 +6,12 @@ import javax.persistence.Entity;
 
 @Entity
 public class Busser extends Employee {
+
+    Integer percentOfTipOut = 3;
     public Busser() {
     }
 
-    public Busser(int id, String name, double percentOfTipOut) {
-        super(id, name, percentOfTipOut);
+    public Busser(int id, String firstName, String lastName) {
+        super(id, firstName, lastName);
     }
 }

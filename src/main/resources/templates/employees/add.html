@@ -6,5 +6,39 @@
 
 <nav th:replace="fragments :: navigation"></nav>
 
+<div>
+    <form method="post">
+        <div class="form-group">
+            <label>First Name
+                <input th:field="${employee.firstName}" class="form-control"/>
+            </label>
+            <p class="error" th:errors="${employee.firstName}"></p>
+        </div>
+        <div class="form-group">
+            <label>Last Name
+                <input th:field="${employee.lastName}" class="form-control"/>
+            </label>
+            <p class="error" th:errors="${employee.lastName}"></p>
+        </div>
+        <div class="form-group">
+            <label>What is their role?
+                <select  th:field="${employee.employer}" class="form-control">
+                    <option th:each="position : ${employer.employees}"
+                    th:value="${position.id}"
+                    th:text="${position.getClass().getSimpleName()}"
+                    ></option>
+                </select>
+            </label>
+            <p class="error" th:errors="${employee.percentOfTipOut}"></p>
+        </div>
+
+        <div class="form-group">
+            <input type="submit" value="Add Employee" class="btn btn-success">
+        </div>
+    </form>
+
+
+</div>
+
 </body>
 </html>

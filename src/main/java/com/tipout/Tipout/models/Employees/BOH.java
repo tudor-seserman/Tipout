@@ -6,7 +6,12 @@ import javax.persistence.Entity;
 
 @Entity
 public class BOH extends Employee {
-    public BOH(int id, String name, double percentOfTipOut) {
-        super(id, name, percentOfTipOut);
+
+    Integer percentOfTipOut = 2;
+    public BOH() {
+    }
+
+    public BOH(int id, String firstName, String lastName) {
+        super(id, firstName, lastName);
     }
 }

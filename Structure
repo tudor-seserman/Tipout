@@ -28,3 +28,5 @@ Extended Features:
 --User can have multiple roles
 --Custom Roles
 --Custom events ie parties
+--Split sales between different classifications ie food and liquor
+--Have defaults for the roles, be able to adjust those defaults

@@ -1,32 +1,34 @@
 package com.tipout.Tipout.models;
 
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.MappedSuperclass;
+import javax.persistence.*;
 import javax.validation.constraints.Digits;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import java.util.Objects;
-@MappedSuperclass
-public abstract class Employee {
+@Entity
+public class Employee {
     @Id
     @GeneratedValue
     private int id;
     @NotNull
     @NotBlank
-    private String name;
+    private String firstName;
+
     @NotNull
     @NotBlank
-    @Digits(integer = 3, fraction = 0)
-    private double percentOfTipOut;
+    private String lastName;
+    @ManyToOne
+    private Employer employer;
+
+    private Integer percentOfTipOut;
 
     public Employee() {
     }
 
-    public Employee(int id, String name, double percentOfTipOut) {
+    public Employee(int id, String firstName, String lastName) {
         this.id = id;
-        this.name = name;
-        this.percentOfTipOut = percentOfTipOut;
+        this.firstName = firstName;
+        this.lastName = lastName;
     }
 
     public int getId() {
@@ -37,20 +39,36 @@ public abstract class Employee {
         this.id = id;
     }
 
-    public String getName() {
-        return name;
+    public String getFirstName() {
+        return firstName;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
     }
 
-    public double getPercentOfTipOut() {
+    public String getLastName() {
+        return lastName;
+    }
+
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
+    }
+
+    public Integer getPercentOfTipOut() {
         return percentOfTipOut;
     }
 
-    public void setPercentOfTipOut(double percentOfTipOut) {
+    public void setPercentOfTipOut(Integer percentOfTipOut) {
         this.percentOfTipOut = percentOfTipOut;
+    }
+
+    public Employer getEmployer() {
+        return employer;
+    }
+
+    public void setEmployer(Employer employer) {
+        this.employer = employer;
     }
 
     @Override

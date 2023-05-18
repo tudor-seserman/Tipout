@@ -6,7 +6,12 @@ import javax.persistence.Entity;
 
 @Entity
 public class Server extends TipCollector {
-    public Server(double tipsCollected) {
-        super(tipsCollected);
+
+    private Integer percentOfTipOut = 85;
+    public Server() {
+    }
+
+    public Server(int id, String firstName, String lastName, double tipsCollected) {
+        super(id, firstName, lastName, tipsCollected);
     }
 }

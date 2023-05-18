@@ -8,12 +8,14 @@ import javax.persistence.MappedSuperclass;
 public abstract class TipCollector extends Employee {
     private double tipsCollected;
 
-    public TipCollector(double tipsCollected) {
+
+    public TipCollector(int id, String firstName, String lastName, double tipsCollected) {
+        super(id, firstName, lastName);
+        this.tipsCollected = tipsCollected;
     }
 
-    public TipCollector(int id, String name, double percentOfTipOut, double tipsCollected) {
-        super(id, name, percentOfTipOut);
-        this.tipsCollected = tipsCollected;
+    public TipCollector() {
+
     }
 
     public double getTipsCollected() {
