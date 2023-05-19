@@ -1,9 +1,10 @@
 package com.tipout.Tipout.models.data;
 
-import com.tipout.Tipout.models.Employer;
+import com.tipout.Tipout.models.Employee;
+import com.tipout.Tipout.models.Employees.BOH;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface EmployerRepository extends CrudRepository<Employer, Integer> {
+public interface BOHRepository extends CrudRepository<BOH,Integer> {
 }

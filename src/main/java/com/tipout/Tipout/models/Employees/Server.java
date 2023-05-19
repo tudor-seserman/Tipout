@@ -11,7 +11,7 @@ public class Server extends TipCollector {
     public Server() {
     }
 
-    public Server(int id, String firstName, String lastName, double tipsCollected) {
-        super(id, firstName, lastName, tipsCollected);
+    public Server(int id, String firstName, String lastName) {
+        super(id, firstName, lastName);
     }
 }

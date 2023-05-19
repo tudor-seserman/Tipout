@@ -1,5 +1,7 @@
 package com.tipout.Tipout.models.Employees;
 
+import com.tipout.Tipout.models.Employee;
+
 import javax.persistence.Entity;
 
 @Entity
@@ -9,7 +11,7 @@ public class Bartender extends TipCollector{
     public Bartender() {
     };
 
-    public Bartender(int id, String firstName, String lastName, double tipsCollected) {
-        super(id, firstName, lastName, tipsCollected);
+    public Bartender(int id, String firstName, String lastName) {
+        super(id, firstName, lastName);
     }
 }

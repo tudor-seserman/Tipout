@@ -7,6 +7,8 @@
 <nav th:replace="fragments :: navigation"></nav>
 
 <div>
+    <h2  th:if="${newEmployee != null}" th:text="${newEmployee+' added successfully!'}"></h2>
+    <h2  th:if="${error != null}" th:text="${error}"></h2>
     <form method="post">
         <div class="form-group">
             <label>First Name
@@ -22,14 +24,14 @@
         </div>
         <div class="form-group">
             <label>What is their role?
-                <select  th:field="${employee.employer}" class="form-control">
+                <select  name="role" class="form-control">
                     <option th:each="position : ${employer.employees}"
-                    th:value="${position.id}"
+                    th:value="${position.getClass().getSimpleName()}"
                     th:text="${position.getClass().getSimpleName()}"
                     ></option>
                 </select>
             </label>
-            <p class="error" th:errors="${employee.percentOfTipOut}"></p>
+            <p class="error" th:errors="${employee.role}"></p>
         </div>
 
         <div class="form-group">

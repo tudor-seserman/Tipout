@@ -9,9 +9,8 @@ public abstract class TipCollector extends Employee {
     private double tipsCollected;
 
 
-    public TipCollector(int id, String firstName, String lastName, double tipsCollected) {
+    public TipCollector(int id, String firstName, String lastName) {
         super(id, firstName, lastName);
-        this.tipsCollected = tipsCollected;
     }
 
     public TipCollector() {

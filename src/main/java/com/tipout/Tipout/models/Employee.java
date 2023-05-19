@@ -1,7 +1,7 @@
 package com.tipout.Tipout.models;
 
 import javax.persistence.*;
-import javax.validation.constraints.Digits;
+import javax.validation.Valid;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import java.util.Objects;
@@ -19,6 +19,11 @@ public class Employee {
     private String lastName;
     @ManyToOne
     private Employer employer;
+    @Valid
+    @OneToOne(cascade = CascadeType.ALL)
+    private Employee role;
+
+    private String roleDescription = this.getClass().getSimpleName();
 
     private Integer percentOfTipOut;
 
@@ -69,6 +74,18 @@ public class Employee {
 
     public void setEmployer(Employer employer) {
         this.employer = employer;
+    }
+
+    public Employee getRole() {
+        return role;
+    }
+
+    public void setRole(Employee role) {
+        this.role = role;
+    }
+
+    public String getRoleDescription() {
+        return roleDescription;
     }
 
     @Override
