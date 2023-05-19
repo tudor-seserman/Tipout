@@ -11,7 +11,7 @@ public class BOH extends Employee {
     public BOH() {
     }
 
-    public BOH(int id, String firstName, String lastName) {
-        super(id, firstName, lastName);
+    public BOH(String firstName, String lastName) {
+        super(firstName, lastName);
     }
 }

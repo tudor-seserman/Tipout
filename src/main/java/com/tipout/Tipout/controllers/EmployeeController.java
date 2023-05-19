@@ -42,33 +42,34 @@ public class EmployeeController {
     @PostMapping("add")
     public String processAddNewEmployee(@RequestParam String role, Model model, @ModelAttribute @Valid Employee newEmployee, Errors errors) {
         model.addAttribute("title", "Add Employee");
-        model.addAttribute("employee", new Employee());
         model.addAttribute("employer", new Employer());
+        System.out.println(role);
         if(errors.hasErrors()){
             return "employees/add";
         }
         switch(role){
             case "Bartender":
-                Bartender newBartender = (Bartender) newEmployee;
+                Bartender newBartender = new Bartender(newEmployee.getFirstName(),newEmployee.getLastName());
                 bartenderRepository.save(newBartender);
                 break;
             case "BOH":
-                BOH newBOH = (BOH) newEmployee;
+                BOH newBOH = new BOH(newEmployee.getFirstName(),newEmployee.getLastName());
                 bohRepository.save(newBOH);
                 break;
             case "Busser":
-                Busser newBusser = (Busser) newEmployee;
+                Busser newBusser = new Busser(newEmployee.getFirstName(),newEmployee.getLastName());;
                 busserRepository.save(newBusser);
                 break;
             case "Server":
-                Server newServer = (Server) newEmployee;
+                Server newServer = new Server(newEmployee.getFirstName(),newEmployee.getLastName());;
                 serverRepository.save(newServer);
                 break;
             default:
-                model.addAttribute("newEmployee", "Something went wrong");
+                model.addAttribute("error", "Something went wrong");
         }
 
         model.addAttribute("newEmployee", newEmployee.getFirstName());
+        model.addAttribute("employee", new Employee());
         return "employees/add";
     }
 

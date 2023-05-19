@@ -19,9 +19,9 @@ public class Employee {
     private String lastName;
     @ManyToOne
     private Employer employer;
-    @Valid
-    @OneToOne(cascade = CascadeType.ALL)
-    private Employee role;
+
+//    @OneToOne(cascade = CascadeType.ALL)
+//    private Employee role;
 
     private String roleDescription = this.getClass().getSimpleName();
 
@@ -30,8 +30,7 @@ public class Employee {
     public Employee() {
     }
 
-    public Employee(int id, String firstName, String lastName) {
-        this.id = id;
+    public Employee(String firstName, String lastName) {
         this.firstName = firstName;
         this.lastName = lastName;
     }
@@ -76,13 +75,13 @@ public class Employee {
         this.employer = employer;
     }
 
-    public Employee getRole() {
-        return role;
-    }
-
-    public void setRole(Employee role) {
-        this.role = role;
-    }
+//    public Employee getRole() {
+//        return role;
+//    }
+//
+//    public void setRole(Employee role) {
+//        this.role = role;
+//    }
 
     public String getRoleDescription() {
         return roleDescription;

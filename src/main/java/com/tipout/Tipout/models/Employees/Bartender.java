@@ -11,7 +11,7 @@ public class Bartender extends TipCollector{
     public Bartender() {
     };
 
-    public Bartender(int id, String firstName, String lastName) {
-        super(id, firstName, lastName);
+    public Bartender(String firstName, String lastName) {
+        super(firstName, lastName);
     }
 }

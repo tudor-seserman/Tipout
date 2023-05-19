@@ -11,7 +11,7 @@ public class Busser extends Employee {
     public Busser() {
     }
 
-    public Busser(int id, String firstName, String lastName) {
-        super(id, firstName, lastName);
+    public Busser(String firstName, String lastName) {
+        super(firstName, lastName);
     }
 }
