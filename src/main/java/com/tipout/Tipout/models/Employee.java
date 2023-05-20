@@ -1,46 +1,34 @@
 package com.tipout.Tipout.models;
 
+import com.tipout.Tipout.models.Employees.CurrentEmployees;
+
 import javax.persistence.*;
-import javax.validation.Valid;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
-import java.util.Objects;
+import java.util.ArrayList;
+import java.util.List;
+
 @Entity
-public class Employee {
-    @Id
-    @GeneratedValue
-    private int id;
+public class Employee extends AbstractEntity {
     @NotNull
     @NotBlank
     private String firstName;
-
     @NotNull
     @NotBlank
     private String lastName;
     @ManyToOne
     private Employer employer;
 
-//    @OneToOne(cascade = CascadeType.ALL)
-//    private Employee role;
-
-    private String roleDescription = this.getClass().getSimpleName();
-
-    private Integer percentOfTipOut;
+    @OneToMany(mappedBy = "role")
+    private List<CurrentEmployees> role = new ArrayList<>();
 
     public Employee() {
     }
 
-    public Employee(String firstName, String lastName) {
+    public Employee(String firstName, String lastName, List<CurrentEmployees> role) {
         this.firstName = firstName;
         this.lastName = lastName;
-    }
-
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
+        this.role = role;
     }
 
     public String getFirstName() {
@@ -59,13 +47,6 @@ public class Employee {
         this.lastName = lastName;
     }
 
-    public Integer getPercentOfTipOut() {
-        return percentOfTipOut;
-    }
-
-    public void setPercentOfTipOut(Integer percentOfTipOut) {
-        this.percentOfTipOut = percentOfTipOut;
-    }
 
     public Employer getEmployer() {
         return employer;
@@ -75,28 +56,12 @@ public class Employee {
         this.employer = employer;
     }
 
-//    public Employee getRole() {
-//        return role;
-//    }
-//
-//    public void setRole(Employee role) {
-//        this.role = role;
-//    }
-
-    public String getRoleDescription() {
-        return roleDescription;
+    public List<CurrentEmployees> getRole() {
+        return role;
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Employee employee = (Employee) o;
-        return id == employee.id;
+    public void setRole(List<CurrentEmployees> role) {
+        this.role = role;
     }
 
-    @Override
-    public int hashCode() {
-        return Objects.hash(id);
-    }
 }

@@ -1,9 +1,6 @@
 package com.tipout.Tipout.models;
 
-import com.tipout.Tipout.models.Employees.BOH;
-import com.tipout.Tipout.models.Employees.Bartender;
-import com.tipout.Tipout.models.Employees.Busser;
-import com.tipout.Tipout.models.Employees.Server;
+import com.tipout.Tipout.models.Employees.*;
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -17,8 +14,10 @@ public class Employer {
     private Integer id;
     private String firstName;
     private String lastName;
+
+//    Need to be more explicit here
     @OneToMany(mappedBy = "employer")
-    private List<Employee> employees= new ArrayList<>(Arrays.asList(new Bartender(), new BOH(), new Busser(), new Server()));
+    private List<CurrentEmployees> employees= new ArrayList<>(Arrays.asList(new Bartender(), new BOH(), new Busser(), new Server()));
 
     public Employer() {
     }
@@ -53,11 +52,11 @@ public class Employer {
         this.lastName = lastName;
     }
 
-    public List<Employee> getEmployees() {
+    public List<CurrentEmployees> getEmployees() {
         return employees;
     }
 
-    public void setEmployees(List<Employee> employees) {
+    public void setEmployees(List<CurrentEmployees> employees) {
         this.employees = employees;
     }
 

@@ -3,15 +3,20 @@ package com.tipout.Tipout.models.Employees;
 import com.tipout.Tipout.models.Employee;
 
 import javax.persistence.Entity;
+import javax.persistence.Table;
 
 @Entity
-public class Busser extends Employee {
+@Table(name = "Busser")
+public class Busser extends TippedNotCollector {
+
 
     Integer percentOfTipOut = 3;
+
     public Busser() {
     }
 
-    public Busser(String firstName, String lastName) {
-        super(firstName, lastName);
+    public Busser(CurrentEmployees role){
+        super(role);
     }
+
 }
