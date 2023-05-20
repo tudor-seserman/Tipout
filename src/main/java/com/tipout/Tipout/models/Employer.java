@@ -15,9 +15,8 @@ public class Employer {
     private String firstName;
     private String lastName;
 
-//    Need to be more explicit here
-    @OneToMany(mappedBy = "employer")
-    private List<CurrentEmployees> employees= new ArrayList<>(Arrays.asList(new Bartender(), new BOH(), new Busser(), new Server()));
+//    @OneToMany(mappedBy = "employer")
+    private List<AbstractEntity> employees= new ArrayList<>();
 
     public Employer() {
     }
@@ -52,11 +51,11 @@ public class Employer {
         this.lastName = lastName;
     }
 
-    public List<CurrentEmployees> getEmployees() {
+    public List<AbstractEntity> getEmployees() {
         return employees;
     }
 
-    public void setEmployees(List<CurrentEmployees> employees) {
+    public void setEmployees(List<AbstractEntity> employees) {
         this.employees = employees;
     }
 

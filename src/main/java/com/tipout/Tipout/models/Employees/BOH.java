@@ -1,7 +1,6 @@
 package com.tipout.Tipout.models.Employees;
 
 import com.tipout.Tipout.models.Employee;
-import com.tipout.Tipout.models.Employer;
 
 import javax.persistence.*;
 
@@ -9,16 +8,9 @@ import javax.persistence.*;
 @Table(name = "BOH")
 public class BOH extends TippedNotCollector {
     @ManyToOne
-    private Employer employer;
-    @ManyToOne
-    private CurrentEmployees role;
+    private BOH role = this;
     Integer percentOfTipOut = 2;
 
-    public BOH() {}
-
-    public BOH(CurrentEmployees role) {
-        super(role);
-    }
-
+    public BOH() {super();}
 
 }

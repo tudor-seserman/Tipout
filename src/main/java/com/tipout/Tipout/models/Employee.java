@@ -1,6 +1,6 @@
 package com.tipout.Tipout.models;
 
-import com.tipout.Tipout.models.Employees.CurrentEmployees;
+import com.tipout.Tipout.models.Employees.EmployeeTypes;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
@@ -16,16 +16,16 @@ public class Employee extends AbstractEntity {
     @NotNull
     @NotBlank
     private String lastName;
-    @ManyToOne
+//    @ManyToOne
     private Employer employer;
 
     @OneToMany(mappedBy = "role")
-    private List<CurrentEmployees> role = new ArrayList<>();
+    private List<EmployeeTypes> role = new ArrayList<>();
 
     public Employee() {
     }
 
-    public Employee(String firstName, String lastName, List<CurrentEmployees> role) {
+    public Employee(String firstName, String lastName, List<EmployeeTypes> role) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.role = role;
@@ -56,11 +56,11 @@ public class Employee extends AbstractEntity {
         this.employer = employer;
     }
 
-    public List<CurrentEmployees> getRole() {
+    public List<EmployeeTypes> getRole() {
         return role;
     }
 
-    public void setRole(List<CurrentEmployees> role) {
+    public void setRole(List<EmployeeTypes> role) {
         this.role = role;
     }
 
