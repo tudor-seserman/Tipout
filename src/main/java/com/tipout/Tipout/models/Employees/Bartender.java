@@ -11,5 +11,8 @@ public class Bartender extends TipCollector {
     private Integer percentOfTipOut = 10;
 
     public Bartender() {}
-    public Bartender(CurrentEmployees role) {super(role);}
+
+    public Bartender(String firstName, String lastName) {
+        super(firstName, lastName);
+    }
 }

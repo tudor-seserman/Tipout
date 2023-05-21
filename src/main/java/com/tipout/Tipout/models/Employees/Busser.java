@@ -15,8 +15,7 @@ public class Busser extends TippedNotCollector {
     public Busser() {
     }
 
-    public Busser(CurrentEmployees role){
-        super(role);
+    public Busser(String firstName, String lastName) {
+        super(firstName, lastName);
     }
-
 }

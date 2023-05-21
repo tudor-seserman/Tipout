@@ -13,7 +13,7 @@ public class Server extends TipCollector {
     private Integer percentOfTipOut = 85;
     public Server() {}
 
-    public Server(CurrentEmployees role) {
-        super(role);
+    public Server(String firstName, String lastName) {
+        super(firstName, lastName);
     }
 }

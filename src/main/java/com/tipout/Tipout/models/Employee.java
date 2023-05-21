@@ -1,7 +1,5 @@
 package com.tipout.Tipout.models;
 
-import com.tipout.Tipout.models.Employees.CurrentEmployees;
-
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
@@ -19,16 +17,13 @@ public class Employee extends AbstractEntity {
     @ManyToOne
     private Employer employer;
 
-    @OneToMany(mappedBy = "role")
-    private List<CurrentEmployees> role = new ArrayList<>();
 
     public Employee() {
     }
 
-    public Employee(String firstName, String lastName, List<CurrentEmployees> role) {
+    public Employee(String firstName, String lastName) {
         this.firstName = firstName;
         this.lastName = lastName;
-        this.role = role;
     }
 
     public String getFirstName() {
@@ -56,12 +51,5 @@ public class Employee extends AbstractEntity {
         this.employer = employer;
     }
 
-    public List<CurrentEmployees> getRole() {
-        return role;
-    }
-
-    public void setRole(List<CurrentEmployees> role) {
-        this.role = role;
-    }
 
 }

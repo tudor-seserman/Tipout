@@ -40,32 +40,32 @@ public class EmployeeController {
     }
 
     @PostMapping("add")
-    public String processAddNewEmployee(Model model, @ModelAttribute @Valid Employee newEmployee, Errors errors) {
+    public String processAddNewEmployee(@RequestParam String role, Model model, @ModelAttribute @Valid Employee newEmployee, Errors errors) {
         model.addAttribute("title", "Add Employee");
         model.addAttribute("employer", new Employer());
         if(errors.hasErrors()){
             return "employees/add";
         }
-//        switch(role){
-//            case "Bartender":
-//                Bartender newBartender = new Bartender(newEmployee.getFirstName(),newEmployee.getLastName());
-//                bartenderRepository.save(newBartender);
-//                break;
-//            case "BOH":
-//                BOH newBOH = new BOH(newEmployee.getFirstName(),newEmployee.getLastName());
-//                bohRepository.save(newBOH);
-//                break;
-//            case "Busser":
-//                Busser newBusser = new Busser(newEmployee.getFirstName(),newEmployee.getLastName());;
-//                busserRepository.save(newBusser);
-//                break;
-//            case "Server":
-//                Server newServer = new Server(newEmployee.getFirstName(),newEmployee.getLastName());;
-//                serverRepository.save(newServer);
-//                break;
-//            default:
-//                model.addAttribute("error", "Something went wrong");
-//        }
+        switch(role){
+            case "Bartender":
+                Bartender newBartender = new Bartender(newEmployee.getFirstName(),newEmployee.getLastName());
+                bartenderRepository.save(newBartender);
+                break;
+            case "BOH":
+                BOH newBOH = new BOH(newEmployee.getFirstName(),newEmployee.getLastName());
+                bohRepository.save(newBOH);
+                break;
+            case "Busser":
+                Busser newBusser = new Busser(newEmployee.getFirstName(),newEmployee.getLastName());;
+                busserRepository.save(newBusser);
+                break;
+            case "Server":
+                Server newServer = new Server(newEmployee.getFirstName(),newEmployee.getLastName());;
+                serverRepository.save(newServer);
+                break;
+            default:
+                model.addAttribute("error", "Something went wrong");
+        }
 
         model.addAttribute("newEmployee", newEmployee.getFirstName());
         model.addAttribute("employee", new Employee());

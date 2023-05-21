@@ -10,15 +10,11 @@ import javax.persistence.*;
 public class BOH extends TippedNotCollector {
     @ManyToOne
     private Employer employer;
-    @ManyToOne
-    private CurrentEmployees role;
     Integer percentOfTipOut = 2;
 
     public BOH() {}
 
-    public BOH(CurrentEmployees role) {
-        super(role);
+    public BOH(String firstName, String lastName) {
+        super(firstName, lastName);
     }
-
-
 }
