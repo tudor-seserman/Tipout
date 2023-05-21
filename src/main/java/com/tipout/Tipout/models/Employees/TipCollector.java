@@ -1,12 +1,20 @@
 package com.tipout.Tipout.models.Employees;
 
 import com.tipout.Tipout.models.Employee;
+import com.tipout.Tipout.models.TipsCollected;
 
+import javax.persistence.Entity;
 import javax.persistence.MappedSuperclass;
+import javax.persistence.OneToMany;
+import javax.validation.Valid;
+import java.util.ArrayList;
+import java.util.List;
 
-@MappedSuperclass
+@Entity
 public abstract class TipCollector extends Employee {
-    private double tipsCollected;
+    @Valid
+    @OneToMany(mappedBy = "totalTipsCollected")
+    private final List<TipsCollected> tipsCollected = new ArrayList<>();
     private Integer percentOfTipOut;
 
     public TipCollector() {
@@ -16,12 +24,8 @@ public abstract class TipCollector extends Employee {
         super(firstName, lastName);
     }
 
-    public double getTipsCollected() {
+    public List<TipsCollected> getTipsCollected() {
         return tipsCollected;
-    }
-
-    public void setTipsCollected(double tipsCollected) {
-        this.tipsCollected = tipsCollected;
     }
 
     public Integer getPercentOfTipOut() {

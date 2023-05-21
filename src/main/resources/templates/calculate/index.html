@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="https://www.thymeleaf.org/">
+<head th:replace="fragments :: head">
+</head>
+<body class="container">
+
+<nav th:replace="fragments :: navigation"></nav>
+
+<form method="POST">
+    <div>
+        <label>
+            Enter Tips
+            <div th:each="tipCollector:${tipCollectors}">
+            <input type="number"
+                   th:text="${tipCollector.firstName+' '+tipCollector.lastName}"
+                    th:value="tipCollector.totalTipsCollected">
+            </div>
+        </label>
+    </div>
+    <br>
+    <div>
+        <label>
+            Add other employees to the Tippool
+            <div th:each="notTipCollector : ${notTipCollectors}">
+                <input type="checkbox"
+                       th:value="tipCollector.totalTipsCollected">
+            <label th:text="${notTipCollector.firstName+' '+notTipCollector.lastName}"></label><br>
+            </div>
+        </label>
+    </div>
+    <div>
+        <input type="submit" value="Calculate Tips">
+    </div>
+</form>
+
+</body>
+</html>

@@ -6,7 +6,6 @@ import javax.persistence.Entity;
 import javax.persistence.Table;
 
 @Entity
-@Table(name = "Busser")
 public class Busser extends TippedNotCollector {
 
 

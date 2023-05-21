@@ -76,7 +76,8 @@ public class EmployeeController {
 
     @GetMapping("current")
     public String allEmployee(Model model) {
-        model.addAttribute("title", "Current Employee");
+        model.addAttribute("title", "Current Employees");
+        model.addAttribute("currentEmployees", employeeRepository.findAll());
         return "employees/current";
     }
 }

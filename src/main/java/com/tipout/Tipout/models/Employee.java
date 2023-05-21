@@ -17,6 +17,8 @@ public class Employee extends AbstractEntity {
     @ManyToOne
     private Employer employer;
 
+    private String roleDetail = this.getClass().getSimpleName();
+
 
     public Employee() {
     }
@@ -51,5 +53,11 @@ public class Employee extends AbstractEntity {
         this.employer = employer;
     }
 
+    public String getRoleDetail() {
+        return roleDetail;
+    }
 
+    public void setRoleDetail(String roleDetail) {
+        this.roleDetail = roleDetail;
+    }
 }

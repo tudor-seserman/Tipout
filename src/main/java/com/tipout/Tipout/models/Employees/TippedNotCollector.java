@@ -2,9 +2,10 @@ package com.tipout.Tipout.models.Employees;
 
 import com.tipout.Tipout.models.Employee;
 
+import javax.persistence.Entity;
 import javax.persistence.MappedSuperclass;
 
-@MappedSuperclass
+@Entity
 public abstract class TippedNotCollector extends Employee {
     private Integer percentOfTipOut;
 

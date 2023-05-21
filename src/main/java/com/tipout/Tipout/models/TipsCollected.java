@@ -3,6 +3,7 @@ package com.tipout.Tipout.models;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
 import javax.validation.constraints.Digits;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
@@ -16,7 +17,7 @@ public class TipsCollected {
     @NotNull
     @NotBlank
     @Digits(integer = 6, fraction = 2)
-    private double totalTipsCollected;
+    private Double totalTipsCollected;
 
     public TipsCollected() {
 
@@ -35,7 +36,7 @@ public class TipsCollected {
         this.id = id;
     }
 
-    public double getTotalTipsCollected() {
+    public Double getTotalTipsCollected() {
         return totalTipsCollected;
     }
 

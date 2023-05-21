@@ -6,7 +6,6 @@ import com.tipout.Tipout.models.Employer;
 import javax.persistence.*;
 
 @Entity
-@Table(name = "BOH")
 public class BOH extends TippedNotCollector {
     @ManyToOne
     private Employer employer;

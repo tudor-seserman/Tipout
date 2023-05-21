@@ -15,6 +15,8 @@ public class Employer {
     private String firstName;
     private String lastName;
 
+    private String roleDetail = this.getClass().getSimpleName();
+
 //    Need to be more explicit here
     @OneToMany(mappedBy = "employer")
     private List<Employee> employees= new ArrayList<>(Arrays.asList(new Bartender(), new BOH(), new Busser(), new Server()));
@@ -59,6 +61,8 @@ public class Employer {
     public void setEmployees(List<Employee> employees) {
         this.employees = employees;
     }
+
+
 
     @Override
     public boolean equals(Object o) {
