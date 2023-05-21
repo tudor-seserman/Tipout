@@ -7,9 +7,10 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name = "Bartender")
-public class Bartender extends TipCollector {
+public class Bartender extends TipCollector  {
+
     @ManyToOne
-    private Bartender role = this;
+    private EmployeeTypes<Bartender> role;
     private Integer percentOfTipOut = 10;
 
     public Bartender() {}
