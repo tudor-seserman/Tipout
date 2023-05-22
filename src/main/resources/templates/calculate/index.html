@@ -28,7 +28,7 @@
             <div th:each="notTipCollector, itemStat: ${notTipCollectorsList}">
                 <label th:text="${notTipCollector.firstName+' '+notTipCollector.lastName}"></label>
                     <input type="checkbox"
-                           th:value="(null)? 1:0"
+                           th:value="0"
                            th:field="*{tips[__${itemStat.index+1+tipCollectorsList.size()}__].tips}"
                     />
                 <br>

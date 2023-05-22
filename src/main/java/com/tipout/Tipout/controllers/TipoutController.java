@@ -27,12 +27,10 @@ public class TipoutController {
     @GetMapping
     public String enterTips(Model model){
         model.addAttribute("title","Calculate Tips");
-        TipsCollected collectTips = new TipsCollected();
-//        model.addAttribute("tipCollected", new TipsCollected());
-
         model.addAttribute("tipCollectorsList", tipCollectorRepository.findAll());
         model.addAttribute("notTipCollectorsList",tippedNotCollectorRepository.findAll());
 
+        TipsCollected collectTips = new TipsCollected();
         for(TipCollector collector : tipCollectorRepository.findAll()){
             collectTips.addTips(collector, new Tips());
         }

@@ -6,7 +6,7 @@ import java.math.BigDecimal;
 
 @Entity
 public class Tips{
-    private BigDecimal tips=new BigDecimal(0);
+    private BigDecimal tips=null;
 
     public Tips() {
     }
