@@ -6,40 +6,35 @@
 
 <nav th:replace="fragments :: navigation" ></nav>
 
-<form method="POST" action="/calculate/report" th:if="${tipCollectorsList.size()>0}">
+<form method="POST" action="/calculate/report"
+      th:if="${tipCollectorsList.size()>0}"
+      th:object="${tipCollector}">
     <div>
-<!--        <label>-->
-<!--            <h3>Enter Tips</h3>-->
-<!--            <div th:each="tipCollector:${tipCollectors}">-->
-<!--            <input type="number"-->
-<!--                   th:text="${tipCollector.firstName+' '+tipCollector.lastName}"-->
-<!--                   th:value="${tipCollector.tipsCollected}"-->
-<!--                   class="form-control">-->
-<!--            </div>-->
-<!--        </label>-->
         <label>
             <h3>Enter Tips</h3>
-            <div th:each="collector, itemStat:${tipCollectorsList}" th:object="${tipCollector}">
+            <div th:each="collector, itemStat:${tipCollectorsList}">
                 <label th:text="${collector.firstName+' '+collector.lastName}"></label>
-                <input type="text"
-                       th:field="*{tips[__${itemStat.index}__].tips}"
+                <input type="number"
+                       th:field="*{tips[__${itemStat.index+1}__].tips}"
                        class="form-control">
             </div>
         </label>
 
     </div>
     <br>
-<!--    <div th:if="${notTipCollectorsList.size()>0}">-->
-<!--        <label>-->
-<!--            <h3 >Add other employees to the Tippool</h3>-->
-<!--            <div th:each="notTipCollector : ${notTipCollectors}">-->
-<!--                <label th:text="${notTipCollector.firstName+' '+notTipCollector.lastName}"> -->
-<!--                    <input type="checkbox"-->
-<!--                       th:value="${notTipCollector}">-->
-<!--                </label><br>-->
-<!--            </div>-->
-<!--        </label>-->
-<!--    </div>-->
+    <div th:if="${notTipCollectorsList.size()>0}">
+        <label>
+            <h3 >Add other employees to the Tippool</h3>
+            <div th:each="notTipCollector, itemStat: ${notTipCollectorsList}">
+                <label th:text="${notTipCollector.firstName+' '+notTipCollector.lastName}"></label>
+                    <input type="checkbox"
+                           th:value="(null)? 1:0"
+                           th:field="*{tips[__${itemStat.index+1+tipCollectorsList.size()}__].tips}"
+                    />
+                <br>
+            </div>
+        </label>
+    </div>
     <div>
         <input type="submit" value="Calculate Tips" class="btn btn-success">
     </div>
@@ -47,3 +42,6 @@
 <h2 th:if="${tipCollectorsList.size()<1}">Add Employees That Collect Tips to Continue</h2>
 </body>
 </html>
+
+<!--th:attr="onclick=|${tipCollector}.add(${notTipCollector})|"-->
+

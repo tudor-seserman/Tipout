@@ -70,4 +70,9 @@ public class Employee extends AbstractEntity {
     public void setRoleDetail(String roleDetail) {
         this.roleDetail = roleDetail;
     }
+
+    @Override
+    public String toString() {
+        return firstName + ' ' +lastName;
+    }
 }

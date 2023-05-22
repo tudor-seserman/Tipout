@@ -1,5 +1,6 @@
 package com.tipout.Tipout.controllers;
 
+import com.tipout.Tipout.models.Employee;
 import com.tipout.Tipout.models.Employees.Bartender;
 import com.tipout.Tipout.models.Employees.TipCollector;
 import com.tipout.Tipout.models.Employees.TippedNotCollector;
@@ -33,8 +34,12 @@ public class TipoutController {
         model.addAttribute("notTipCollectorsList",tippedNotCollectorRepository.findAll());
 
         for(TipCollector collector : tipCollectorRepository.findAll()){
-            collectTips.addTips(new Tips());
+            collectTips.addTips(collector, new Tips());
         }
+        for(TippedNotCollector tipped :tippedNotCollectorRepository.findAll()){
+            collectTips.addNonTippedEmployees(new Employee());
+        }
+        System.out.println(collectTips.getTips());
         model.addAttribute("tipCollector", collectTips);
         return "calculate/index";
     }
