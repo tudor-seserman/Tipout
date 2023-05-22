@@ -19,6 +19,8 @@ public class Employee extends AbstractEntity {
 
     private String roleDetail = this.getClass().getSimpleName();
 
+    private double moneyToBeTippedOut;
+
 
     public Employee() {
     }
@@ -51,6 +53,14 @@ public class Employee extends AbstractEntity {
 
     public void setEmployer(Employer employer) {
         this.employer = employer;
+    }
+
+    public double getMoneyToBeTippedOut() {
+        return moneyToBeTippedOut;
+    }
+
+    public void setMoneyToBeTippedOut(double moneyToBeTippedOut) {
+        this.moneyToBeTippedOut = moneyToBeTippedOut;
     }
 
     public String getRoleDetail() {

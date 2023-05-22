@@ -1,12 +1,13 @@
 package com.tipout.Tipout.models;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.ManyToOne;
+import com.tipout.Tipout.models.Employees.TipCollector;
+
+import javax.persistence.*;
 import javax.validation.constraints.Digits;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 public class TipsCollected {
@@ -14,33 +15,49 @@ public class TipsCollected {
     @GeneratedValue
     private int id;
 
-    @NotNull
-    @NotBlank
-    @Digits(integer = 6, fraction = 2)
-    private Double totalTipsCollected;
+    @OneToMany(mappedBy ="tips")
+    private final List<TipCollector> totalTipsCollected= new ArrayList<>();
+
+    @OneToMany
+    private List<Tips> tips;
+
+    private double tipsInPool;
+
+
 
     public TipsCollected() {
 
-    }
-
-    public TipsCollected(int id, double totalTipsCollected) {
-        this.id = id;
-        this.totalTipsCollected = totalTipsCollected;
     }
 
     public int getId() {
         return id;
     }
 
-    public void setId(int id) {
-        this.id = id;
-    }
-
-    public Double getTotalTipsCollected() {
+    public List<TipCollector> getTotalTipsCollected() {
         return totalTipsCollected;
     }
 
-    public void setTotalTipsCollected(double totalTipsCollected) {
-        this.totalTipsCollected = totalTipsCollected;
+    public void addTotalTipsCollected(TipCollector tipCollector){
+        totalTipsCollected.add(tipCollector);
+    }
+
+    public double getTipsInPool() {
+        return tipsInPool;
+    }
+
+    public void setTipsInPool(double tipsInPool) {
+        this.tipsInPool = tipsInPool;
+    }
+
+    public List<Tips> getTips() {
+        return tips;
+    }
+
+    public void setTips(List<Tips> tips) {
+        this.tips = tips;
+    }
+
+    public void addTips(Tips tips){
+        this.tips.add(tips);
     }
 }

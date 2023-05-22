@@ -6,7 +6,7 @@ import javax.persistence.Entity;
 import javax.persistence.MappedSuperclass;
 
 @Entity
-public abstract class TippedNotCollector extends Employee {
+public class TippedNotCollector extends Employee {
     private Integer percentOfTipOut;
 
     public TippedNotCollector() {
