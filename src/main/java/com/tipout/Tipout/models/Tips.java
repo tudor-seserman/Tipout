@@ -21,4 +21,9 @@ public class Tips{
     public void setTips(Double tips) {
         this.tips = tips;
     }
+
+    @Override
+    public String toString() {
+        return tips.toString();
+    }
 }

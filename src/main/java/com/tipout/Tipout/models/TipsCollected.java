@@ -19,7 +19,7 @@ public class TipsCollected {
     private final List<TipCollector> totalTipsCollected= new ArrayList<>();
 
     @OneToMany
-    private List<Tips> tips;
+    private final List<Tips> tips = new ArrayList<>();
 
     private double tipsInPool;
 
@@ -51,10 +51,6 @@ public class TipsCollected {
 
     public List<Tips> getTips() {
         return tips;
-    }
-
-    public void setTips(List<Tips> tips) {
-        this.tips = tips;
     }
 
     public void addTips(Tips tips){

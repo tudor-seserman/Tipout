@@ -43,7 +43,7 @@ public class TipoutController {
     public String tipReport(Model model,
                             @ModelAttribute TipsCollected tipsCollected){
         model.addAttribute("title","Calculated Tips");
-        System.out.println(tipsCollected.getTotalTipsCollected());
+        System.out.println(tipsCollected.getTips());
         return "calculate/report";
     }
 

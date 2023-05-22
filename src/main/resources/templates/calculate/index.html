@@ -22,7 +22,7 @@
             <div th:each="collector, itemStat:${tipCollectorsList}" th:object="${tipCollector}">
                 <label th:text="${collector.firstName+' '+collector.lastName}"></label>
                 <input type="text"
-                       th:field="*{[__${itemStat.index}__].tips}"
+                       th:field="*{tips[__${itemStat.index}__].tips}"
                        class="form-control">
             </div>
         </label>
