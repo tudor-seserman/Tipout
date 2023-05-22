@@ -3,15 +3,15 @@ package com.tipout.Tipout.models;
 import com.tipout.Tipout.models.Employees.TipCollector;
 
 import javax.persistence.*;
-import javax.validation.constraints.Digits;
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
+/*
+This class is used to aggregate collected tips from employees as well
+as the Employees that will receive money from the tip pool.
+ */
 @Entity
 public class TipsCollected {
     @Id

@@ -4,7 +4,9 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.MappedSuperclass;
 import java.util.Objects;
-
+/*
+This class is used to create ids for other classes.
+ */
 @MappedSuperclass
 public abstract class AbstractEntity {
     @Id

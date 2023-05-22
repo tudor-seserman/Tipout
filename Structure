@@ -24,9 +24,34 @@ will return what is due to each employee
 --Page to edit/delete employees
 
 Extended Features:
+--Be able to handle different strategies for
+    distributing money from tip pool:
+    --One pool that aggregates money and then is divided to Employees
+    --Each Employee is owes part of their collected tips to other entities
+        --Server tips out Bar and Busser
+        --Server tips out Bar and Busser and Bartender tips out Busser
+    --Some Employees pool tips but others do not
 --Control access to who can see what
 --User can have multiple roles
 --Custom Roles
 --Custom events ie parties
 --Split sales between different classifications ie food and liquor
 --Have defaults for the roles, be able to adjust those defaults
+
+5/22
+Employer(under development) has a list of Employees
+will eventually allow different Employers to login and
+add to their employees
+
+Employees are split into two groups:
+--TipCollector - A role which includes handling tips and
+receiving a payout from the tip pool
+
+--TippedNotCollector - A role which receives a payout
+from the tip pool put does not handle tips
+
+Employees are further divided into roles which have
+default payouts from the tip pool
+
+TipsCollected handles gathering data from Employees which will
+be processed by TipOut

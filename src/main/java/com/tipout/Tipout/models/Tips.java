@@ -3,7 +3,9 @@ package com.tipout.Tipout.models;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import java.math.BigDecimal;
-
+/*
+Class for handling collected tips
+ */
 @Entity
 public class Tips{
     private BigDecimal tips=null;

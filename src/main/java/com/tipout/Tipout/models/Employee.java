@@ -5,7 +5,10 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import java.util.ArrayList;
 import java.util.List;
-
+/*
+This class will be used to create a base employee,
+different roles will inherit from this class.
+ */
 @Entity
 public class Employee extends AbstractEntity {
     @NotNull
