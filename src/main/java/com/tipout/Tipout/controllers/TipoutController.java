@@ -32,12 +32,12 @@ public class TipoutController {
 
         TipsCollected collectTips = new TipsCollected();
         for(TipCollector collector : tipCollectorRepository.findAll()){
-            collectTips.addTips(collector, new Tips());
+            collectTips.addEmployeeTipsMap(collector, new Tips());
         }
         for(TippedNotCollector tipped :tippedNotCollectorRepository.findAll()){
             collectTips.addNonTippedEmployees(new Employee());
         }
-        System.out.println(collectTips.getTips());
+        System.out.println(collectTips.getEmployeeTipsMap());
         model.addAttribute("tipCollector", collectTips);
         return "calculate/index";
     }
@@ -46,7 +46,7 @@ public class TipoutController {
     public String tipReport(Model model,
                             @ModelAttribute TipsCollected tipsCollected){
         model.addAttribute("title","Calculated Tips");
-        System.out.println(tipsCollected.getTips());
+        System.out.println(tipsCollected.getEmployeeTipsMap());
         return "calculate/report";
     }
 

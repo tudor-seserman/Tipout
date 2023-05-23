@@ -13,28 +13,15 @@ This class is used to aggregate collected tips from employees as well
 as the Employees that will receive money from the tip pool.
  */
 @Entity
-public class TipsCollected {
-    @Id
-    @GeneratedValue
-    private int id;
-
+public class TipsCollected extends AbstractEntity{
+//    I don't think I need this field
     @OneToMany(mappedBy ="tips")
     private final List<TipCollector> totalTipsCollected= new ArrayList<>();
 
     @OneToMany
-    private final Map<Employee, Tips> tips = new HashMap<>();
+    private final Map<Employee, Tips> employeeTipsMap = new HashMap<>();
 
-    private double tipsInPool;
-
-
-
-    public TipsCollected() {
-
-    }
-
-    public int getId() {
-        return id;
-    }
+    public TipsCollected() {}
 
     public List<TipCollector> getTotalTipsCollected() {
         return totalTipsCollected;
@@ -44,23 +31,15 @@ public class TipsCollected {
         totalTipsCollected.add(tipCollector);
     }
 
-    public double getTipsInPool() {
-        return tipsInPool;
+    public Map<Employee, Tips> getEmployeeTipsMap() {
+        return employeeTipsMap;
     }
 
-    public void setTipsInPool(double tipsInPool) {
-        this.tipsInPool = tipsInPool;
-    }
-
-    public Map<Employee, Tips> getTips() {
-        return tips;
-    }
-
-    public void addTips(Employee employee, Tips tips){
-        this.tips.put(employee, tips);
+    public void addEmployeeTipsMap(Employee employee, Tips tips){
+        this.employeeTipsMap.put(employee, tips);
     }
 
     public void addNonTippedEmployees(Employee employee){
-        this.tips.put(employee, new Tips(new BigDecimal(0)));
+        this.employeeTipsMap.put(employee, new Tips(new BigDecimal(0)));
     }
 }

@@ -28,7 +28,7 @@ The form sends TipsCollected object to /calculate/report for further processing
             <div th:each="collector, itemStat:${tipCollectorsList}">
                 <label th:text="${collector.firstName+' '+collector.lastName}"></label>
                 <input type="number"
-                       th:field="*{tips[__${itemStat.index+1}__].tips}"
+                       th:field="*{employeeTipsMap[__${itemStat.index+1}__].tips}"
                        class="form-control">
             </div>
         </label>
@@ -41,7 +41,7 @@ The form sends TipsCollected object to /calculate/report for further processing
             <div th:each="notTipCollector, itemStat: ${notTipCollectorsList}">
                     <input type="checkbox"
                            th:value="0"
-                           th:field="*{tips[__${itemStat.index+1+tipCollectorsList.size()}__].tips}"
+                           th:field="*{employeeTipsMap[__${itemStat.index+1+tipCollectorsList.size()}__].tips}"
                     />
                 <label th:text="${notTipCollector.firstName+' '+notTipCollector.lastName}"></label>
                 <br>
