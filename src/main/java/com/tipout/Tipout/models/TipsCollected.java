@@ -18,7 +18,7 @@ public class TipsCollected extends AbstractEntity{
     @OneToMany(mappedBy ="tips")
     private final List<TipCollector> totalTipsCollected= new ArrayList<>();
 
-    @OneToMany
+    @OneToMany(cascade = CascadeType.PERSIST)
     private final Map<Employee, Tips> employeeTipsMap = new HashMap<>();
 
     public TipsCollected() {}

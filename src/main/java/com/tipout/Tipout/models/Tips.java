@@ -7,7 +7,7 @@ import java.math.BigDecimal;
 Class for handling collected tips
  */
 @Entity
-public class Tips{
+public class Tips extends AbstractEntity{
     private BigDecimal tips=null;
 
     public Tips() {
@@ -16,7 +16,7 @@ public class Tips{
     public Tips(BigDecimal tips) {
         this.tips = tips;
     }
-    @Id
+
     public BigDecimal getTips() {
         return tips;
     }

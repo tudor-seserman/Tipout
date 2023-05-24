@@ -6,14 +6,13 @@ import com.tipout.Tipout.models.Employees.TipCollector;
 import com.tipout.Tipout.models.Employees.TippedNotCollector;
 import com.tipout.Tipout.models.Tips;
 import com.tipout.Tipout.models.TipsCollected;
-import com.tipout.Tipout.models.data.BartenderRepository;
-import com.tipout.Tipout.models.data.EmployeeRepository;
-import com.tipout.Tipout.models.data.TipCollectorRepository;
-import com.tipout.Tipout.models.data.TippedNotCollectorRepository;
+import com.tipout.Tipout.models.data.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.Optional;
 
 @Controller
 @RequestMapping(value="calculate")
@@ -24,6 +23,8 @@ public class TipoutController {
     TipCollectorRepository tipCollectorRepository;
     @Autowired
     TippedNotCollectorRepository tippedNotCollectorRepository;
+    @Autowired
+    TipsCollectedRepository tipsCollectedRepository;
     @GetMapping
     public String enterTips(Model model){
         model.addAttribute("title","Calculate Tips");
@@ -46,7 +47,9 @@ public class TipoutController {
     public String tipReport(Model model,
                             @ModelAttribute TipsCollected tipsCollected){
         model.addAttribute("title","Calculated Tips");
-        System.out.println(tipsCollected.getEmployeeTipsMap());
+        tipsCollectedRepository.save(tipsCollected);
+        Integer id = tipsCollected.getId();
+        model.addAttribute("tippool", tipsCollectedRepository.findByTotalTipPool(id));
         return "calculate/report";
     }
 

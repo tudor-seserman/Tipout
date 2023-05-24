@@ -10,7 +10,8 @@ This class will be used to create a base employee,
 different roles will inherit from this class.
  */
 @Entity
-@Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
+//This creates different tables for the child classes, not sure if it is being helpful
+//@Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
 public class Employee extends AbstractEntity {
     @NotNull
     @NotBlank
