@@ -1,10 +1,9 @@
 package com.tipout.Tipout.models.Employees;
 
 import javax.persistence.Entity;
-import javax.persistence.Table;
 
 @Entity
-public class Bartender extends TipCollector {
+public class Bartender extends MoneyHandler {
 
 
     private Integer percentOfTipOut = 10;

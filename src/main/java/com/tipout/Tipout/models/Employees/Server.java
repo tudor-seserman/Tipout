@@ -1,12 +1,9 @@
 package com.tipout.Tipout.models.Employees;
 
-import com.tipout.Tipout.models.Employee;
-
 import javax.persistence.Entity;
-import javax.persistence.Table;
 
 @Entity
-public class Server extends TipCollector {
+public class Server extends MoneyHandler {
 
 
     private Integer percentOfTipOut = 85;

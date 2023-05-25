@@ -23,7 +23,13 @@ public interface TipsCollectedRepository extends CrudRepository<TipsCollected,In
             "Join Tips on Tips.id=employeeTipsMap_id\n" +
             "Where TipsCollected_employeeTipsMap.TipsCollected_id = ?1",
                 nativeQuery = true)
-    BigDecimal findByTotalTipPool(Integer id);
+    BigDecimal findTotalTippool(Integer id);
+
+    @Query(value="Select Distinct Employee.DTYPE \n" +
+            "From TipsCollected_employeeTipsMap\n" +
+            "Join Employee on Employee.id=employeeTipsMap_KEY\n" +
+            "Where TipsCollected_employeeTipsMap.TipsCollected_id = ?1", nativeQuery = true)
+    List<Employee> findEmployeeTypesInTippool(Integer id);
 
 
 }

@@ -2,18 +2,16 @@ package com.tipout.Tipout.models.Employees;
 
 import com.tipout.Tipout.models.Employee;
 
-import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
-import javax.persistence.MappedSuperclass;
 
 @Entity
-public class TippedNotCollector extends Employee {
+public class NotMoneyHandler extends Employee {
     private Integer percentOfTipOut;
 
-    public TippedNotCollector() {
+    public NotMoneyHandler() {
     }
 
-    public TippedNotCollector(String firstName, String lastName) {
+    public NotMoneyHandler(String firstName, String lastName) {
         super(firstName, lastName);
     }
 

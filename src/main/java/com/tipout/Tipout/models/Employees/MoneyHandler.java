@@ -5,22 +5,19 @@ import com.tipout.Tipout.models.Tips;
 import com.tipout.Tipout.models.TipsCollected;
 
 import javax.persistence.*;
-import javax.validation.Valid;
-import java.util.ArrayList;
-import java.util.List;
 
 @Entity
-public class TipCollector extends Employee {
+public class MoneyHandler extends Employee {
     @ManyToOne
     private TipsCollected tipsCollected;
     private Integer percentOfTipOut;
     @OneToOne
     private Tips tips;
 
-    public TipCollector() {
+    public MoneyHandler() {
     }
 
-    public TipCollector(String firstName, String lastName) {
+    public MoneyHandler(String firstName, String lastName) {
         super(firstName, lastName);
     }
 

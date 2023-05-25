@@ -1,12 +1,9 @@
 package com.tipout.Tipout.models.Employees;
 
-import com.tipout.Tipout.models.Employee;
-
 import javax.persistence.Entity;
-import javax.persistence.Table;
 
 @Entity
-public class Busser extends TippedNotCollector {
+public class Busser extends NotMoneyHandler {
 
 
     Integer percentOfTipOut = 3;
