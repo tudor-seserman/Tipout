@@ -3,6 +3,7 @@ package com.tipout.Tipout.controllers;
 import com.tipout.Tipout.models.Employee;
 import com.tipout.Tipout.models.Employees.MoneyHandler;
 import com.tipout.Tipout.models.Employees.NonMoneyHandler;
+import com.tipout.Tipout.models.Tipout;
 import com.tipout.Tipout.models.Tips;
 import com.tipout.Tipout.models.TipsCollected;
 import com.tipout.Tipout.models.data.*;
@@ -13,7 +14,9 @@ import org.springframework.web.bind.annotation.*;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
+import java.util.Map;
 
 @Controller
 @RequestMapping(value="calculate")
@@ -56,12 +59,16 @@ public class TipoutController {
                             @ModelAttribute TipsCollected tipsCollected){
         model.addAttribute("title","Calculated Tips");
         tipsCollected.mergeTables();
+        Map<Employee,Tips> employeesMap= tipsCollected.getEmployeeTipsMap();
         System.out.println(tipsCollected.getEmployeeTipsMap());
         tipsCollectedRepository.save(tipsCollected);
 
         Integer id = tipsCollected.getId();
-        List<Employee> employeeTypesInTippool = tipsCollectedRepository.findEmployeeTypesInTippool(id);
         BigDecimal totalTippool = tipsCollectedRepository.findTotalTippool(id);
+        List<Integer> employeeTypesInTippool = tipsCollectedRepository.findEmployeeTypesInTippool(id);
+        List<Employee> employeesInTipPool = new ArrayList<>(employeesMap.keySet());
+
+        Tipout.calculateTippooldistribution(employeeTypesInTippool, totalTippool, employeesInTipPool);
 
         model.addAttribute("tippool", totalTippool);
 

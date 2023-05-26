@@ -25,11 +25,16 @@ public interface TipsCollectedRepository extends CrudRepository<TipsCollected,In
                 nativeQuery = true)
     BigDecimal findTotalTippool(Integer id);
 
-    @Query(value="Select Distinct Employee.DTYPE \n" +
+    @Query(value="Select Distinct Employee.percentOfTipout \n" +
             "From TipsCollected_employeeTipsMap\n" +
             "Join Employee on Employee.id=employeeTipsMap_KEY\n" +
             "Where TipsCollected_employeeTipsMap.TipsCollected_id = ?1", nativeQuery = true)
-    List<Employee> findEmployeeTypesInTippool(Integer id);
+    List<Integer> findEmployeeTypesInTippool(Integer id);
 
+    @Query(value="Select Employee.id \n" +
+            "From TipsCollected_employeeTipsMap\n" +
+            "Join Employee on Employee.id=employeeTipsMap_KEY\n" +
+            "Where TipsCollected_employeeTipsMap.TipsCollected_id = ?1", nativeQuery = true)
+    List<Integer> findEmployeesByIdInTippool(Integer id);
 
 }

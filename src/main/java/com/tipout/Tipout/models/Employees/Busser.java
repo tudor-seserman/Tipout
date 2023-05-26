@@ -1,12 +1,13 @@
 package com.tipout.Tipout.models.Employees;
 
 import javax.persistence.Entity;
+import java.math.BigDecimal;
 
 @Entity
 public class Busser extends NonMoneyHandler {
 
 
-    Integer percentOfTipOut = 3;
+    BigDecimal percentOfTipOut = BigDecimal.valueOf(3);
 
     public Busser() {
     }

@@ -3,6 +3,7 @@ package com.tipout.Tipout.models;
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 /*
@@ -22,9 +23,11 @@ public class Employee extends AbstractEntity {
     @ManyToOne
     private Employer employer;
 
+    private BigDecimal percentOfTipOut;
+
     private String roleDetail = this.getClass().getSimpleName();
 
-    private double moneyToBeTippedOut;
+    private BigDecimal moneyToBeTippedOut;
 
 
     public Employee() {
@@ -60,11 +63,11 @@ public class Employee extends AbstractEntity {
         this.employer = employer;
     }
 
-    public double getMoneyToBeTippedOut() {
+    public BigDecimal getMoneyToBeTippedOut() {
         return moneyToBeTippedOut;
     }
 
-    public void setMoneyToBeTippedOut(double moneyToBeTippedOut) {
+    public void setMoneyToBeTippedOut(BigDecimal moneyToBeTippedOut) {
         this.moneyToBeTippedOut = moneyToBeTippedOut;
     }
 
@@ -74,6 +77,14 @@ public class Employee extends AbstractEntity {
 
     public void setRoleDetail(String roleDetail) {
         this.roleDetail = roleDetail;
+    }
+
+    public BigDecimal getPercentOfTipOut() {
+        return percentOfTipOut;
+    }
+
+    public void setPercentOfTipOut(BigDecimal percentOfTipOut) {
+        this.percentOfTipOut = percentOfTipOut;
     }
 
     @Override

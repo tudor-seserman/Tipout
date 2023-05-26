@@ -10,7 +10,6 @@ import javax.persistence.*;
 public class MoneyHandler extends Employee {
 //    @ManyToOne
 //    private TipsCollected tipsCollected;
-    private Integer percentOfTipOut;
     @OneToOne
     private Tips tips;
 
@@ -30,14 +29,7 @@ public class MoneyHandler extends Employee {
 //    }
 
 
-    public Integer getPercentOfTipOut() {
-        return percentOfTipOut;
-    }
 
-
-    public void setPercentOfTipOut(Integer percentOfTipOut) {
-        this.percentOfTipOut = percentOfTipOut;
-    }
 
     public Tips getTips() {
         return tips;

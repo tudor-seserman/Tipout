@@ -8,7 +8,6 @@ import javax.persistence.OneToOne;
 
 @Entity
 public class NonMoneyHandler extends Employee {
-    private Integer percentOfTipOut;
 
     @OneToOne
     private Tips tips;
@@ -18,14 +17,6 @@ public class NonMoneyHandler extends Employee {
 
     public NonMoneyHandler(String firstName, String lastName) {
         super(firstName, lastName);
-    }
-
-    public Integer getPercentOfTipOut() {
-        return percentOfTipOut;
-    }
-
-    public void setPercentOfTipOut(Integer percentOfTipOut) {
-        this.percentOfTipOut = percentOfTipOut;
     }
 
     public Tips getTips() {
