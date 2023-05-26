@@ -8,8 +8,8 @@ import javax.persistence.*;
 
 @Entity
 public class MoneyHandler extends Employee {
-    @ManyToOne
-    private TipsCollected tipsCollected;
+//    @ManyToOne
+//    private TipsCollected tipsCollected;
     private Integer percentOfTipOut;
     @OneToOne
     private Tips tips;
@@ -21,13 +21,13 @@ public class MoneyHandler extends Employee {
         super(firstName, lastName);
     }
 
-    public TipsCollected getTipsCollected() {
-        return tipsCollected;
-    }
-
-    public void setTipsCollected(TipsCollected tipsCollected) {
-        this.tipsCollected = tipsCollected;
-    }
+//    public TipsCollected getTipsCollected() {
+//        return tipsCollected;
+//    }
+//
+//    public void setTipsCollected(TipsCollected tipsCollected) {
+//        this.tipsCollected = tipsCollected;
+//    }
 
 
     public Integer getPercentOfTipOut() {

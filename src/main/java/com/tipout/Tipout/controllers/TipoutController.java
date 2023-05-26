@@ -1,6 +1,5 @@
 package com.tipout.Tipout.controllers;
 
-import com.tipout.Tipout.models.Employee;
 import com.tipout.Tipout.models.Employees.MoneyHandler;
 import com.tipout.Tipout.models.Employees.NotMoneyHandler;
 import com.tipout.Tipout.models.Tips;
@@ -26,24 +25,27 @@ public class TipoutController {
     TipsCollectedRepository tipsCollectedRepository;
     @GetMapping
     public String enterTips(Model model){
-        Iterable<Employee> allEmployees = employeeRepository.findAll();
+//        Iterable<Employee> allEmployees = employeeRepository.findAll();
         ArrayList<MoneyHandler> moneyHandlers = (ArrayList<MoneyHandler>) moneyHandlerRepository.findAll();
         ArrayList<NotMoneyHandler> notMoneyHandlers = (ArrayList<NotMoneyHandler>) notMoneyHandlerRepository.findAll();
 
         model.addAttribute("title","Calculate Tips");
-        model.addAttribute("employeeList", allEmployees);
+//        model.addAttribute("employeeList", allEmployees);
         model.addAttribute("moneyHandlers", moneyHandlers);
         model.addAttribute("notMoneyHandlers", notMoneyHandlers);
 
         TipsCollected collectTips = new TipsCollected();
 
         for(MoneyHandler moneyHandler : moneyHandlers){
-            collectTips.addMoneyHandlerTipsMap(moneyHandler, new Tips());
+            System.out.println(moneyHandler+" moneyHandler");
+            collectTips.setMoneyHandlerTipsMap(moneyHandler, new Tips());
         }
 
-        for(NotMoneyHandler notMoneyHandler :notMoneyHandlers){
-            collectTips.addNotMoneyHandlerTipsMap(notMoneyHandler);
+        for(NotMoneyHandler notMoneyHandler : notMoneyHandlers){
+            System.out.println(notMoneyHandler+" notMoneyHandler");
+            collectTips.setNotMoneyHandlerTipsMap(notMoneyHandler, new Tips());
         }
+
         System.out.println(collectTips.getMoneyHandlerTipsMap());
         System.out.println(collectTips.getNotMoneyHandlerTipsMap());
         model.addAttribute("collectTips", collectTips);

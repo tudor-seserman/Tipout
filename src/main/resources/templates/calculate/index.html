@@ -20,31 +20,30 @@ If Employees are included in the tip pool they have a none null Tips attached to
 The form sends TipsCollected object to /calculate/report for further processing
 -->
 <form method="POST" action="/calculate/report"
-          th:if="${moneyHandlers.size()>0}"
-          th:object="${collectTips}">
+          th:if="${collectTips.moneyHandlerTipsMap.size()>0}"
+      >
         <div>
-            <label>
-                <h3>Enter Tips</h3>
-                <div th:each="moneyHandler, itemStat:${moneyHandlers}">
-                    <label th:text="${moneyHandler.firstName+' '+moneyHandler.lastName}"></label>
-                    <input type="number"
-                           th:field="*{moneyHandlerTipsMap[__${itemStat.index+1}__].tips}"
-                           class="form-control">
-                </div>
-            </label>
-
+<!--            <label>-->
+<!--                <h3>Enter Tips</h3>-->
+<!--                <div th:each="moneyHandler,  itemStat: ${moneyHandlers}">-->
+<!--                    <label th:text="${moneyHandler.firstName+' '+moneyHandler.lastName}"></label>-->
+<!--                    <input type="number"-->
+<!--                           th:field="${collectTips.moneyHandlerTipsMap[__${itemStat.index+1}__].tips}"-->
+<!--                           class="form-control">-->
+<!--                </div>-->
+<!--            </label>-->
         </div>
         <br>
-        <div th:if="${notMoneyHandlers.size()>0}">
+        <div th:if="${collectTips.notMoneyHandlerTipsMap.size()>0}">
             <label>
                 <h3 >Add other employees to the Tippool</h3>
-                <div th:each="notMoneyHandler, itemStat: ${notMoneyHandlers}"
-                     th:field="*{notMoneyHandlerTipsMap[__${itemStat.index}__].tips}">
-                    <input type="checkbox"
-                           value="0"
-                           th:field="*{notMoneyHandlerTipsMap[__${itemStat.index}__].tips}"
-                    />
-                    <label th:text="${notMoneyHandler.firstName+' '+notMoneyHandler.lastName}"></label>
+                <div th:each="notMoneyHandler, itemStat : ${notMoneyHandlers}" th:object="${collectTips}">
+                    <p th:text="${collectTips.getNotMoneyHandlerTipsMapByEmployee(__${notMoneyHandler}__)}"></p>
+<!--                    <input type="checkbox"-->
+<!--                           value="0"-->
+<!--                           th:field="${collectTips.notMoneyHandlerTipsMap[__${itemStat.index}__].value}"-->
+<!--                        />-->
+<!--                    <label th:text="${notMoneyHandler.firstName+' '+notMoneyHandler.lastName}"></label>-->
                     <br>
                 </div>
             </label>
@@ -54,8 +53,41 @@ The form sends TipsCollected object to /calculate/report for further processing
         </div>
     </form>
     <!--Won't be able to see form if no employees have been added-->
-    <h2 th:if="${moneyHandlers.size()<1}">Add Employees That Collect Tips to Get Started</h2>
+    <h2 th:if="${collectTips.moneyHandlerTipsMap.size()<1}">Add Employees That Collect Tips to Get Started</h2>
 </body>
 </html>
+<!--<form method="POST" action="/calculate/report"-->
+<!--      th:if="${moneyHandlers.size()>0}"-->
+<!--      th:object="${collectTips}">-->
+<!--    <div>-->
+<!--        <label>-->
+<!--            <h3>Enter Tips</h3>-->
+<!--            <div th:each="moneyHandler, itemStat:${moneyHandlers}">-->
+<!--                <label th:text="${moneyHandler.firstName+' '+moneyHandler.lastName}"></label>-->
+<!--                <input type="number"-->
+<!--                       th:field="*{moneyHandlerTipsMap[__${itemStat.index+1}__].tips}"-->
+<!--                       class="form-control">-->
+<!--            </div>-->
+<!--        </label>-->
 
+<!--    </div>-->
+<!--    <br>-->
+<!--    <div th:if="${notMoneyHandlers.size()>0}">-->
+<!--        &lt;!&ndash;            <label>&ndash;&gt;-->
+<!--        &lt;!&ndash;                <h3 >Add other employees to the Tippool</h3>&ndash;&gt;-->
+<!--        &lt;!&ndash;                <div th:each="notMoneyHandler, itemStat: ${notMoneyHandlers}"&ndash;&gt;-->
+<!--        &lt;!&ndash;                     th:field="*{notMoneyHandlerTipsMap[__${itemStat.index}__].tips}">&ndash;&gt;-->
+<!--        &lt;!&ndash;                    <input type="checkbox"&ndash;&gt;-->
+<!--        &lt;!&ndash;                           value="0"&ndash;&gt;-->
+<!--        &lt;!&ndash;                           th:field="*{notMoneyHandlerTipsMap[__${itemStat.index}__].tips}"&ndash;&gt;-->
+<!--        &lt;!&ndash;                    />&ndash;&gt;-->
+<!--        &lt;!&ndash;                    <label th:text="${notMoneyHandler.firstName+' '+notMoneyHandler.lastName}"></label>&ndash;&gt;-->
+<!--        &lt;!&ndash;                    <br>&ndash;&gt;-->
+<!--        &lt;!&ndash;                </div>&ndash;&gt;-->
+<!--        &lt;!&ndash;            </label>&ndash;&gt;-->
+<!--    </div>-->
+<!--    <div>-->
+<!--        <input type="submit" value="Calculate Tips" class="btn btn-success">-->
+<!--    </div>-->
+<!--</form>-->
 
