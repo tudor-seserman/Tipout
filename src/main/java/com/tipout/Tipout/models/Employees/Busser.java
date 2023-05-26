@@ -3,7 +3,7 @@ package com.tipout.Tipout.models.Employees;
 import javax.persistence.Entity;
 
 @Entity
-public class Busser extends NotMoneyHandler {
+public class Busser extends NonMoneyHandler {
 
 
     Integer percentOfTipOut = 3;

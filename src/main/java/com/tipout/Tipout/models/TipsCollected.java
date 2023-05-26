@@ -1,7 +1,7 @@
 package com.tipout.Tipout.models;
 
 import com.tipout.Tipout.models.Employees.MoneyHandler;
-import com.tipout.Tipout.models.Employees.NotMoneyHandler;
+import com.tipout.Tipout.models.Employees.NonMoneyHandler;
 
 import javax.persistence.*;
 import java.util.*;
@@ -21,7 +21,7 @@ public class TipsCollected extends AbstractEntity{
     @OneToMany(cascade = CascadeType.PERSIST)
     private final Map<MoneyHandler, Tips> moneyHandlerTipsMap = new LinkedHashMap<>();
     @OneToMany(cascade = CascadeType.PERSIST)
-    private final Map<NotMoneyHandler, Tips> notMoneyHandlerTipsMap = new LinkedHashMap<>();
+    private final Map<NonMoneyHandler, Tips> nonMoneyHandlerTipsMap = new LinkedHashMap<>();
 
     public TipsCollected() {}
 
@@ -41,25 +41,22 @@ public class TipsCollected extends AbstractEntity{
         return moneyHandlerTipsMap;
     }
 
-    public Map<NotMoneyHandler, Tips> getNotMoneyHandlerTipsMap() {
-        return notMoneyHandlerTipsMap;
-    }
-    public Tips getNotMoneyHandlerTipsMapByEmployee(NotMoneyHandler employee) {
-        return notMoneyHandlerTipsMap.get(employee);
-    }
+    public Map<NonMoneyHandler, Tips> getNonMoneyHandlerTipsMap() {return nonMoneyHandlerTipsMap;}
+//    public Tips getNonMoneyHandlerTipsMapByEmployee(NonMoneyHandler employee) {
+//        return nonMoneyHandlerTipsMap.get(employee);
+//    }
 
 
     public void setMoneyHandlerTipsMap(MoneyHandler employee, Tips tips){
         this.moneyHandlerTipsMap.put(employee, tips);
     }
 
-    public void setNotMoneyHandlerTipsMap(NotMoneyHandler employee, Tips tips){
-        this.notMoneyHandlerTipsMap.put(employee, tips);
+    public void setNonMoneyHandlerTipsMap(NonMoneyHandler employee, Tips tips){
+        this.nonMoneyHandlerTipsMap.put(employee, tips);
     }
 
-
     public void mergeTables(){
-        this.employeeTipsMap.putAll(this.notMoneyHandlerTipsMap);
+        this.employeeTipsMap.putAll(this.nonMoneyHandlerTipsMap);
         this.employeeTipsMap.putAll(this.moneyHandlerTipsMap);
     }
 }

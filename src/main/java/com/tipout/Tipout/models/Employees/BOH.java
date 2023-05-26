@@ -5,7 +5,7 @@ import com.tipout.Tipout.models.Employer;
 import javax.persistence.*;
 
 @Entity
-public class BOH extends NotMoneyHandler {
+public class BOH extends NonMoneyHandler {
     @ManyToOne
     private Employer employer;
     Integer percentOfTipOut = 2;

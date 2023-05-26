@@ -19,31 +19,32 @@ If Employees are included in the tip pool they have a none null Tips attached to
 
 The form sends TipsCollected object to /calculate/report for further processing
 -->
+
 <form method="POST" action="/calculate/report"
-          th:if="${collectTips.moneyHandlerTipsMap.size()>0}"
+        th:if="${collectTips.moneyHandlerTipsMap.size()>0}"
       >
         <div>
-<!--            <label>-->
-<!--                <h3>Enter Tips</h3>-->
-<!--                <div th:each="moneyHandler,  itemStat: ${moneyHandlers}">-->
-<!--                    <label th:text="${moneyHandler.firstName+' '+moneyHandler.lastName}"></label>-->
-<!--                    <input type="number"-->
-<!--                           th:field="${collectTips.moneyHandlerTipsMap[__${itemStat.index+1}__].tips}"-->
-<!--                           class="form-control">-->
-<!--                </div>-->
-<!--            </label>-->
+            <label>
+                <h3>Enter Tips</h3>
+                <div th:each="moneyHandler : ${moneyHandlers}">
+                    <label th:text="${moneyHandler.firstName+' '+moneyHandler.lastName}"></label>
+                    <input type="number"
+                           th:field="${collectTips.moneyHandlerTipsMap[__${moneyHandler.id}__].tips}"
+                           class="form-control">
+                </div>
+            </label>
         </div>
-        <br>
-        <div th:if="${collectTips.notMoneyHandlerTipsMap.size()>0}">
+
+    <br>
+        <div th:if="${collectTips.nonMoneyHandlerTipsMap.size()>0}">
             <label>
                 <h3 >Add other employees to the Tippool</h3>
-                <div th:each="notMoneyHandler, itemStat : ${notMoneyHandlers}" th:object="${collectTips}">
-                    <p th:text="${collectTips.getNotMoneyHandlerTipsMapByEmployee(__${notMoneyHandler}__)}"></p>
-<!--                    <input type="checkbox"-->
-<!--                           value="0"-->
-<!--                           th:field="${collectTips.notMoneyHandlerTipsMap[__${itemStat.index}__].value}"-->
-<!--                        />-->
-<!--                    <label th:text="${notMoneyHandler.firstName+' '+notMoneyHandler.lastName}"></label>-->
+                <div th:each="nonMoneyHandler, itemStat : ${nonMoneyHandlers}">
+                    <input type="checkbox"
+                           value="0"
+                           th:field="${collectTips.nonMoneyHandlerTipsMap[__${nonMoneyHandler.id}__].tips}"
+                        />
+                    <label th:text="${nonMoneyHandler.firstName+' '+nonMoneyHandler.lastName}"></label>
                     <br>
                 </div>
             </label>
@@ -72,16 +73,16 @@ The form sends TipsCollected object to /calculate/report for further processing
 
 <!--    </div>-->
 <!--    <br>-->
-<!--    <div th:if="${notMoneyHandlers.size()>0}">-->
+<!--    <div th:if="${nonMoneyHandlers.size()>0}">-->
 <!--        &lt;!&ndash;            <label>&ndash;&gt;-->
 <!--        &lt;!&ndash;                <h3 >Add other employees to the Tippool</h3>&ndash;&gt;-->
-<!--        &lt;!&ndash;                <div th:each="notMoneyHandler, itemStat: ${notMoneyHandlers}"&ndash;&gt;-->
+<!--        &lt;!&ndash;                <div th:each="nonMoneyHandler, itemStat: ${nonMoneyHandlers}"&ndash;&gt;-->
 <!--        &lt;!&ndash;                     th:field="*{notMoneyHandlerTipsMap[__${itemStat.index}__].tips}">&ndash;&gt;-->
 <!--        &lt;!&ndash;                    <input type="checkbox"&ndash;&gt;-->
 <!--        &lt;!&ndash;                           value="0"&ndash;&gt;-->
 <!--        &lt;!&ndash;                           th:field="*{notMoneyHandlerTipsMap[__${itemStat.index}__].tips}"&ndash;&gt;-->
 <!--        &lt;!&ndash;                    />&ndash;&gt;-->
-<!--        &lt;!&ndash;                    <label th:text="${notMoneyHandler.firstName+' '+notMoneyHandler.lastName}"></label>&ndash;&gt;-->
+<!--        &lt;!&ndash;                    <label th:text="${nonMoneyHandler.firstName+' '+nonMoneyHandler.lastName}"></label>&ndash;&gt;-->
 <!--        &lt;!&ndash;                    <br>&ndash;&gt;-->
 <!--        &lt;!&ndash;                </div>&ndash;&gt;-->
 <!--        &lt;!&ndash;            </label>&ndash;&gt;-->

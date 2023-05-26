@@ -1,7 +1,8 @@
 package com.tipout.Tipout.controllers;
 
+import com.tipout.Tipout.models.Employee;
 import com.tipout.Tipout.models.Employees.MoneyHandler;
-import com.tipout.Tipout.models.Employees.NotMoneyHandler;
+import com.tipout.Tipout.models.Employees.NonMoneyHandler;
 import com.tipout.Tipout.models.Tips;
 import com.tipout.Tipout.models.TipsCollected;
 import com.tipout.Tipout.models.data.*;
@@ -10,7 +11,9 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.List;
 
 @Controller
 @RequestMapping(value="calculate")
@@ -20,19 +23,17 @@ public class TipoutController {
     @Autowired
     MoneyHandlerRepository moneyHandlerRepository;
     @Autowired
-    NotMoneyHandlerRepository notMoneyHandlerRepository;
+    NonMoneyHandlerRepository nonMoneyHandlerRepository;
     @Autowired
     TipsCollectedRepository tipsCollectedRepository;
     @GetMapping
     public String enterTips(Model model){
-//        Iterable<Employee> allEmployees = employeeRepository.findAll();
         ArrayList<MoneyHandler> moneyHandlers = (ArrayList<MoneyHandler>) moneyHandlerRepository.findAll();
-        ArrayList<NotMoneyHandler> notMoneyHandlers = (ArrayList<NotMoneyHandler>) notMoneyHandlerRepository.findAll();
+        ArrayList<NonMoneyHandler> nonMoneyHandlers = (ArrayList<NonMoneyHandler>) nonMoneyHandlerRepository.findAll();
 
         model.addAttribute("title","Calculate Tips");
-//        model.addAttribute("employeeList", allEmployees);
         model.addAttribute("moneyHandlers", moneyHandlers);
-        model.addAttribute("notMoneyHandlers", notMoneyHandlers);
+        model.addAttribute("nonMoneyHandlers", nonMoneyHandlers);
 
         TipsCollected collectTips = new TipsCollected();
 
@@ -41,13 +42,11 @@ public class TipoutController {
             collectTips.setMoneyHandlerTipsMap(moneyHandler, new Tips());
         }
 
-        for(NotMoneyHandler notMoneyHandler : notMoneyHandlers){
-            System.out.println(notMoneyHandler+" notMoneyHandler");
-            collectTips.setNotMoneyHandlerTipsMap(notMoneyHandler, new Tips());
+        for(NonMoneyHandler nonMoneyHandler : nonMoneyHandlers){
+            System.out.println(nonMoneyHandler +" nonMoneyHandler");
+            collectTips.setNonMoneyHandlerTipsMap(nonMoneyHandler, new Tips());
         }
 
-        System.out.println(collectTips.getMoneyHandlerTipsMap());
-        System.out.println(collectTips.getNotMoneyHandlerTipsMap());
         model.addAttribute("collectTips", collectTips);
         return "calculate/index";
     }
@@ -56,19 +55,15 @@ public class TipoutController {
     public String tipReport(Model model,
                             @ModelAttribute TipsCollected tipsCollected){
         model.addAttribute("title","Calculated Tips");
-        System.out.println(tipsCollected.getMoneyHandlerTipsMap());
-        System.out.println(tipsCollected.getNotMoneyHandlerTipsMap());
         tipsCollected.mergeTables();
-        System.out.println(tipsCollected.getMoneyHandlerTipsMap());
-        System.out.println(tipsCollected.getNotMoneyHandlerTipsMap());
         System.out.println(tipsCollected.getEmployeeTipsMap());
-//        tipsCollectedRepository.save(tipsCollected);
+        tipsCollectedRepository.save(tipsCollected);
 
-//        Integer id = tipsCollected.getId();
-//        List<Employee> employeeTypesInTippool = tipsCollectedRepository.findEmployeeTypesInTippool(id);
-//        BigDecimal totalTippool = tipsCollectedRepository.findTotalTippool(id);
+        Integer id = tipsCollected.getId();
+        List<Employee> employeeTypesInTippool = tipsCollectedRepository.findEmployeeTypesInTippool(id);
+        BigDecimal totalTippool = tipsCollectedRepository.findTotalTippool(id);
 
-//        model.addAttribute("tippool", totalTippool);
+        model.addAttribute("tippool", totalTippool);
 
         return "calculate/report";
     }

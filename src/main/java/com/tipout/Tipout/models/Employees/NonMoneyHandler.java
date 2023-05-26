@@ -7,16 +7,16 @@ import javax.persistence.Entity;
 import javax.persistence.OneToOne;
 
 @Entity
-public class NotMoneyHandler extends Employee {
+public class NonMoneyHandler extends Employee {
     private Integer percentOfTipOut;
 
     @OneToOne
     private Tips tips;
 
-    public NotMoneyHandler() {
+    public NonMoneyHandler() {
     }
 
-    public NotMoneyHandler(String firstName, String lastName) {
+    public NonMoneyHandler(String firstName, String lastName) {
         super(firstName, lastName);
     }
 
