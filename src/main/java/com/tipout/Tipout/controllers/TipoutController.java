@@ -13,6 +13,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.math.BigDecimal;
+import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -60,7 +61,6 @@ public class TipoutController {
         model.addAttribute("title","Calculated Tips");
         tipsCollected.mergeTables();
         Map<Employee,Tips> employeesMap= tipsCollected.getEmployeeTipsMap();
-        System.out.println(tipsCollected.getEmployeeTipsMap());
         tipsCollectedRepository.save(tipsCollected);
 
         Integer id = tipsCollected.getId();
@@ -68,9 +68,10 @@ public class TipoutController {
         List<Integer> employeeTypesInTippool = tipsCollectedRepository.findEmployeeTypesInTippool(id);
         List<Employee> employeesInTipPool = new ArrayList<>(employeesMap.keySet());
 
-        Tipout.calculateTippooldistribution(employeeTypesInTippool, totalTippool, employeesInTipPool);
+        Map<Employee, String> employeeShareofTipoolMap = Tipout.calculateTippoolDistribution(employeeTypesInTippool, totalTippool, employeesInTipPool);
 
         model.addAttribute("tippool", totalTippool);
+        model.addAttribute("payouts", employeeShareofTipoolMap);
 
         return "calculate/report";
     }

@@ -56,7 +56,7 @@ public class TipsCollected extends AbstractEntity{
     }
 
     public void mergeTables(){
-        this.employeeTipsMap.putAll(this.nonMoneyHandlerTipsMap);
-        this.employeeTipsMap.putAll(this.moneyHandlerTipsMap);
+        this.nonMoneyHandlerTipsMap.forEach((k,v)->{if(v.getTips() != null)this.employeeTipsMap.put(k,v);});
+        this.moneyHandlerTipsMap.forEach((k,v)->{ if(v.getTips() !=null)this.employeeTipsMap.put(k,v);});
     }
 }

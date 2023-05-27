@@ -8,23 +8,28 @@ import javax.validation.constraints.Digits;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import java.math.BigDecimal;
+import java.math.MathContext;
+import java.math.RoundingMode;
+import java.text.NumberFormat;
 import java.util.*;
 import java.util.stream.IntStream;
 
 @Entity
 public class Tipout extends AbstractEntity{
-    private static final Map<Employee, BigDecimal> tipPoolDistribution = new HashMap<>();
+    private static final Map<Employee, String> tipPoolDistribution = new HashMap<>();
 
     public Tipout() {
     }
 
-    public static Map<Employee, BigDecimal> calculateTippooldistribution(List<Integer> tippoolRates, BigDecimal totalTippool, List<Employee> employeesInTipPool){
+    public static Map<Employee, String> calculateTippoolDistribution(List<Integer> tippoolRates, BigDecimal totalTippool, List<Employee> employeesInTippool){
         BigDecimal totalTippoolRates = BigDecimal.valueOf(tippoolRates.stream().mapToInt(i -> i).sum());
-        BigDecimal shareOfTippool = totalTippool.divide(totalTippoolRates);
-        for(Employee employeeInTipPool: employeesInTipPool){
-            System.out.println(employeeInTipPool);
-            System.out.println(shareOfTippool.multiply(employeeInTipPool.getPercentOfTipOut()));
-            tipPoolDistribution.put(employeeInTipPool, shareOfTippool.multiply(employeeInTipPool.getPercentOfTipOut()));
+        BigDecimal shareOfTippool = totalTippool.divide(totalTippoolRates, 4, RoundingMode.HALF_UP);
+        NumberFormat usdCostFormat = NumberFormat.getCurrencyInstance(Locale.US);
+        usdCostFormat.setMinimumFractionDigits( 1 );
+        usdCostFormat.setMaximumFractionDigits( 2 );
+        for(Employee employeeInTippool: employeesInTippool){
+            BigDecimal portionOfTippool = shareOfTippool.multiply(employeeInTippool.getPercentOfTipOut());
+            tipPoolDistribution.put(employeeInTippool, usdCostFormat.format(portionOfTippool));
         }
         return tipPoolDistribution;
     }

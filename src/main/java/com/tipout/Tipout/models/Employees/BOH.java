@@ -7,13 +7,10 @@ import java.math.BigDecimal;
 
 @Entity
 public class BOH extends NonMoneyHandler {
-    @ManyToOne
-    private Employer employer;
-    BigDecimal percentOfTipOut = BigDecimal.valueOf(2);
-
     public BOH() {}
 
     public BOH(String firstName, String lastName) {
         super(firstName, lastName);
+        this.setPercentOfTipOut(BigDecimal.valueOf(2));
     }
 }
