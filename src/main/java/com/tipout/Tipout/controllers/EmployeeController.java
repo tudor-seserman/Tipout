@@ -94,24 +94,56 @@ public class EmployeeController {
         Employee employeeToEdit = optEmployeeToEdit.get();
 
         model.addAttribute("title",
-                "Edit "+employeeToEdit.getFirstName()+" "+employeeToEdit.getLastName());
-        model.addAttribute(employeeToEdit);
-        model.addAttribute(employeeToEditId);
+                "Edit "+employeeToEdit);
+        model.addAttribute("employeeToEdit", employeeToEdit);
+        model.addAttribute("employeeToEditId", employeeToEditId);
         return "employees/edit";
     }
 
-    @PostMapping("edit/{id}")
-    public String editEmployeeProcessing(@PathVariable Integer employeeToEditId, Model model, Employee employeeToEditCanditate) {
-        Optional<Employee> optEmployeeToEdit = employeeRepository.findById(employeeToEditCanditate.getId());
+    @PostMapping("edit/{employeeToEditId}")
+    public String editEmployeeProcessing(@PathVariable Integer employeeToEditId, Model model,String firstName, String lastName ) {
+        Optional<Employee> optEmployeeToEdit = employeeRepository.findById(employeeToEditId);
         if (optEmployeeToEdit.isEmpty()) {
             model.addAttribute("title", "Current Employees");
             model.addAttribute("currentEmployees", employeeRepository.findAll());
             model.addAttribute("cannotFindEmployee", "cannotFindEmployee");
             return "redirect:current";
         }
-        employeeRepository.save(employeeToEditCanditate);
-        model.addAttribute(employeeToEditCanditate);
+
+        Employee employeeToEdit = optEmployeeToEdit.get();
+        employeeToEdit.setFirstName(firstName);
+        employeeToEdit.setLastName(lastName);
+        employeeRepository.save(employeeToEdit);
+
+        model.addAttribute("title",
+                "Edit "+employeeToEdit);
+        model.addAttribute("employeeToEdit", employeeToEdit);
+        model.addAttribute("employeeToEditId", employeeToEditId);
         model.addAttribute("success","success");
         return "employees/edit";
+    }
+
+    @PostMapping("delete/{employeeToEditId}")
+    public String deleteEmployeeProcessing(@PathVariable Integer employeeToEditId, Model model,Boolean confirmation) {
+        Optional<Employee> optEmployeeToDelete = employeeRepository.findById(employeeToEditId);
+        if (optEmployeeToDelete.isEmpty()) {
+            model.addAttribute("title", "Current Employees");
+            model.addAttribute("currentEmployees", employeeRepository.findAll());
+            model.addAttribute("cannotFindEmployee", "cannotFindEmployee");
+            return "redirect:current";
+        }
+
+        Employee employeeToDelete = optEmployeeToDelete.get();
+
+        if(confirmation){
+            employeeRepository.deleteById(employeeToDelete.getId());
+            model.addAttribute("title", "Current Employees");
+            model.addAttribute("currentEmployees", employeeRepository.findAll());
+            return "redirect:current";
+        }
+
+        model.addAttribute("title", "Delete Employee");
+
+        return "employees/delete";
     }
 }
