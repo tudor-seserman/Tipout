@@ -34,23 +34,18 @@ public class TipoutController {
     public String enterTips(Model model){
         ArrayList<MoneyHandler> moneyHandlers = (ArrayList<MoneyHandler>) moneyHandlerRepository.findAll();
         ArrayList<NonMoneyHandler> nonMoneyHandlers = (ArrayList<NonMoneyHandler>) nonMoneyHandlerRepository.findAll();
+        TipsCollected collectTips = new TipsCollected();
+
+        for(MoneyHandler moneyHandler : moneyHandlers){
+            collectTips.setMoneyHandlerTipsMap(moneyHandler, new Tips());
+        }
+        for(NonMoneyHandler nonMoneyHandler : nonMoneyHandlers){
+            collectTips.setNonMoneyHandlerTipsMap(nonMoneyHandler, new Tips());
+        }
 
         model.addAttribute("title","Calculate Tips");
         model.addAttribute("moneyHandlers", moneyHandlers);
         model.addAttribute("nonMoneyHandlers", nonMoneyHandlers);
-
-        TipsCollected collectTips = new TipsCollected();
-
-        for(MoneyHandler moneyHandler : moneyHandlers){
-            System.out.println(moneyHandler+" moneyHandler");
-            collectTips.setMoneyHandlerTipsMap(moneyHandler, new Tips());
-        }
-
-        for(NonMoneyHandler nonMoneyHandler : nonMoneyHandlers){
-            System.out.println(nonMoneyHandler +" nonMoneyHandler");
-            collectTips.setNonMoneyHandlerTipsMap(nonMoneyHandler, new Tips());
-        }
-
         model.addAttribute("collectTips", collectTips);
         return "calculate/index";
     }

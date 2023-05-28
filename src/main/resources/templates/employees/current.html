@@ -5,7 +5,9 @@
 <body class="container">
 
 <nav th:replace="fragments :: navigation"></nav>
-
+    <div class="alert alert-danger" role="alert" th:if="${cannotFindEmployee != null}">
+        Cannot find that Employee
+    </div>
 <table class="table table-striped">
     <thead>
     <tr>
@@ -20,7 +22,7 @@
         <td th:text="${employee.lastName}"></td>
         <td th:text="${employee.roleDetail}"></td>
         <td>
-            <a th:href="@{/events/edit/{id}(id=${employee.id})}">Edit</a>
+            <a th:href="@{/employees/edit/{employeeToEditId}(employeeToEditId=${employee.id})}">Edit</a>
         </td>
 
     </tr>

@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="https://www.thymeleaf.org/">
+<head th:replace="fragments :: head">
+</head>
+<body class="container">
+
+<nav th:replace="fragments :: navigation"></nav>
+
+
+    <div class="alert alert-success" role="alert" th:if="${success}">
+        Employee Edit Successfully
+    </div>
+
+<div>
+<!--    <form method="post" action="@{/employee/edit/{id}(id=${employee.id})}">-->
+<!--        <div class="form-group">-->
+<!--            <label>First Name-->
+<!--                <input th:field="${employee.firstName}" class="form-control"/>-->
+<!--            </label>-->
+<!--            <p class="error" th:errors="${employee.firstName}"></p>-->
+<!--        </div>-->
+<!--        <div class="form-group">-->
+<!--            <label>Last Name-->
+<!--                <input th:field="${employee.lastName}" class="form-control"/>-->
+<!--            </label>-->
+<!--            <p class="error" th:errors="${employee.lastName}"></p>-->
+<!--        </div>-->
+<!--        <div class="form-group">-->
+<!--            <label>What is their role?-->
+<!--                <select  name="role" class="form-control">-->
+<!--                    <option th:each="position : ${employer.employees}"-->
+<!--                    th:value="${position.getClass().getSimpleName()}"-->
+<!--                    th:text="${position.getClass().getSimpleName()}"-->
+<!--                    ></option>-->
+<!--                </select>-->
+<!--            </label>-->
+<!--        </div>-->
+
+<!--        <div class="form-group">-->
+<!--            <input type="submit" value="Add Employee" class="btn btn-success">-->
+<!--        </div>-->
+<!--    </form>-->
+
+
+</div>
+
+</body>
+</html>
