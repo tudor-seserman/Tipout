@@ -7,43 +7,13 @@
 <nav th:replace="fragments :: navigation"></nav>
 
 
-    <div class="alert alert-success" role="alert" th:if="${success}">
-        Employee Edit Successful
-    </div>
-
 <div>
-    <form method="post" th:action="@{/employees/edit/{employeeToEditId}(employeeToEditId=${employeeToEditId})}">
-        <div class="form-group">
-            <label>First Name
-                <input name="firstName" th:value="${employeeToEdit.firstName}" class="form-control"/>
-            </label>
-            <p class="error" th:errors="${employeeToEdit.firstName}"></p>
-        </div>
-        <div class="form-group">
-            <label>Last Name
-                <input name="lastName" th:value="${employeeToEdit.lastName}" class="form-control"/>
-            </label>
-            <p class="error" th:errors="${employeeToEdit.lastName}"></p>
-        </div>
-<!--        <div class="form-group">-->
-<!--            <label>What is their role?-->
-<!--                <select  name="role" class="form-control">-->
-<!--                    <option th:each="position : ${employer.employees}"-->
-<!--                    th:value="${position.getClass().getSimpleName()}"-->
-<!--                    th:text="${position.getClass().getSimpleName()}"-->
-<!--                    ></option>-->
-<!--                </select>-->
-<!--            </label>-->
-<!--        </div>-->
-        <br>
-        <div class="form-group">
-            <input type="submit" th:value="'Edit '+${employeeToEdit}" class="btn btn-success">
-        </div>
-    </form>
+    <h3 th:text="'Are you sure ypu want to permanently delete '+${employeeToDelete}+' from your system?'"></h3>
 </div>
-    <form method="post" th:action="@{/employees/delete/{employeeToEditId}(employeeToEditId=${employeeToEditId})}">
+    <form method="post" th:action="@{/employees/delete/{employeeToDeleteId}(employeeToDeleteId=${employeeToDeletedId})}">
         <div class="form-group">
-            <input type="submit" th:value="'Delete '+${employeeToEdit}" class="btn btn-danger">
+            <input type="hidden" th:value="${true}" name="confirmation">
+            <input type="submit" th:value="'Delete '+${employeeToDelete}" class="btn btn-danger">
         </div>
     </form>
 

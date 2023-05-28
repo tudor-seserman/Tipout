@@ -5,9 +5,14 @@
 <body class="container">
 
 <nav th:replace="fragments :: navigation"></nav>
-    <div class="alert alert-danger" role="alert" th:if="${cannotFindEmployee != null}">
+    <div class="alert alert-danger" role="alert" th:if="${cannotFindEmployee}">
         Cannot find that Employee
     </div>
+
+    <div class="alert alert-success" role="alert" th:if="${delete}">
+        Employee Delete Successful
+    </div>
+
 <table class="table table-striped">
     <thead>
     <tr>

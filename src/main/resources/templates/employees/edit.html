@@ -37,12 +37,16 @@
 <!--        </div>-->
         <br>
         <div class="form-group">
-            <input type="submit" th:value="'Edit '+${employeeToEdit}" class="btn btn-success">
+            <input type="submit" th:value="'Edit '+${employeeToEdit}" class="btn btn-warning">
         </div>
     </form>
 </div>
-    <form method="post" th:action="@{/employees/delete/{employeeToEditId}(employeeToEditId=${employeeToEditId})}">
+<br>
+<br>
+
+    <form method="post" th:action="@{/employees/delete/{employeeToDeleteId}(employeeToDeleteId=${employeeToEditId})}">
         <div class="form-group">
+            <input type="hidden" th:value="${false}" name="confirmation">
             <input type="submit" th:value="'Delete '+${employeeToEdit}" class="btn btn-danger">
         </div>
     </form>

@@ -1,10 +1,7 @@
 package com.tipout.Tipout.controllers;
 
 import com.tipout.Tipout.models.Employee;
-import com.tipout.Tipout.models.Employees.BOH;
-import com.tipout.Tipout.models.Employees.Bartender;
-import com.tipout.Tipout.models.Employees.Busser;
-import com.tipout.Tipout.models.Employees.Server;
+import com.tipout.Tipout.models.Employees.*;
 import com.tipout.Tipout.models.Employer;
 import com.tipout.Tipout.models.data.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -123,9 +120,9 @@ public class EmployeeController {
         return "employees/edit";
     }
 
-    @PostMapping("delete/{employeeToEditId}")
-    public String deleteEmployeeProcessing(@PathVariable Integer employeeToEditId, Model model,Boolean confirmation) {
-        Optional<Employee> optEmployeeToDelete = employeeRepository.findById(employeeToEditId);
+    @PostMapping("delete/{employeeToDeleteId}")
+    public String deleteEmployeeProcessing(@PathVariable Integer employeeToDeleteId, Model model, Boolean confirmation) {
+        Optional<Employee> optEmployeeToDelete = employeeRepository.findById(employeeToDeleteId);
         if (optEmployeeToDelete.isEmpty()) {
             model.addAttribute("title", "Current Employees");
             model.addAttribute("currentEmployees", employeeRepository.findAll());
@@ -136,14 +133,18 @@ public class EmployeeController {
         Employee employeeToDelete = optEmployeeToDelete.get();
 
         if(confirmation){
-            employeeRepository.deleteById(employeeToDelete.getId());
+            if(employeeToDelete instanceof MoneyHandler){employeeRepository.completelyDeleteMoneyhandler(employeeToDelete.getId());}
+            if(employeeToDelete instanceof NonMoneyHandler){employeeRepository.completelyDeleteNonMoneyhandler(employeeToDelete.getId());}
+
             model.addAttribute("title", "Current Employees");
             model.addAttribute("currentEmployees", employeeRepository.findAll());
+            model.addAttribute("delete","delete");
             return "redirect:current";
         }
 
         model.addAttribute("title", "Delete Employee");
-
+        model.addAttribute("employeeToDelete", employeeToDelete);
+        model.addAttribute("employeeToDeletedId", employeeToDeleteId);
         return "employees/delete";
     }
 }
