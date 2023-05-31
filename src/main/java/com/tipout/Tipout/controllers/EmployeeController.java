@@ -10,6 +10,7 @@ import org.springframework.ui.Model;
 import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.*;
 
+import javax.persistence.EntityManager;
 import javax.validation.Valid;
 import java.util.Optional;
 
@@ -104,7 +105,7 @@ public class EmployeeController {
             model.addAttribute("title", "Current Employees");
             model.addAttribute("currentEmployees", employeeRepository.findAll());
             model.addAttribute("cannotFindEmployee", "cannotFindEmployee");
-            return "redirect:current";
+            return "redirect:/employees/current";
         }
 
         Employee employeeToEdit = optEmployeeToEdit.get();
@@ -127,19 +128,21 @@ public class EmployeeController {
             model.addAttribute("title", "Current Employees");
             model.addAttribute("currentEmployees", employeeRepository.findAll());
             model.addAttribute("cannotFindEmployee", "cannotFindEmployee");
-            return "redirect:current";
+            return "redirect:/employees/current";
         }
 
         Employee employeeToDelete = optEmployeeToDelete.get();
 
         if(confirmation){
-            if(employeeToDelete instanceof MoneyHandler){employeeRepository.completelyDeleteMoneyhandler(employeeToDelete.getId());}
-            if(employeeToDelete instanceof NonMoneyHandler){employeeRepository.completelyDeleteNonMoneyhandler(employeeToDelete.getId());}
+            employeeRepository.completelyDeleteEmployeeTipRecord(employeeToDeleteId);
+            if(employeeToDelete instanceof MoneyHandler){employeeRepository.completelyDeleteMoneyhandlerTipRecord(employeeToDeleteId);}
+            if(employeeToDelete instanceof NonMoneyHandler){employeeRepository.completelyDeleteNonMoneyhandlerTipRecord(employeeToDelete.getId());}
+            employeeRepository.deleteById(employeeToDeleteId);
 
             model.addAttribute("title", "Current Employees");
             model.addAttribute("currentEmployees", employeeRepository.findAll());
             model.addAttribute("delete","delete");
-            return "redirect:current";
+            return "redirect:/employees/current";
         }
 
         model.addAttribute("title", "Delete Employee");

@@ -8,7 +8,7 @@
 
 
 <div>
-    <h3 th:text="'Are you sure ypu want to permanently delete '+${employeeToDelete}+' from your system?'"></h3>
+    <h3 th:text="'Are you sure you want to permanently delete '+${employeeToDelete}+' from your system?'"></h3>
 </div>
     <form method="post" th:action="@{/employees/delete/{employeeToDeleteId}(employeeToDeleteId=${employeeToDeletedId})}">
         <div class="form-group">

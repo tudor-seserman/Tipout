@@ -25,7 +25,7 @@ public class Tipout extends AbstractEntity{
         BigDecimal totalTippoolRates = BigDecimal.valueOf(tippoolRates.stream().mapToInt(i -> i).sum());
         BigDecimal shareOfTippool = totalTippool.divide(totalTippoolRates, 4, RoundingMode.HALF_UP);
         NumberFormat usdCostFormat = NumberFormat.getCurrencyInstance(Locale.US);
-        usdCostFormat.setMinimumFractionDigits( 1 );
+        usdCostFormat.setMinimumFractionDigits( 2 );
         usdCostFormat.setMaximumFractionDigits( 2 );
         for(Employee employeeInTippool: employeesInTippool){
             BigDecimal portionOfTippool = shareOfTippool.multiply(employeeInTippool.getPercentOfTipOut());
