@@ -1,6 +1,7 @@
 package com.tipout.Tipout.models;
 
 import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.MappedSuperclass;
 import java.util.Objects;
@@ -13,12 +14,22 @@ public abstract class AbstractEntity {
     @GeneratedValue
     private int id;
 
+    private boolean deleted = Boolean.FALSE;
+
     public int getId() {
         return id;
     }
 
     public void setId(int id) {
         this.id = id;
+    }
+
+    public boolean isDeleted() {
+        return deleted;
+    }
+
+    public void setDeleted(boolean deleted) {
+        this.deleted = deleted;
     }
 
     @Override

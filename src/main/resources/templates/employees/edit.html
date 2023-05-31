@@ -10,6 +10,9 @@
     <div class="alert alert-success" role="alert" th:if="${success}">
         Employee Edit Successful
     </div>
+    <div class="alert alert-success" role="alert" th:if="${archive}">
+        Employee Archived Successfully
+    </div>
 
 <div>
     <form method="post" th:action="@{/employees/edit/{employeeToEditId}(employeeToEditId=${employeeToEditId})}">
@@ -38,11 +41,16 @@
         <br>
         <div class="form-group">
             <input type="submit" th:value="'Edit '+${employeeToEdit}" class="btn btn-warning">
+            <br>
+            <br>
+            <br>
         </div>
+            <div class="form-group">
+                <input type="hidden" th:value="${true}" name="archive">
+                <input type="submit" th:value="'Archive '+${employeeToEdit}" class="btn btn-danger">
+            </div>
     </form>
 </div>
-<br>
-<br>
 
     <form method="post" th:action="@{/employees/delete/{employeeToDeleteId}(employeeToDeleteId=${employeeToEditId})}">
         <div class="form-group">

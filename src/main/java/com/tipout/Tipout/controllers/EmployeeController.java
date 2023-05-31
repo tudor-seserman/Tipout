@@ -99,7 +99,11 @@ public class EmployeeController {
     }
 
     @PostMapping("edit/{employeeToEditId}")
-    public String editEmployeeProcessing(@PathVariable Integer employeeToEditId, Model model,String firstName, String lastName ) {
+    public String editEmployeeProcessing(@PathVariable Integer employeeToEditId,
+                                         Model model,
+                                         String firstName,
+                                         String lastName,
+                                         @RequestParam(required = false  ) Boolean archive ) {
         Optional<Employee> optEmployeeToEdit = employeeRepository.findById(employeeToEditId);
         if (optEmployeeToEdit.isEmpty()) {
             model.addAttribute("title", "Current Employees");
@@ -109,15 +113,23 @@ public class EmployeeController {
         }
 
         Employee employeeToEdit = optEmployeeToEdit.get();
-        employeeToEdit.setFirstName(firstName);
-        employeeToEdit.setLastName(lastName);
+
+        if(archive) {
+            employeeToEdit.setDeleted(Boolean.TRUE);
+            model.addAttribute("archive","archive");
+        }else{
+            employeeToEdit.setFirstName(firstName);
+            employeeToEdit.setLastName(lastName);
+            model.addAttribute("success","success");
+        }
+
         employeeRepository.save(employeeToEdit);
+
 
         model.addAttribute("title",
                 "Edit "+employeeToEdit);
         model.addAttribute("employeeToEdit", employeeToEdit);
         model.addAttribute("employeeToEditId", employeeToEditId);
-        model.addAttribute("success","success");
         return "employees/edit";
     }
 
