@@ -25,13 +25,6 @@ public class TipsCollected extends AbstractEntity{
 
     public TipsCollected() {}
 
-//    public List<MoneyHandler> getTotalTipsCollected() {
-//        return totalTipsCollected;
-//    }
-//
-//    public void addTotalTipsCollected(MoneyHandler moneyHandler){
-//        totalTipsCollected.add(moneyHandler);
-//    }
 
     public Map<Employee, Tips> getEmployeeTipsMap() {
         return employeeTipsMap;
@@ -42,9 +35,6 @@ public class TipsCollected extends AbstractEntity{
     }
 
     public Map<NonMoneyHandler, Tips> getNonMoneyHandlerTipsMap() {return nonMoneyHandlerTipsMap;}
-//    public Tips getNonMoneyHandlerTipsMapByEmployee(NonMoneyHandler employee) {
-//        return nonMoneyHandlerTipsMap.get(employee);
-//    }
 
 
     public void setMoneyHandlerTipsMap(MoneyHandler employee, Tips tips){
@@ -56,7 +46,8 @@ public class TipsCollected extends AbstractEntity{
     }
 
     public void mergeTables(){
-        this.nonMoneyHandlerTipsMap.forEach((k,v)->{if(v.getTips() != null)this.employeeTipsMap.put(k,v);});
         this.moneyHandlerTipsMap.forEach((k,v)->{ if(v.getTips() !=null)this.employeeTipsMap.put(k,v);});
+        if(employeeTipsMap.isEmpty()){throw new RuntimeException("No tips have been declared.");}
+        this.nonMoneyHandlerTipsMap.forEach((k,v)->{if(v.getTips() != null)this.employeeTipsMap.put(k,v);});
     }
 }

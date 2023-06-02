@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.math.BigDecimal;
 import java.text.NumberFormat;
@@ -31,7 +32,8 @@ public class TipoutController {
     @Autowired
     TipsCollectedRepository tipsCollectedRepository;
     @GetMapping
-    public String enterTips(Model model){
+    public String enterTips(Model model,
+                            @RequestParam(required = false) String error){
         ArrayList<MoneyHandler> moneyHandlers = (ArrayList<MoneyHandler>) moneyHandlerRepository.findAllByDeletedFalse();
         ArrayList<NonMoneyHandler> nonMoneyHandlers = (ArrayList<NonMoneyHandler>) nonMoneyHandlerRepository.findAllByDeletedFalse();
         TipsCollected collectTips = new TipsCollected();
@@ -47,15 +49,24 @@ public class TipoutController {
         model.addAttribute("moneyHandlers", moneyHandlers);
         model.addAttribute("nonMoneyHandlers", nonMoneyHandlers);
         model.addAttribute("collectTips", collectTips);
+        model.addAttribute("error", error);
         return "calculate/index";
     }
 
     @PostMapping("report")
     public String tipReport(Model model,
-                            @ModelAttribute TipsCollected tipsCollected){
+                            @ModelAttribute TipsCollected tipsCollected,
+                            RedirectAttributes attributes){
         model.addAttribute("title","Calculated Tips");
-        tipsCollected.mergeTables();
+        try {
+            tipsCollected.mergeTables();
+        }catch (RuntimeException e){
+            System.out.println(e.getMessage());
+            attributes.addAttribute("error", e.getMessage());
+            return "redirect:/calculate";
+        }
         Map<Employee,Tips> employeesMap= tipsCollected.getEmployeeTipsMap();
+
         tipsCollectedRepository.save(tipsCollected);
 
         Integer id = tipsCollected.getId();

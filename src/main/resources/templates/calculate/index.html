@@ -20,6 +20,9 @@ If Employees are included in the tip pool they have a none null Tips attached to
 The form sends TipsCollected object to /calculate/report for further processing
 -->
 
+<div class="alert alert-danger" role="alert" th:if="${error}" th:text="${error}">
+</div>
+
 <form method="POST" action="/calculate/report"
         th:if="${collectTips.moneyHandlerTipsMap.size()>0}"
       >
