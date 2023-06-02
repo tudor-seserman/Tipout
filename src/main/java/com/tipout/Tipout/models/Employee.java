@@ -23,7 +23,7 @@ public class Employee extends AbstractEntity {
     @ManyToOne
     private Employer employer;
 
-    private static BigDecimal percentOfTipOut;
+    private BigDecimal percentOfTipOut;
 
     private String roleDetail = this.getClass().getSimpleName();
 
