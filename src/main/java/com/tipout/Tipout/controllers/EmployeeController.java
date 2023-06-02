@@ -76,7 +76,7 @@ public class EmployeeController {
     @GetMapping("current")
     public String allEmployee(Model model) {
         model.addAttribute("title", "Current Employees");
-        model.addAttribute("currentEmployees", employeeRepository.findAll());
+        model.addAttribute("currentEmployees", employeeRepository.findCurrentEmployees());
         return "employees/current";
     }
 
@@ -85,7 +85,7 @@ public class EmployeeController {
         Optional<Employee> optEmployeeToEdit = employeeRepository.findById(employeeToEditId);
         if (optEmployeeToEdit.isEmpty()) {
             model.addAttribute("title", "Current Employees");
-            model.addAttribute("currentEmployees", employeeRepository.findAll());
+            model.addAttribute("currentEmployees", employeeRepository.findCurrentEmployees());
             model.addAttribute("cannotFindEmployee","cannotFindEmployee");
             return "employees/current";
         }
@@ -107,7 +107,7 @@ public class EmployeeController {
         Optional<Employee> optEmployeeToEdit = employeeRepository.findById(employeeToEditId);
         if (optEmployeeToEdit.isEmpty()) {
             model.addAttribute("title", "Current Employees");
-            model.addAttribute("currentEmployees", employeeRepository.findAll());
+            model.addAttribute("currentEmployees", employeeRepository.findCurrentEmployees());
             model.addAttribute("cannotFindEmployee", "cannotFindEmployee");
             return "redirect:/employees/current";
         }

@@ -12,7 +12,7 @@ different roles will inherit from this class.
  */
 @Entity
 //This creates different tables for the child classes, not sure if it is being helpful
-//@Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
+@Inheritance(strategy = InheritanceType.JOINED)
 public class Employee extends AbstractEntity {
     @NotNull
     @NotBlank

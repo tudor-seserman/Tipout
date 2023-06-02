@@ -32,8 +32,8 @@ public class TipoutController {
     TipsCollectedRepository tipsCollectedRepository;
     @GetMapping
     public String enterTips(Model model){
-        ArrayList<MoneyHandler> moneyHandlers = (ArrayList<MoneyHandler>) moneyHandlerRepository.findAll();
-        ArrayList<NonMoneyHandler> nonMoneyHandlers = (ArrayList<NonMoneyHandler>) nonMoneyHandlerRepository.findAll();
+        ArrayList<MoneyHandler> moneyHandlers = (ArrayList<MoneyHandler>) moneyHandlerRepository.findAllByDeletedFalse();
+        ArrayList<NonMoneyHandler> nonMoneyHandlers = (ArrayList<NonMoneyHandler>) nonMoneyHandlerRepository.findAllByDeletedFalse();
         TipsCollected collectTips = new TipsCollected();
 
         for(MoneyHandler moneyHandler : moneyHandlers){
