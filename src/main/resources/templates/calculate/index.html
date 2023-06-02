@@ -50,45 +50,14 @@ The form sends TipsCollected object to /calculate/report for further processing
             </label>
         </div>
         <div>
+            <br>
             <input type="submit" value="Calculate Tips" class="btn btn-success">
         </div>
     </form>
     <!--Won't be able to see form if no employees have been added-->
     <h2 th:if="${collectTips.moneyHandlerTipsMap.size()<1}">Add Employees That Collect Tips to Get Started</h2>
+<br>
+<br>
 </body>
 </html>
-<!--<form method="POST" action="/calculate/report"-->
-<!--      th:if="${moneyHandlers.size()>0}"-->
-<!--      th:object="${collectTips}">-->
-<!--    <div>-->
-<!--        <label>-->
-<!--            <h3>Enter Tips</h3>-->
-<!--            <div th:each="moneyHandler, itemStat:${moneyHandlers}">-->
-<!--                <label th:text="${moneyHandler.firstName+' '+moneyHandler.lastName}"></label>-->
-<!--                <input type="number"-->
-<!--                       th:field="*{moneyHandlerTipsMap[__${itemStat.index+1}__].tips}"-->
-<!--                       class="form-control">-->
-<!--            </div>-->
-<!--        </label>-->
-
-<!--    </div>-->
-<!--    <br>-->
-<!--    <div th:if="${nonMoneyHandlers.size()>0}">-->
-<!--        &lt;!&ndash;            <label>&ndash;&gt;-->
-<!--        &lt;!&ndash;                <h3 >Add other employees to the Tippool</h3>&ndash;&gt;-->
-<!--        &lt;!&ndash;                <div th:each="nonMoneyHandler, itemStat: ${nonMoneyHandlers}"&ndash;&gt;-->
-<!--        &lt;!&ndash;                     th:field="*{notMoneyHandlerTipsMap[__${itemStat.index}__].tips}">&ndash;&gt;-->
-<!--        &lt;!&ndash;                    <input type="checkbox"&ndash;&gt;-->
-<!--        &lt;!&ndash;                           value="0"&ndash;&gt;-->
-<!--        &lt;!&ndash;                           th:field="*{notMoneyHandlerTipsMap[__${itemStat.index}__].tips}"&ndash;&gt;-->
-<!--        &lt;!&ndash;                    />&ndash;&gt;-->
-<!--        &lt;!&ndash;                    <label th:text="${nonMoneyHandler.firstName+' '+nonMoneyHandler.lastName}"></label>&ndash;&gt;-->
-<!--        &lt;!&ndash;                    <br>&ndash;&gt;-->
-<!--        &lt;!&ndash;                </div>&ndash;&gt;-->
-<!--        &lt;!&ndash;            </label>&ndash;&gt;-->
-<!--    </div>-->
-<!--    <div>-->
-<!--        <input type="submit" value="Calculate Tips" class="btn btn-success">-->
-<!--    </div>-->
-<!--</form>-->
 
