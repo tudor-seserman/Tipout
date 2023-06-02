@@ -1,6 +1,8 @@
 package com.tipout.Tipout.controllers;
 
 import com.tipout.Tipout.models.Employee;
+import com.tipout.Tipout.models.Employees.Bartender;
+import com.tipout.Tipout.models.Employer;
 import com.tipout.Tipout.models.data.EmployeeRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -49,6 +51,13 @@ public class SettingsController {
         model.addAttribute("archivedEmployees", employeeRepository.findArhievedEmployees());
         model.addAttribute("employeeToUnArchive", employeeToUnArchive);
         return "settings/archive";
+    }
+
+    @GetMapping("tipDistribution")
+    public String returnTipDistribution(Model model){
+        model.addAttribute("title", "Tip Distribution");
+        model.addAttribute("employer", new Employer());
+        return "settings/tipDistribution";
     }
 
 }

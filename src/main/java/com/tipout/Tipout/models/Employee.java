@@ -4,8 +4,7 @@ import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.List;
+
 /*
 This class will be used to create a base employee,
 different roles will inherit from this class.
@@ -26,8 +25,10 @@ public class Employee extends AbstractEntity {
     private BigDecimal percentOfTipOut;
 
     private String roleDetail = this.getClass().getSimpleName();
+    private static BigDecimal rolePercentOfTipout;
 
     private BigDecimal moneyToBeTippedOut;
+
 
 
     public Employee() {
@@ -85,6 +86,14 @@ public class Employee extends AbstractEntity {
 
     public void setPercentOfTipOut(BigDecimal percentOfTipOut) {
         this.percentOfTipOut = percentOfTipOut;
+    }
+
+    public static BigDecimal getRolePercentOfTipout() {
+        return rolePercentOfTipout;
+    }
+
+    public static void setRolePercentOfTipout(BigDecimal rolePercentOfTipout) {
+        Employee.rolePercentOfTipout = rolePercentOfTipout;
     }
 
     @Override
