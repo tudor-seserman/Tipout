@@ -17,6 +17,9 @@ public class EmployeesDTO {
     private Busser busser;
     private List<Employee> employees = new ArrayList<>();
 
+    public EmployeesDTO() {
+    }
+
     public EmployeesDTO(List<Employee> employees) {
         for(Employee employee: employees) {
             if(employee instanceof Bartender) {

@@ -28,7 +28,7 @@ public class Tipout extends AbstractEntity{
         usdCostFormat.setMinimumFractionDigits( 2 );
         usdCostFormat.setMaximumFractionDigits( 2 );
         for(Employee employeeInTippool: employeesInTippool){
-            BigDecimal portionOfTippool = shareOfTippool.multiply(employeeInTippool.getPercentOfTipOut());
+            BigDecimal portionOfTippool = shareOfTippool.multiply(employeeInTippool.getPercentOfTipout());
             tipPoolDistribution.put(employeeInTippool, usdCostFormat.format(portionOfTippool));
         }
         return tipPoolDistribution;

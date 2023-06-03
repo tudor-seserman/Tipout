@@ -8,10 +8,7 @@ import com.tipout.Tipout.models.data.EmployeeRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Optional;
@@ -19,6 +16,8 @@ import java.util.Optional;
 @Controller
 @RequestMapping(value="settings")
 public class SettingsController {
+    Employer stuff = new Employer(1,"Stuff","stuff");
+
     @Autowired
     EmployeeRepository employeeRepository;
 
@@ -59,15 +58,20 @@ public class SettingsController {
     public String returnTipDistribution(Model model){
 
 //        This will be need to be refactored to handle different Employers
-        EmployeesDTO employeeTypesList = new EmployeesDTO(new Employer().getEmployees());
+        EmployeesDTO employeeDTO = new EmployeesDTO(stuff.getEmployees());
 
         model.addAttribute("title", "Tip Distribution");
-        model.addAttribute("employer", employeeTypesList);
+        model.addAttribute("employeeDTO", employeeDTO);
         return "settings/tipDistribution";
     }
 
     @PostMapping("tipDistribution")
-    public String processTipDistributionForm(Model model){
+    public String processTipDistributionForm(Model model,@ModelAttribute EmployeesDTO employeeDTO){
+        System.out.println(employeeDTO.getBartender().getPercentOfTipout());
+
+        EmployeesDTO employeeTypesList = new EmployeesDTO(stuff.getEmployees());
+        model.addAttribute("title", "Tip Distribution");
+        model.addAttribute("employer", employeeTypesList);
         return "settings/tipDistribution";
     }
 

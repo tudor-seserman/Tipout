@@ -81,11 +81,11 @@ public class Employee extends AbstractEntity {
         this.roleDetail = roleDetail;
     }
 
-    public BigDecimal getPercentOfTipOut() {
+    public BigDecimal getPercentOfTipout() {
         return percentOfTipOut;
     }
 
-    public void setPercentOfTipOut(BigDecimal percentOfTipOut) {
+    public void setPercentOfTipout(BigDecimal percentOfTipOut) {
         this.percentOfTipOut = percentOfTipOut;
     }
 
