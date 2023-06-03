@@ -1,5 +1,6 @@
 package com.tipout.Tipout.controllers;
 
+import com.tipout.Tipout.models.DTOs.EmployeesDTO;
 import com.tipout.Tipout.models.Employee;
 import com.tipout.Tipout.models.Employees.Bartender;
 import com.tipout.Tipout.models.Employer;
@@ -12,6 +13,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import java.util.List;
 import java.util.Optional;
 
 @Controller
@@ -55,8 +57,17 @@ public class SettingsController {
 
     @GetMapping("tipDistribution")
     public String returnTipDistribution(Model model){
+
+//        This will be need to be refactored to handle different Employers
+        EmployeesDTO employeeTypesList = new EmployeesDTO(new Employer().getEmployees());
+
         model.addAttribute("title", "Tip Distribution");
-        model.addAttribute("employer", new Employer());
+        model.addAttribute("employer", employeeTypesList);
+        return "settings/tipDistribution";
+    }
+
+    @PostMapping("tipDistribution")
+    public String processTipDistributionForm(Model model){
         return "settings/tipDistribution";
     }
 

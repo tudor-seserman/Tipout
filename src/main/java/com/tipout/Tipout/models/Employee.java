@@ -1,8 +1,7 @@
 package com.tipout.Tipout.models;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
+import javax.validation.constraints.*;
 import java.math.BigDecimal;
 
 /*
@@ -21,7 +20,9 @@ public class Employee extends AbstractEntity {
     private String lastName;
     @ManyToOne
     private Employer employer;
-
+    @Min(value = 0, message = "Cannot have a number lower than 0")
+    @Max(value = 100, message = "Cannot have a number higher than 100")
+    @Digits(integer = 3, fraction = 0)
     private BigDecimal percentOfTipOut;
 
     private String roleDetail = this.getClass().getSimpleName();
