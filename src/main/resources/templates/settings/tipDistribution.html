@@ -6,13 +6,11 @@
 
 <nav th:replace="fragments :: navigation"></nav>
 
-<form method="post">
-    <div class="form-group" th:each="position : ${employeeDTO.employees}" >
+<form method="post" th:field="${employer}">
+    <div class="form-group" th:each="position : ${employer.employees}" >
         <label th:text="${position.getClass().getSimpleName()}"></label>
-        <input type="hidden" th:field="${position.setPercentOfTipout()}">
         <input type="number"
-               th:name="${position}"
-               th:value="${position.percentOfTipout}"
+               th:field="${position.setPercentOfTipOut()}"
                class="form-control"/>
 <!--        <p class="error" th:errors="${position.percentOfTipOut}"></p>-->
     </div>

@@ -58,20 +58,25 @@ public class SettingsController {
     public String returnTipDistribution(Model model){
 
 //        This will be need to be refactored to handle different Employers
-        EmployeesDTO employeeDTO = new EmployeesDTO(stuff.getEmployees());
+//        EmployeesDTO employeeDTO = new EmployeesDTO(stuff.getEmployees());
+//        System.out.println(employeeDTO.getEmployees());
 
         model.addAttribute("title", "Tip Distribution");
-        model.addAttribute("employeeDTO", employeeDTO);
+//        model.addAttribute("employees", stuff.getEmployees());
+        model.addAttribute("employer", stuff);
         return "settings/tipDistribution";
     }
 
     @PostMapping("tipDistribution")
-    public String processTipDistributionForm(Model model,@ModelAttribute EmployeesDTO employeeDTO){
-        System.out.println(employeeDTO.getBartender().getPercentOfTipout());
+    public String processTipDistributionForm(Model model, @ModelAttribute Employer employer){
+        for(Employee employee:employer.getEmployees()){
+            System.out.println(employee.getRoleDetail());
+            System.out.println(employee.getPercentOfTipout());
+        };
 
-        EmployeesDTO employeeTypesList = new EmployeesDTO(stuff.getEmployees());
-        model.addAttribute("title", "Tip Distribution");
-        model.addAttribute("employer", employeeTypesList);
+//        EmployeesDTO employeeTypesList = new EmployeesDTO(stuff.getEmployees());
+//        model.addAttribute("title", "Tip Distribution");
+//        model.addAttribute("employer", employeeTypesList);
         return "settings/tipDistribution";
     }
 
