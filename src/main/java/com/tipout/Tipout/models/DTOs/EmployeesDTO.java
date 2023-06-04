@@ -24,16 +24,16 @@ public class EmployeesDTO {
         for(Employee employee: employees) {
             if(employee instanceof Bartender) {
                 this.bartender = (Bartender) employee;
-                this.employees.add(new Bartender());
+                this.employees.add(employee);
             } else if (employee instanceof BOH) {
                 this.boh = (BOH) employee;
-                this.employees.add(new BOH());
+                this.employees.add(employee);
             } else if (employee instanceof Server) {
                 this.server = (Server)employee;
-                this.employees.add(new Server());
+                this.employees.add(employee);
             } else if (employee instanceof Busser) {
                 this.busser = (Busser) employee;
-                this.employees.add(new Busser());
+                this.employees.add(employee);
             }else{
 //            throw some error message
             }
