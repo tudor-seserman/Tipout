@@ -59,6 +59,7 @@ public class SettingsController {
 
 //        This will be need to be refactored to handle different Employers
         EmployeesDTO employeeDTO = new EmployeesDTO(stuff.getEmployees());
+        System.out.println(employeeDTO.getBartender().getPercentOfTipout());
 
         model.addAttribute("title", "Tip Distribution");
         model.addAttribute("employeeDTO", employeeDTO);
@@ -66,12 +67,12 @@ public class SettingsController {
     }
 
     @PostMapping("tipDistribution")
-    public String processTipDistributionForm(Model model,@ModelAttribute EmployeesDTO employeeDTO){
-        System.out.println(employeeDTO.getBartender().getPercentOfTipout());
+    public String processTipDistributionForm(Model model,@ModelAttribute EmployeesDTO employeeDTOParam){
+        System.out.println(employeeDTOParam.getBartender().getPercentOfTipout());
 
-        EmployeesDTO employeeTypesList = new EmployeesDTO(stuff.getEmployees());
+        EmployeesDTO employeeDTO = new EmployeesDTO(stuff.getEmployees());
         model.addAttribute("title", "Tip Distribution");
-        model.addAttribute("employer", employeeTypesList);
+        model.addAttribute("employeeDTO", employeeDTO);
         return "settings/tipDistribution";
     }
 

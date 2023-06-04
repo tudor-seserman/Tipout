@@ -50,11 +50,11 @@ public class EmployeesDTO {
         this.bartender = bartender;
     }
 
-    public BOH getBoh() {
+    public BOH getBOH() {
         return boh;
     }
 
-    public void setBoh(BOH boh) {
+    public void setBOH(BOH boh) {
         this.boh = boh;
     }
 
