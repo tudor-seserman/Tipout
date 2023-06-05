@@ -16,11 +16,11 @@ public class TipsCollected extends AbstractEntity{
 //    @OneToMany(mappedBy ="tips")
 //    private final List<MoneyHandler> totalTipsCollected= new ArrayList<>();
 
-    @OneToMany(cascade = CascadeType.PERSIST)
+    @OneToMany(cascade = CascadeType.ALL)
     private final Map<Employee, Tips> employeeTipsMap = new LinkedHashMap<>();
-    @OneToMany(cascade = CascadeType.PERSIST)
+    @OneToMany(cascade = CascadeType.ALL)
     private final Map<MoneyHandler, Tips> moneyHandlerTipsMap = new LinkedHashMap<>();
-    @OneToMany(cascade = CascadeType.PERSIST)
+    @OneToMany(cascade = CascadeType.ALL)
     private final Map<NonMoneyHandler, Tips> nonMoneyHandlerTipsMap = new LinkedHashMap<>();
 
     public TipsCollected() {}

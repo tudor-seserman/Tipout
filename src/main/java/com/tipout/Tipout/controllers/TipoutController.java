@@ -73,7 +73,6 @@ public class TipoutController {
         BigDecimal totalTippool = tipsCollectedRepository.findTotalTippool(id);
         List<Integer> employeeTypesInTippool = tipsCollectedRepository.findEmployeeTypesInTippool(id);
         List<Employee> employeesInTipPool = new ArrayList<>(employeesMap.keySet());
-        System.out.println(employeeTypesInTippool);
         Map<Employee, String> employeeShareofTipoolMap = Tipout.calculateTippoolDistribution(employeeTypesInTippool, totalTippool, employeesInTipPool);
 
         model.addAttribute("tippool", totalTippool);

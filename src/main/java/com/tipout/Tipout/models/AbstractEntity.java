@@ -14,7 +14,7 @@ public abstract class AbstractEntity {
     @GeneratedValue
     private int id;
 
-    private boolean deleted = Boolean.FALSE;
+
 
     public int getId() {
         return id;
@@ -24,13 +24,6 @@ public abstract class AbstractEntity {
         this.id = id;
     }
 
-    public boolean isDeleted() {
-        return deleted;
-    }
-
-    public void setDeleted(boolean deleted) {
-        this.deleted = deleted;
-    }
 
     @Override
     public boolean equals(Object o) {

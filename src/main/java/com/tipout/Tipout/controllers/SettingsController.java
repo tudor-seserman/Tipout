@@ -67,8 +67,10 @@ public class SettingsController {
     }
 
     @PostMapping("tipDistribution")
-    public String processTipDistributionForm(Model model,@ModelAttribute EmployeesDTO employeeDTOParam){
-        System.out.println(employeeDTOParam.getBartender().getPercentOfTipout());
+    public String processTipDistributionForm(Model model, @ModelAttribute EmployeesDTO employeeDTOParam){
+        for(Employee employee: stuff.getEmployees()){
+            employee.setPercentOfTipout(employeeDTOParam.getTipoutInput(employee));
+        }
 
         EmployeesDTO employeeDTO = new EmployeesDTO(stuff.getEmployees());
         model.addAttribute("title", "Tip Distribution");

@@ -30,6 +30,8 @@ public class Employee extends AbstractEntity {
 
     private BigDecimal moneyToBeTippedOut;
 
+    private boolean deleted = Boolean.FALSE;
+
 
 
     public Employee() {
@@ -95,6 +97,15 @@ public class Employee extends AbstractEntity {
 
     public static void setRolePercentOfTipout(BigDecimal rolePercentOfTipout) {
         Employee.rolePercentOfTipout = rolePercentOfTipout;
+    }
+
+
+    public boolean isDeleted() {
+        return deleted;
+    }
+
+    public void setDeleted(boolean deleted) {
+        this.deleted = deleted;
     }
 
     @Override

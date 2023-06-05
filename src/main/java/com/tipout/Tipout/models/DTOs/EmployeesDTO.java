@@ -6,6 +6,7 @@ import com.tipout.Tipout.models.Employees.Bartender;
 import com.tipout.Tipout.models.Employees.Busser;
 import com.tipout.Tipout.models.Employees.Server;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.ListIterator;
@@ -80,5 +81,20 @@ public class EmployeesDTO {
 
     public void setEmployees(List<Employee> employees) {
         this.employees = employees;
+    }
+
+    public BigDecimal getTipoutInput(Employee employee){
+        if(employee instanceof Bartender) {
+            return this.bartender.getPercentOfTipout();
+        } else if (employee instanceof BOH) {
+            return this.boh.getPercentOfTipout();
+        } else if (employee instanceof Server) {
+            return this.server.getPercentOfTipout();
+        } else if (employee instanceof Busser) {
+            return this.busser.getPercentOfTipout();
+        }else{
+//            throw some error message
+            return null;
+        }
     }
 }
