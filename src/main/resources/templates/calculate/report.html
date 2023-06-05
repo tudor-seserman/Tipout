@@ -16,7 +16,7 @@
     </tr>
     <tr th:each="employeeTippedOut : ${payouts}">
         <td th:text="${employeeTippedOut.key.getFirstName()}+' '+${employeeTippedOut.key.getLastName()}"></td>
-        <td th:text="${employeeTippedOut.value}"></td>
+        <td th:text="${employeeTippedOut.value.getDisplayTips()}"></td>
     </tr>
 
 </table>

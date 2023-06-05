@@ -57,7 +57,6 @@ public class TipoutController {
     public String tipReport(Model model,
                             @ModelAttribute TipsCollected tipsCollected,
                             RedirectAttributes attributes){
-        model.addAttribute("title","Calculated Tips");
         try {
             tipsCollected.mergeTables();
         }catch (RuntimeException e){
@@ -73,8 +72,10 @@ public class TipoutController {
         BigDecimal totalTippool = tipsCollectedRepository.findTotalTippool(id);
         List<Integer> employeeTypesInTippool = tipsCollectedRepository.findEmployeeTypesInTippool(id);
         List<Employee> employeesInTipPool = new ArrayList<>(employeesMap.keySet());
-        Map<Employee, String> employeeShareofTipoolMap = Tipout.calculateTippoolDistribution(employeeTypesInTippool, totalTippool, employeesInTipPool);
+        Tipout tipout = new Tipout();
+        Map<Employee, Tips> employeeShareofTipoolMap = tipout.calculateTippoolDistribution(employeeTypesInTippool, totalTippool, employeesInTipPool);
 
+        model.addAttribute("title","Calculated Tips");
         model.addAttribute("tippool", totalTippool);
         model.addAttribute("payouts", employeeShareofTipoolMap);
 

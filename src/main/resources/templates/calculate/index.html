@@ -30,7 +30,7 @@ The form sends TipsCollected object to /calculate/report for further processing
             <label>
                 <h3>Enter Tips</h3>
                 <div th:each="moneyHandler : ${moneyHandlers}">
-                    <label th:text="${moneyHandler.firstName+' '+moneyHandler.lastName}"></label>
+                    <label th:text="${moneyHandler}"></label>
                     <input type="number"
                            th:field="${collectTips.moneyHandlerTipsMap[__${moneyHandler.id}__].tips}"
                            class="form-control">
@@ -47,7 +47,7 @@ The form sends TipsCollected object to /calculate/report for further processing
                            value="0"
                            th:field="${collectTips.nonMoneyHandlerTipsMap[__${nonMoneyHandler.id}__].tips}"
                         />
-                    <label th:text="${nonMoneyHandler.firstName+' '+nonMoneyHandler.lastName}"></label>
+                    <label th:text="${nonMoneyHandler}"></label>
                     <br>
                 </div>
             </label>
