@@ -1,57 +1,54 @@
 package com.tipout.Tipout.models;
 
 import com.tipout.Tipout.models.Employees.*;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.Objects;
-@Entity
-public class Employer {
-    @Id
-    @GeneratedValue
-    private Integer id;
-    private String firstName;
-    private String lastName;
 
-    private String roleDetail = this.getClass().getSimpleName();
+@Entity
+public class Employer extends AbstractEntity{
+    @NotNull
+    private String username;
+    @NotNull
+    private String businessName;
+    @NotNull
+    private String pwHash;
 
 //    Need to be more explicit here
     @OneToMany(mappedBy = "employer")
     private List<Employee> employees= new ArrayList<>(Arrays.asList(new Bartender(), new BOH(), new Busser(), new Server()));
 
+    private static final BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
+
     public Employer() {
     }
 
-    public Employer(Integer id, String firstName, String lastName) {
-        this.id = id;
-        this.firstName = firstName;
-        this.lastName = lastName;
+    public Employer(String username, String businessName, String pwHash) {
+        this.username = username;
+        this.businessName = businessName;
+        this.pwHash = encoder.encode(pwHash);
     }
 
-    public Integer getId() {
-        return id;
+
+    public String getUsername() {
+        return username;
     }
 
-    public void setId(Integer id) {
-        this.id = id;
+    public void setUsername(String username) {
+        this.username = username;
     }
 
-    public String getFirstName() {
-        return firstName;
+    public String getBusinessName() {
+        return businessName;
     }
 
-    public void setFirstName(String firstName) {
-        this.firstName = firstName;
-    }
-
-    public String getLastName() {
-        return lastName;
-    }
-
-    public void setLastName(String lastName) {
-        this.lastName = lastName;
+    public void setBusinessName(String businessName) {
+        this.businessName = businessName;
     }
 
     public List<Employee> getEmployees() {
@@ -62,18 +59,8 @@ public class Employer {
         this.employees = employees;
     }
 
-
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Employer employer = (Employer) o;
-        return id.equals(employer.id);
+    public boolean isMatchingPassword(String password) {
+        return encoder.matches(password, pwHash);
     }
 
-    @Override
-    public int hashCode() {
-        return Objects.hash(id);
-    }
 }

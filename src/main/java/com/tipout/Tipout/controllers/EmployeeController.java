@@ -31,6 +31,7 @@ public class EmployeeController {
 
     @GetMapping("add")
     public String addNewEmployee(Model model) {
+
         model.addAttribute("title", "Add Employee");
         model.addAttribute("employee", new Employee());
         model.addAttribute("employer", new Employer());
@@ -39,6 +40,7 @@ public class EmployeeController {
 
     @PostMapping("add")
     public String processAddNewEmployee(@RequestParam String role, Model model, @ModelAttribute @Valid Employee newEmployee, Errors errors) {
+
         model.addAttribute("title", "Add Employee");
         model.addAttribute("employer", new Employer());
         if (errors.hasErrors()) {
@@ -103,7 +105,7 @@ public class EmployeeController {
                                          Model model,
                                          String firstName,
                                          String lastName,
-                                         @RequestParam(required = false  ) Boolean archive ) {
+                                         @RequestParam Boolean archive ) {
         Optional<Employee> optEmployeeToEdit = employeeRepository.findById(employeeToEditId);
         if (optEmployeeToEdit.isEmpty()) {
             model.addAttribute("title", "Current Employees");

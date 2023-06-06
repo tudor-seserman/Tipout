@@ -1,5 +1,7 @@
 package com.tipout.Tipout.models;
 
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -10,6 +12,7 @@ This class is used to create ids for other classes.
  */
 @MappedSuperclass
 public abstract class AbstractEntity {
+
     @Id
     @GeneratedValue
     private int id;

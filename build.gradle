@@ -22,7 +22,8 @@ dependencies {
 	implementation 'org.springframework.session:spring-session-core'
 	developmentOnly 'org.springframework.boot:spring-boot-devtools'
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
-//	implementation 'org.springframework.security:spring-security-crypto'
+	implementation 'org.springframework.security:spring-security-crypto'
+	implementation 'org.springframework.security:spring-security-core'
 }
 
 tasks.named('test') {

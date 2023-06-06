@@ -16,7 +16,7 @@ import java.util.Optional;
 @Controller
 @RequestMapping(value="settings")
 public class SettingsController {
-    Employer stuff = new Employer(1,"Stuff","stuff");
+    Employer stuff = new Employer("stuff","Stuff","stuff");
 
     @Autowired
     EmployeeRepository employeeRepository;
