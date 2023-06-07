@@ -11,5 +11,5 @@ import java.util.List;
 
 @Repository
 public interface NonMoneyHandlerRepository extends CrudRepository<NonMoneyHandler,Integer>{
-    List<NonMoneyHandler> findAllByDeletedFalse();
+    List<NonMoneyHandler> findAllByDeletedFalseAndEmployer_Id(Integer Employer_Id);
 }

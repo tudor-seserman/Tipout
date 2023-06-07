@@ -25,7 +25,6 @@ public class HomeController {
                               Model model){
         HttpSession session = request.getSession();
         Boolean loggedin = authenticationController.inSession(session);
-        System.out.println(loggedin);
         model.addAttribute("loggedin",loggedin);
         model.addAttribute("title", "Welcome to Tipout");
         return "index";

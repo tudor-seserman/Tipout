@@ -1,11 +1,8 @@
 package com.tipout.Tipout.controllers;
 
-import com.tipout.Tipout.models.Employee;
+import com.tipout.Tipout.models.*;
 import com.tipout.Tipout.models.Employees.MoneyHandler;
 import com.tipout.Tipout.models.Employees.NonMoneyHandler;
-import com.tipout.Tipout.models.Tipout;
-import com.tipout.Tipout.models.Tips;
-import com.tipout.Tipout.models.TipsCollected;
 import com.tipout.Tipout.models.data.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -13,6 +10,9 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 import java.math.BigDecimal;
 import java.text.NumberFormat;
 import java.util.ArrayList;
@@ -24,6 +24,8 @@ import java.util.Map;
 @RequestMapping(value="calculate")
 public class TipoutController {
     @Autowired
+    AuthenticationController authenticationController;
+    @Autowired
     EmployeeRepository employeeRepository;
     @Autowired
     MoneyHandlerRepository moneyHandlerRepository;
@@ -33,9 +35,13 @@ public class TipoutController {
     TipsCollectedRepository tipsCollectedRepository;
     @GetMapping
     public String enterTips(Model model,
-                            @RequestParam(required = false) String error){
-        ArrayList<MoneyHandler> moneyHandlers = (ArrayList<MoneyHandler>) moneyHandlerRepository.findAllByDeletedFalse();
-        ArrayList<NonMoneyHandler> nonMoneyHandlers = (ArrayList<NonMoneyHandler>) nonMoneyHandlerRepository.findAllByDeletedFalse();
+                            @RequestParam(required = false) String error,
+                            HttpServletRequest request){
+        HttpSession session = request.getSession();
+        Employer employer = authenticationController.getEmployerFromSession(session);
+
+        ArrayList<MoneyHandler> moneyHandlers = (ArrayList<MoneyHandler>) moneyHandlerRepository.findAllByDeletedFalseAndEmployer_Id(employer.getId());
+        ArrayList<NonMoneyHandler> nonMoneyHandlers = (ArrayList<NonMoneyHandler>) nonMoneyHandlerRepository.findAllByDeletedFalseAndEmployer_Id(employer.getId());
         TipsCollected collectTips = new TipsCollected();
 
         for(MoneyHandler moneyHandler : moneyHandlers){

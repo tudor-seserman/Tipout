@@ -11,5 +11,5 @@ import java.util.List;
 
 @Repository
 public interface MoneyHandlerRepository extends CrudRepository<MoneyHandler,Integer>{
-    List<MoneyHandler> findAllByDeletedFalse();
+    List<MoneyHandler> findAllByDeletedFalseAndEmployer_Id(Integer Employer_Id);
 }
