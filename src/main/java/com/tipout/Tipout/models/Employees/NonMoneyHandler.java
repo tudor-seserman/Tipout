@@ -1,6 +1,7 @@
 package com.tipout.Tipout.models.Employees;
 
 import com.tipout.Tipout.models.Employee;
+import com.tipout.Tipout.models.Employer;
 import com.tipout.Tipout.models.Tips;
 
 import javax.persistence.Entity;
@@ -15,8 +16,8 @@ public class NonMoneyHandler extends Employee {
     public NonMoneyHandler() {
     }
 
-    public NonMoneyHandler(String firstName, String lastName) {
-        super(firstName, lastName);
+    public NonMoneyHandler(String firstName, String lastName, Employer employer) {
+        super(firstName, lastName, employer);
     }
 
     public Tips getTips() {

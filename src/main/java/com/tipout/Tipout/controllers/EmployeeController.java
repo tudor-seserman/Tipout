@@ -1,5 +1,6 @@
 package com.tipout.Tipout.controllers;
 
+import com.tipout.Tipout.models.DTOs.EmployeesDTO;
 import com.tipout.Tipout.models.Employee;
 import com.tipout.Tipout.models.Employees.*;
 import com.tipout.Tipout.models.Employer;
@@ -11,12 +12,17 @@ import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.*;
 
 import javax.persistence.EntityManager;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
+import java.util.Arrays;
 import java.util.Optional;
 
 @Controller
 @RequestMapping(value="employees")
 public class EmployeeController {
+    @Autowired
+    AuthenticationController authenticationController;
     @Autowired
     EmployeeRepository employeeRepository;
     @Autowired
@@ -32,36 +38,44 @@ public class EmployeeController {
     @GetMapping("add")
     public String addNewEmployee(Model model) {
 
+        EmployeesDTO employeesDTO = new EmployeesDTO(Arrays.asList(new Bartender(), new BOH(), new Busser(), new Server()));
+
         model.addAttribute("title", "Add Employee");
         model.addAttribute("employee", new Employee());
-        model.addAttribute("employer", new Employer());
+        model.addAttribute("employeeTypes", employeesDTO);
         return "employees/add";
     }
 
     @PostMapping("add")
-    public String processAddNewEmployee(@RequestParam String role, Model model, @ModelAttribute @Valid Employee newEmployee, Errors errors) {
+    public String processAddNewEmployee(@RequestParam String role,
+                                        Model model,
+                                        @ModelAttribute @Valid Employee newEmployee,
+                                        Errors errors,
+                                        HttpServletRequest request
+    ) {
+        HttpSession session = request.getSession();
+        Employer employer = authenticationController.getEmployerFromSession(session);
 
-        model.addAttribute("title", "Add Employee");
-        model.addAttribute("employer", new Employer());
+
         if (errors.hasErrors()) {
             return "employees/add";
         }
         switch (role) {
             case "Bartender":
-                Bartender newBartender = new Bartender(newEmployee.getFirstName(), newEmployee.getLastName());
+                Bartender newBartender = new Bartender(newEmployee.getFirstName(), newEmployee.getLastName(), employer);
                 bartenderRepository.save(newBartender);
                 break;
             case "BOH":
-                BOH newBOH = new BOH(newEmployee.getFirstName(), newEmployee.getLastName());
+                BOH newBOH = new BOH(newEmployee.getFirstName(), newEmployee.getLastName(), employer);
                 bohRepository.save(newBOH);
                 break;
             case "Busser":
-                Busser newBusser = new Busser(newEmployee.getFirstName(), newEmployee.getLastName());
+                Busser newBusser = new Busser(newEmployee.getFirstName(), newEmployee.getLastName(), employer);
                 ;
                 busserRepository.save(newBusser);
                 break;
             case "Server":
-                Server newServer = new Server(newEmployee.getFirstName(), newEmployee.getLastName());
+                Server newServer = new Server(newEmployee.getFirstName(), newEmployee.getLastName(), employer);
                 ;
                 serverRepository.save(newServer);
                 break;
@@ -69,6 +83,10 @@ public class EmployeeController {
                 model.addAttribute("error", "Something went wrong");
         }
 
+        EmployeesDTO employeesDTO = new EmployeesDTO(Arrays.asList(new Bartender(), new BOH(), new Busser(), new Server()));
+
+        model.addAttribute("title", "Add Employee");
+        model.addAttribute("employeeTypes", employeesDTO);
         model.addAttribute("newEmployee", newEmployee.getFirstName());
         model.addAttribute("employee", new Employee());
         return "employees/add";
@@ -76,18 +94,26 @@ public class EmployeeController {
 
 
     @GetMapping("current")
-    public String allEmployee(Model model) {
+    public String allEmployee(Model model,
+                                HttpServletRequest request) {
+        HttpSession session = request.getSession();
+        Employer employer = authenticationController.getEmployerFromSession(session);
+
         model.addAttribute("title", "Current Employees");
-        model.addAttribute("currentEmployees", employeeRepository.findCurrentEmployees());
+        model.addAttribute("currentEmployees", employeeRepository.findCurrentEmployees(employer.getId()));
         return "employees/current";
     }
 
     @GetMapping("edit/{employeeToEditId}")
-    public String editEmployeeForm(@PathVariable Integer employeeToEditId, Model model) {
+    public String editEmployeeForm(@PathVariable Integer employeeToEditId, Model model,
+                                   HttpServletRequest request) {
+        HttpSession session = request.getSession();
+        Employer employer = authenticationController.getEmployerFromSession(session);
+
         Optional<Employee> optEmployeeToEdit = employeeRepository.findById(employeeToEditId);
         if (optEmployeeToEdit.isEmpty()) {
             model.addAttribute("title", "Current Employees");
-            model.addAttribute("currentEmployees", employeeRepository.findCurrentEmployees());
+            model.addAttribute("currentEmployees", employeeRepository.findCurrentEmployees(employer.getId()));
             model.addAttribute("cannotFindEmployee","cannotFindEmployee");
             return "employees/current";
         }
@@ -105,11 +131,14 @@ public class EmployeeController {
                                          Model model,
                                          String firstName,
                                          String lastName,
-                                         @RequestParam Boolean archive ) {
+                                         @RequestParam Boolean archive ,
+                                         HttpServletRequest request) {
+        HttpSession session = request.getSession();
+        Employer employer = authenticationController.getEmployerFromSession(session);
         Optional<Employee> optEmployeeToEdit = employeeRepository.findById(employeeToEditId);
         if (optEmployeeToEdit.isEmpty()) {
             model.addAttribute("title", "Current Employees");
-            model.addAttribute("currentEmployees", employeeRepository.findCurrentEmployees());
+            model.addAttribute("currentEmployees", employeeRepository.findCurrentEmployees(employer.getId()));
             model.addAttribute("cannotFindEmployee", "cannotFindEmployee");
             return "redirect:/employees/current";
         }

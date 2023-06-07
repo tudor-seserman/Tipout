@@ -37,9 +37,10 @@ public class Employee extends AbstractEntity {
     public Employee() {
     }
 
-    public Employee(String firstName, String lastName) {
+    public Employee(String firstName, String lastName, Employer employer) {
         this.firstName = firstName;
         this.lastName = lastName;
+        this.employer = employer;
     }
 
     public String getFirstName() {

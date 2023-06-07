@@ -24,9 +24,9 @@ public class HomeController {
     public String returnIndex(HttpServletRequest request,
                               Model model){
         HttpSession session = request.getSession();
-        System.out.println( authenticationController.getEmployerFromSession(session).getId());
-
-
+        Boolean loggedin = authenticationController.inSession(session);
+        System.out.println(loggedin);
+        model.addAttribute("loggedin",loggedin);
         model.addAttribute("title", "Welcome to Tipout");
         return "index";
     }

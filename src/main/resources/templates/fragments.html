@@ -9,13 +9,15 @@
 </head>
 
 <body>
+<h1 th:fragment="title" th:text="${title}">TipOut</h1>
 <nav th:fragment="navigation">
     <h1 th:text="${title}">TipOut</h1>
-    <ul class="nav">
+    <ul class="nav" >
         <li class="nav-item"><a class="nav-link" href="/calculate">Calculate Tipout</a></li>
         <li class="nav-item"><a class="nav-link" href="/employees/current">Current Employees</a></li>
         <li class="nav-item"><a class="nav-link" href="/employees/add">Add Employees</a></li>
         <li class="nav-item"><a class="nav-link" href="/settings">Settings</a></li>
+        <li class="nav-item"><a class="nav-link" href="/logout">Logout</a></li>
     </ul>
 </nav>
 

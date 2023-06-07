@@ -4,7 +4,18 @@
 </head>
 <body class="container">
 
-<nav th:replace="fragments :: navigation"></nav>
+<div th:if="${!loggedin}">
+    <h1  th:replace="fragments :: title"></h1>
+    <p>Have an account? <a href="/login">Login</a></p>
+    <p>Don't have an account? <a href="/register">Register for one.</a></p>
+</div>
+
+
+<div th:if="${loggedin}">
+    <nav th:replace="fragments :: navigation"></nav>
+</div>
+
+
 
 
 </body>

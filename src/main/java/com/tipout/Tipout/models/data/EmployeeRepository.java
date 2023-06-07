@@ -26,10 +26,10 @@ public interface EmployeeRepository extends CrudRepository<Employee,Integer>{
     @Query(value="DELETE FROM tipscollected_nonmoneyhandlertipsmap Where nonmoneyHandlerTipsMap_KEY = ?1", nativeQuery = true)
     void completelyDeleteNonMoneyhandlerTipRecord(Integer id);
 
-    @Query(value="SELECT *, 0 AS clazz_ FROM tipout.EMPLOYEE Where deleted = false", nativeQuery = true)
-    List<Employee> findCurrentEmployees();
+    @Query(value="SELECT *, 0 AS clazz_ FROM tipout.EMPLOYEE Where deleted = false AND employer_id = ?1", nativeQuery = true)
+    List<Employee> findCurrentEmployees(Integer id);
 
-    @Query(value="SELECT *, 0 AS clazz_ FROM tipout.EMPLOYEE Where deleted = true", nativeQuery = true)
-    List<Employee> findArhievedEmployees();
+    @Query(value="SELECT *, 0 AS clazz_ FROM tipout.EMPLOYEE Where deleted = true AND employer_id = ?1", nativeQuery = true)
+    List<Employee> findArhievedEmployees(Integer id);
 
 }

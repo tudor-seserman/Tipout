@@ -42,6 +42,21 @@ public class AuthenticationController {
         session.setAttribute(userSessionKey, employer.getId());
     }
 
+    public boolean inSession(HttpSession session){
+        Integer employerId = (Integer) session.getAttribute(userSessionKey);
+        if (employerId == null) {
+            return false;
+        }
+
+        Optional<Employer> employer = employerRepository.findById(employerId);
+
+        if (employer.isEmpty()) {
+            return false;
+        }
+
+        return true;
+    }
+
     @GetMapping("/register")
     public String displayRegistrationForm(Model model) {
         model.addAttribute(new EmployerRegistrationFormDTO());

@@ -1,6 +1,7 @@
 package com.tipout.Tipout.models.Employees;
 
 import com.tipout.Tipout.models.Employee;
+import com.tipout.Tipout.models.Employer;
 import com.tipout.Tipout.models.Tips;
 import com.tipout.Tipout.models.TipsCollected;
 
@@ -16,8 +17,8 @@ public class MoneyHandler extends Employee {
     public MoneyHandler() {
     }
 
-    public MoneyHandler(String firstName, String lastName) {
-        super(firstName, lastName);
+    public MoneyHandler(String firstName, String lastName, Employer employer) {
+        super(firstName, lastName, employer);
     }
 
 //    public TipsCollected getTipsCollected() {

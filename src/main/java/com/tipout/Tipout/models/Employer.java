@@ -21,7 +21,7 @@ public class Employer extends AbstractEntity{
 
 //    Need to be more explicit here
     @OneToMany(mappedBy = "employer")
-    private List<Employee> employees= new ArrayList<>(Arrays.asList(new Bartender(), new BOH(), new Busser(), new Server()));
+    private List<Employee> employees= new ArrayList<>();
 
     private static final BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
 
