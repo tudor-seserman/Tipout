@@ -82,7 +82,7 @@ public class EmployeeController {
             default:
                 model.addAttribute("error", "Something went wrong");
         }
-
+//Eventually Employers will ba able to choose the employee types they want to have in their system
         EmployeesDTO employeesDTO = new EmployeesDTO(Arrays.asList(new Bartender(), new BOH(), new Busser(), new Server()));
 
         model.addAttribute("title", "Add Employee");

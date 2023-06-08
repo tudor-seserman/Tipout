@@ -7,11 +7,10 @@ import java.math.BigDecimal;
 
 @Entity
 public class Busser extends NonMoneyHandler {
-    private static BigDecimal rolePercentOfTipOut=BigDecimal.valueOf(3);
-    public Busser() {this.setPercentOfTipout(rolePercentOfTipOut);}
+    public Busser() {}
 
     public Busser(String firstName, String lastName, Employer employer) {
         super(firstName, lastName, employer);
-        this.setPercentOfTipout(rolePercentOfTipOut);
+        this.setPercentOfTipout(employer.getTipRates().getBusserRate());
     }
 }

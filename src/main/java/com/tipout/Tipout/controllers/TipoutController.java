@@ -66,7 +66,6 @@ public class TipoutController {
         try {
             tipsCollected.mergeTables();
         }catch (RuntimeException e){
-            System.out.println(e.getMessage());
             attributes.addAttribute("error", e.getMessage());
             return "redirect:/calculate";
         }

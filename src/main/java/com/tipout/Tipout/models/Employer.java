@@ -6,6 +6,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -19,9 +20,16 @@ public class Employer extends AbstractEntity{
     @NotNull
     private String pwHash;
 
-//    Need to be more explicit here
-    @OneToMany(mappedBy = "employer")
+    @OneToMany(mappedBy = "employer", cascade=CascadeType.ALL)
     private List<Employee> employees= new ArrayList<>();
+
+    //Eventually Employers will ba able to choose the employee types they want to have in their system
+    @OneToMany(mappedBy = "activeRoles")
+    private List<Employee> employeesTypes = new ArrayList<>(Arrays.asList(new Bartender(), new BOH(), new Busser(), new Server()));
+
+    @OneToOne(mappedBy = "employer")
+    private EmployeeTipRates tipRates = new EmployeeTipRates();
+
 
     private static final BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
 
@@ -63,4 +71,19 @@ public class Employer extends AbstractEntity{
         return encoder.matches(password, pwHash);
     }
 
+    public List<Employee> getEmployeesTypes() {
+        return employeesTypes;
+    }
+
+    public void setEmployeesTypes(List<Employee> employeesTypes) {
+        this.employeesTypes = employeesTypes;
+    }
+
+    public EmployeeTipRates getTipRates() {
+        return tipRates;
+    }
+
+    public void setTipRates(EmployeeTipRates tipRates) {
+        this.tipRates = tipRates;
+    }
 }

@@ -2,9 +2,13 @@ package com.tipout.Tipout.controllers;
 
 import com.tipout.Tipout.models.DTOs.EmployeesDTO;
 import com.tipout.Tipout.models.Employee;
+import com.tipout.Tipout.models.Employees.BOH;
 import com.tipout.Tipout.models.Employees.Bartender;
+import com.tipout.Tipout.models.Employees.Busser;
+import com.tipout.Tipout.models.Employees.Server;
 import com.tipout.Tipout.models.Employer;
 import com.tipout.Tipout.models.data.EmployeeRepository;
+import com.tipout.Tipout.models.data.EmployerRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -12,6 +16,8 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
@@ -24,6 +30,8 @@ public class SettingsController {
 
     @Autowired
     EmployeeRepository employeeRepository;
+    @Autowired
+    EmployerRepository employerRepository;
 
     @GetMapping
     public String returnIndex(Model model){
@@ -70,9 +78,7 @@ public class SettingsController {
         HttpSession session = request.getSession();
         Employer employer = authenticationController.getEmployerFromSession(session);
 
-//        This will be need to be refactored to handle different Employers
-        EmployeesDTO employeeDTO = new EmployeesDTO(employer.getEmployees());
-        System.out.println(employeeDTO.getBartender().getPercentOfTipout());
+        EmployeesDTO employeeDTO = new EmployeesDTO(new ArrayList<>(Arrays.asList(new Bartender(), new BOH(), new Busser(), new Server())));
 
         model.addAttribute("title", "Tip Distribution");
         model.addAttribute("employeeDTO", employeeDTO);
@@ -85,11 +91,16 @@ public class SettingsController {
         HttpSession session = request.getSession();
         Employer employer = authenticationController.getEmployerFromSession(session);
 
+        System.out.println(employer.getEmployees());
         for(Employee employee: employer.getEmployees()){
+            System.out.println(employeeDTOParam.getTipoutInput(employee));
             employee.setPercentOfTipout(employeeDTOParam.getTipoutInput(employee));
+            employeeRepository.save(employee);
         }
 
-        EmployeesDTO employeeDTO = new EmployeesDTO(employer.getEmployees());
+    employerRepository.save(employer);
+
+        EmployeesDTO employeeDTO = new EmployeesDTO(new ArrayList<>(Arrays.asList(new Bartender(), new BOH(), new Busser(), new Server())));
         model.addAttribute("title", "Tip Distribution");
         model.addAttribute("employeeDTO", employeeDTO);
         return "settings/tipDistribution";

@@ -7,11 +7,11 @@ import java.math.BigDecimal;
 
 @Entity
 public class Bartender extends MoneyHandler {
-    private static BigDecimal rolePercentOfTipOut=BigDecimal.valueOf(10);
-    public Bartender() {this.setPercentOfTipout(rolePercentOfTipOut);}
+    public Bartender() {}
 
     public Bartender(String firstName, String lastName, Employer employer) {
         super(firstName, lastName, employer);
-        this.setPercentOfTipout(rolePercentOfTipOut);
+        this.setPercentOfTipout(employer.getTipRates().getBartenderRate());
     }
+
 }

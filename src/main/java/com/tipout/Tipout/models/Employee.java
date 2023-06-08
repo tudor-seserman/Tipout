@@ -26,16 +26,17 @@ public class Employee extends AbstractEntity {
     private BigDecimal percentOfTipOut;
 
     private String roleDetail = this.getClass().getSimpleName();
-    private static BigDecimal rolePercentOfTipout;
-
     private BigDecimal moneyToBeTippedOut;
 
     private boolean deleted = Boolean.FALSE;
+    @ManyToOne
+    private Employer activeRoles;
 
 
 
     public Employee() {
     }
+
 
     public Employee(String firstName, String lastName, Employer employer) {
         this.firstName = firstName;
@@ -92,14 +93,6 @@ public class Employee extends AbstractEntity {
         this.percentOfTipOut = percentOfTipOut;
     }
 
-    public static BigDecimal getRolePercentOfTipout() {
-        return rolePercentOfTipout;
-    }
-
-    public static void setRolePercentOfTipout(BigDecimal rolePercentOfTipout) {
-        Employee.rolePercentOfTipout = rolePercentOfTipout;
-    }
-
 
     public boolean isDeleted() {
         return deleted;
@@ -107,6 +100,14 @@ public class Employee extends AbstractEntity {
 
     public void setDeleted(boolean deleted) {
         this.deleted = deleted;
+    }
+
+    public Employer getActiveRoles() {
+        return activeRoles;
+    }
+
+    public void setActiveRoles(Employer activeRoles) {
+        this.activeRoles = activeRoles;
     }
 
     @Override
