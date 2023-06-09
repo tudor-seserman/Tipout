@@ -12,6 +12,12 @@ import org.springframework.web.bind.annotation.GetMapping;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.util.Enumeration;
+/*
+
+Controls the landing page with information about the app and the ability go log-in or register.
+If authenticated the nav bar is accessible
+
+ */
 
 @Controller
 public class HomeController {
