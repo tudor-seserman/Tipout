@@ -8,10 +8,12 @@ import com.tipout.Tipout.models.data.EmployerRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+import javax.validation.Valid;
 import java.util.Optional;
 
 @Controller
@@ -70,34 +72,43 @@ public class SettingsController {
         HttpSession session = request.getSession();
         Employer employer = authenticationController.getEmployerFromSession(session);
 
-        EmployeeTipRates employeeRates = employer.getTipRates();
+        EmployeeTipRates employeeTipRates = employer.getTipRates();
         model.addAttribute("title", "Tip Distribution");
         model.addAttribute("employeeTypes", employer.getEmployeesTypes());
-        model.addAttribute("employeeRates", employeeRates);
+        model.addAttribute("employeeTipRates", employeeTipRates);
         return "settings/tipDistribution";
     }
 
     @PostMapping("tipDistribution")
     public String processTipDistributionForm(Model model,
-                                             @ModelAttribute EmployeeTipRates employeeRates,
+                                             @ModelAttribute @Valid EmployeeTipRates employeeTipRates,
+                                             Errors errors,
                                              HttpServletRequest request) {
         HttpSession session = request.getSession();
         Employer employer = authenticationController.getEmployerFromSession(session);
 
-        employer.setTipRates(employeeRates);
+        if(errors.hasErrors()){
+            model.addAttribute("title", "Tip Distribution");
+            model.addAttribute("employeeTipRates", employeeTipRates);
+            model.addAttribute("employeeTypes", employer.getEmployeesTypes());
+            return "settings/tipDistribution";
+        }
+
+
+        employer.setTipRates(employeeTipRates);
         employerRepository.save(employer);
 
         for(Employee employee: employer.getEmployees()){
-            employee.setPercentOfTipout(employeeRates.getTipoutByRole(employee));
+            employee.setPercentOfTipout(employeeTipRates.getTipoutByRole(employee));
             employeeRepository.save(employee);
         }
 
 
-
-        EmployeeTipRates newEmployeeRates = employer.getTipRates();
+        EmployeeTipRates newEmployeeTipRates = employer.getTipRates();
         model.addAttribute("title", "Tip Distribution");
+        model.addAttribute("success", "success");
         model.addAttribute("employeeTypes", employer.getEmployeesTypes());
-        model.addAttribute("employeeRates", newEmployeeRates);
+        model.addAttribute("employeeTipRates", newEmployeeTipRates);
         return "settings/tipDistribution";
     }
 

@@ -7,16 +7,29 @@ import com.tipout.Tipout.models.Employees.Server;
 
 import javax.persistence.Entity;
 import javax.persistence.OneToOne;
+import javax.validation.constraints.*;
 import java.math.BigInteger;
 
 @Entity
 public class EmployeeTipRates extends AbstractEntity{
     @OneToOne(mappedBy = "tipRates")
     private Employer employer;
-    private BigInteger bartenderRate = BigInteger.valueOf(10);
+    @NotNull
+    @DecimalMax(value = "100", message = "Number must be less than 100")
+    @DecimalMin(value="0", message = "Number must be 0 or less than 100")
+    private BigInteger BartenderRate = BigInteger.valueOf(10);
+    @NotNull
+    @DecimalMax(value = "100", message = "Number must be less than 100")
+    @DecimalMin(value="0", message = "Number must be 0 or less than 100")
     private BigInteger BOHRate = BigInteger.valueOf(2);
-    private BigInteger busserRate = BigInteger.valueOf(3);
-    private BigInteger serverRate = BigInteger.valueOf(85);
+    @NotNull
+    @DecimalMax(value = "100", message = "Number must be less than 100")
+    @DecimalMin(value="0", message = "Number must be 0 or less than 100")
+    private BigInteger BusserRate = BigInteger.valueOf(3);
+    @NotNull
+    @DecimalMax(value = "100", message = "Number must be less than 100")
+    @DecimalMin(value="0", message = "Number must be 0 or less than 100")
+    private BigInteger ServerRate = BigInteger.valueOf(85);
 
     public EmployeeTipRates() {
     }
@@ -30,11 +43,11 @@ public class EmployeeTipRates extends AbstractEntity{
     }
 
     public BigInteger getBartenderRate() {
-        return bartenderRate;
+        return BartenderRate;
     }
 
     public void setBartenderRate(BigInteger bartenderRate) {
-        this.bartenderRate = bartenderRate;
+        this.BartenderRate = bartenderRate;
     }
 
     public BigInteger getBOHRate() {
@@ -46,19 +59,19 @@ public class EmployeeTipRates extends AbstractEntity{
     }
 
     public BigInteger getBusserRate() {
-        return busserRate;
+        return BusserRate;
     }
 
     public void setBusserRate(BigInteger busserRate) {
-        this.busserRate = busserRate;
+        this.BusserRate = busserRate;
     }
 
     public BigInteger getServerRate() {
-        return serverRate;
+        return ServerRate;
     }
 
     public void setServerRate(BigInteger serverRate) {
-        this.serverRate = serverRate;
+        this.ServerRate = serverRate;
     }
 
     public BigInteger getTipoutByRole(Employee employee){
