@@ -1,6 +1,6 @@
 Tipout
 
-An app to calculate nightly distribution of tips by by a restaurant employer.
+An app to calculate end of shift distribution of tips collected and distributed by a restaurant employer.
 
 Basic Structure:
 
@@ -16,14 +16,19 @@ Employee Roles-
 --Bartender- Kind of employee that receives tips and collects tips and
 --Kitchen - Kind of employee that receives tips
 Tips - What is collected daily
+TipsCollected - Entity responsible for processing the colleced tips from Employees
+EmployeeTipRates - The rates of used to calculate an Employers tips
+AbstractEntity - Used to set the ids
 
 View
 --Homepage with the ability to enter tips collected by employee,
 will return what is due to each employee
 --Page to add employees
---Page to edit/delete employees
+--Page to edit/achieve or soft delete/delete employees
+--Settings page where employer has access to Archived Employees and able to set tipout rates
 
 Extended Features:
+--Improve UI
 --Be able to handle different strategies for
     distributing money from tip pool:
     --One pool that aggregates money and then is divided to Employees
@@ -37,6 +42,7 @@ Extended Features:
 --Custom events ie parties
 --Split sales between different classifications ie food and liquor
 --Have defaults for the roles, be able to adjust those defaults
+--Employee accounts where they can see how money is collected and distributed
 
 5/22
 Employer(under development) has a list of Employees
@@ -50,8 +56,19 @@ receiving a payout from the tip pool
 --TippedNotCollector - A role which receives a payout
 from the tip pool put does not handle tips
 
-Employees are further divided into roles which have
+--Employees are further divided into roles which have
 default payouts from the tip pool
 
-TipsCollected handles gathering data from Employees which will
+--TipsCollected handles gathering data from Employees which will
 be processed by TipOut
+
+6/9
+
+--Refactored the Employee class to be divided between MoneyHandler and NonMoneyHandler
+
+--Added abilities to edit/update/delete Employees
+
+--Added Settings Page where Employer can see control Tipout schema and archived employees
+
+
+
