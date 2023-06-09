@@ -6,5 +6,5 @@ import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface TipoutRepository extends CrudRepository<Tipout,Integer> {
+public interface TipoutRepository extends CrudRepository<Tipout,Long> {
 }

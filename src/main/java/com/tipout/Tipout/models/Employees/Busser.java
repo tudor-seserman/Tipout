@@ -7,10 +7,15 @@ import java.math.BigDecimal;
 
 @Entity
 public class Busser extends NonMoneyHandler {
+    private static String roleType = "Busser";
     public Busser() {}
 
     public Busser(String firstName, String lastName, Employer employer) {
         super(firstName, lastName, employer);
         this.setPercentOfTipout(employer.getTipRates().getBusserRate());
+    }
+
+    public static String getRoleType() {
+        return roleType;
     }
 }

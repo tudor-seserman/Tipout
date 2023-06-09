@@ -3,10 +3,10 @@ package com.tipout.Tipout.models.Employees;
 import com.tipout.Tipout.models.Employer;
 
 import javax.persistence.Entity;
-import java.math.BigDecimal;
 
 @Entity
 public class Bartender extends MoneyHandler {
+    private static String roleType = "Bartender";
     public Bartender() {}
 
     public Bartender(String firstName, String lastName, Employer employer) {
@@ -14,4 +14,7 @@ public class Bartender extends MoneyHandler {
         this.setPercentOfTipout(employer.getTipRates().getBartenderRate());
     }
 
+    public static String getRoleType() {
+        return roleType;
+    }
 }

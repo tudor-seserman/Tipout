@@ -3,6 +3,7 @@ package com.tipout.Tipout.models;
 import javax.persistence.*;
 import javax.validation.constraints.*;
 import java.math.BigDecimal;
+import java.math.BigInteger;
 
 /*
 This class will be used to create a base employee,
@@ -20,17 +21,13 @@ public class Employee extends AbstractEntity {
     private String lastName;
     @ManyToOne
     private Employer employer;
-    @Min(value = 0, message = "Cannot have a number lower than 0")
-    @Max(value = 100, message = "Cannot have a number higher than 100")
-    @Digits(integer = 3, fraction = 0)
-    private BigDecimal percentOfTipOut;
+    private BigInteger percentOfTipOut;
 
     private String roleDetail = this.getClass().getSimpleName();
     private BigDecimal moneyToBeTippedOut;
 
     private boolean deleted = Boolean.FALSE;
-    @ManyToOne
-    private Employer activeRoles;
+
 
 
 
@@ -85,11 +82,11 @@ public class Employee extends AbstractEntity {
         this.roleDetail = roleDetail;
     }
 
-    public BigDecimal getPercentOfTipout() {
+    public BigInteger getPercentOfTipout() {
         return percentOfTipOut;
     }
 
-    public void setPercentOfTipout(BigDecimal percentOfTipOut) {
+    public void setPercentOfTipout(BigInteger percentOfTipOut) {
         this.percentOfTipOut = percentOfTipOut;
     }
 
@@ -100,14 +97,6 @@ public class Employee extends AbstractEntity {
 
     public void setDeleted(boolean deleted) {
         this.deleted = deleted;
-    }
-
-    public Employer getActiveRoles() {
-        return activeRoles;
-    }
-
-    public void setActiveRoles(Employer activeRoles) {
-        this.activeRoles = activeRoles;
     }
 
     @Override

@@ -1,17 +1,22 @@
 package com.tipout.Tipout.models;
 
+import com.tipout.Tipout.models.Employees.BOH;
+import com.tipout.Tipout.models.Employees.Bartender;
+import com.tipout.Tipout.models.Employees.Busser;
+import com.tipout.Tipout.models.Employees.Server;
+
 import javax.persistence.Entity;
 import javax.persistence.OneToOne;
-import java.math.BigDecimal;
+import java.math.BigInteger;
 
 @Entity
-public class EmployeeTipRates {
+public class EmployeeTipRates extends AbstractEntity{
     @OneToOne(mappedBy = "tipRates")
-    Employer employer;
-    private BigDecimal bartenderRate = BigDecimal.valueOf(10);
-    private BigDecimal BOHRate = BigDecimal.valueOf(2);
-    private BigDecimal busserRate = BigDecimal.valueOf(3);
-    private BigDecimal serverRate = BigDecimal.valueOf(85);
+    private Employer employer;
+    private BigInteger bartenderRate = BigInteger.valueOf(10);
+    private BigInteger BOHRate = BigInteger.valueOf(2);
+    private BigInteger busserRate = BigInteger.valueOf(3);
+    private BigInteger serverRate = BigInteger.valueOf(85);
 
     public EmployeeTipRates() {
     }
@@ -24,35 +29,50 @@ public class EmployeeTipRates {
         this.employer = employer;
     }
 
-    public BigDecimal getBartenderRate() {
+    public BigInteger getBartenderRate() {
         return bartenderRate;
     }
 
-    public void setBartenderRate(BigDecimal bartenderRate) {
+    public void setBartenderRate(BigInteger bartenderRate) {
         this.bartenderRate = bartenderRate;
     }
 
-    public BigDecimal getBOHRate() {
+    public BigInteger getBOHRate() {
         return BOHRate;
     }
 
-    public void setBOHRate(BigDecimal BOHRate) {
+    public void setBOHRate(BigInteger BOHRate) {
         this.BOHRate = BOHRate;
     }
 
-    public BigDecimal getBusserRate() {
+    public BigInteger getBusserRate() {
         return busserRate;
     }
 
-    public void setBusserRate(BigDecimal busserRate) {
+    public void setBusserRate(BigInteger busserRate) {
         this.busserRate = busserRate;
     }
 
-    public BigDecimal getServerRate() {
+    public BigInteger getServerRate() {
         return serverRate;
     }
 
-    public void setServerRate(BigDecimal serverRate) {
+    public void setServerRate(BigInteger serverRate) {
         this.serverRate = serverRate;
+    }
+
+    public BigInteger getTipoutByRole(Employee employee){
+        if(employee instanceof Bartender) {
+            return getBartenderRate();
+        } else if (employee instanceof BOH) {
+            return getBOHRate();
+        } else if (employee instanceof Server) {
+            return getServerRate();
+        } else if (employee instanceof Busser) {
+            return getBusserRate();
+        }else{
+//            throw some error message
+            return null;
+        }
     }
 }

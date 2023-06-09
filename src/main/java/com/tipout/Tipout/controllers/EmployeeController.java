@@ -11,7 +11,6 @@ import org.springframework.ui.Model;
 import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.*;
 
-import javax.persistence.EntityManager;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
@@ -105,7 +104,7 @@ public class EmployeeController {
     }
 
     @GetMapping("edit/{employeeToEditId}")
-    public String editEmployeeForm(@PathVariable Integer employeeToEditId, Model model,
+    public String editEmployeeForm(@PathVariable Long employeeToEditId, Model model,
                                    HttpServletRequest request) {
         HttpSession session = request.getSession();
         Employer employer = authenticationController.getEmployerFromSession(session);
@@ -127,7 +126,7 @@ public class EmployeeController {
     }
 
     @PostMapping("edit/{employeeToEditId}")
-    public String editEmployeeProcessing(@PathVariable Integer employeeToEditId,
+    public String editEmployeeProcessing(@PathVariable Long employeeToEditId,
                                          Model model,
                                          String firstName,
                                          String lastName,
@@ -165,7 +164,7 @@ public class EmployeeController {
     }
 
     @PostMapping("delete/{employeeToDeleteId}")
-    public String deleteEmployeeProcessing(@PathVariable Integer employeeToDeleteId, Model model, Boolean confirmation) {
+    public String deleteEmployeeProcessing(@PathVariable Long employeeToDeleteId, Model model, Boolean confirmation) {
         Optional<Employee> optEmployeeToDelete = employeeRepository.findById(employeeToDeleteId);
         if (optEmployeeToDelete.isEmpty()) {
             model.addAttribute("title", "Current Employees");

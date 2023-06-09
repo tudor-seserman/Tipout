@@ -10,13 +10,10 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.math.BigDecimal;
-import java.text.NumberFormat;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 
@@ -73,7 +70,7 @@ public class TipoutController {
 
         tipsCollectedRepository.save(tipsCollected);
 
-        Integer id = tipsCollected.getId();
+        long id = tipsCollected.getId();
         BigDecimal totalTippool = tipsCollectedRepository.findTotalTippool(id);
         List<Integer> employeeTypesInTippool = tipsCollectedRepository.findEmployeeTypesInTippool(id);
         List<Employee> employeesInTipPool = new ArrayList<>(employeesMap.keySet());

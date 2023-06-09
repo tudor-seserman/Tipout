@@ -1,7 +1,5 @@
 package com.tipout.Tipout.models.data;
 
-import com.tipout.Tipout.models.Employee;
-import com.tipout.Tipout.models.Tips;
 import com.tipout.Tipout.models.TipsCollected;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
@@ -11,7 +9,7 @@ import java.math.BigDecimal;
 import java.util.List;
 
 @Repository
-public interface TipsCollectedRepository extends CrudRepository<TipsCollected,Integer> {
+public interface TipsCollectedRepository extends CrudRepository<TipsCollected,Long> {
 //    @Query(value = "SELECT Employee.firstName, Employee.lastName, Tips.tips " +
 //            "FROM tipout.TipsCollected_employeeTipsMap " +
 //            "Join Tips on Tips.id=employeeTipsMap_id " +
@@ -23,18 +21,18 @@ public interface TipsCollectedRepository extends CrudRepository<TipsCollected,In
             "Join Tips on Tips.id=employeeTipsMap_id\n" +
             "Where TipsCollected_employeeTipsMap.TipsCollected_id = ?1",
                 nativeQuery = true)
-    BigDecimal findTotalTippool(Integer id);
+    BigDecimal findTotalTippool(long id);
 
     @Query(value="Select Employee.percentOfTipout \n" +
             "From TipsCollected_employeeTipsMap\n" +
             "Join Employee on Employee.id=employeeTipsMap_KEY\n" +
             "Where TipsCollected_employeeTipsMap.TipsCollected_id = ?1", nativeQuery = true)
-    List<Integer> findEmployeeTypesInTippool(Integer id);
+    List<Integer> findEmployeeTypesInTippool(long id);
 
     @Query(value="Select Employee.id \n" +
             "From TipsCollected_employeeTipsMap\n" +
             "Join Employee on Employee.id=employeeTipsMap_KEY\n" +
             "Where TipsCollected_employeeTipsMap.TipsCollected_id = ?1", nativeQuery = true)
-    List<Integer> findEmployeesByIdInTippool(Integer id);
+    List<Integer> findEmployeesByIdInTippool(Long id);
 
 }

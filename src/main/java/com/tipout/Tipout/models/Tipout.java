@@ -20,7 +20,7 @@ public class Tipout extends AbstractEntity{
         BigDecimal shareOfTippool = totalTippool.divide(totalTippoolRates, 4, RoundingMode.HALF_UP);
 
         for(Employee employeeInTippool: employeesInTippool){
-            BigDecimal portionOfTippool = shareOfTippool.multiply(employeeInTippool.getPercentOfTipout());
+            BigDecimal portionOfTippool = shareOfTippool.multiply(new BigDecimal(employeeInTippool.getPercentOfTipout()));
             tipPoolDistribution.put(employeeInTippool, new Tips(portionOfTippool));
         }
         return tipPoolDistribution;

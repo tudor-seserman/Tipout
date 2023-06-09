@@ -83,18 +83,4 @@ public class EmployeesDTO {
         this.employees = employees;
     }
 
-    public BigDecimal getTipoutInput(Employee employee){
-        if(employee instanceof Bartender) {
-            return this.bartender.getPercentOfTipout();
-        } else if (employee instanceof BOH) {
-            return this.boh.getPercentOfTipout();
-        } else if (employee instanceof Server) {
-            return this.server.getPercentOfTipout();
-        } else if (employee instanceof Busser) {
-            return this.busser.getPercentOfTipout();
-        }else{
-//            throw some error message
-            return null;
-        }
-    }
 }

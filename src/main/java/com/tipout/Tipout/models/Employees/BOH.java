@@ -7,6 +7,7 @@ import java.math.BigDecimal;
 
 @Entity
 public class BOH extends NonMoneyHandler {
+    private static String roleType = "BOH";
     public BOH() {}
 
     public BOH(String firstName, String lastName, Employer employer) {
@@ -14,4 +15,7 @@ public class BOH extends NonMoneyHandler {
         this.setPercentOfTipout(employer.getTipRates().getBOHRate());
     }
 
+    public static String getRoleType() {
+        return roleType;
+    }
 }

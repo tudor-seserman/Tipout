@@ -24,7 +24,7 @@ public class AuthenticationController {
     private static final String userSessionKey = "employer";
 
     public Employer getEmployerFromSession(HttpSession session) {
-        Integer employerId = (Integer) session.getAttribute(userSessionKey);
+        Long employerId = (Long) session.getAttribute(userSessionKey);
         if (employerId == null) {
             return null;
         }
@@ -43,7 +43,7 @@ public class AuthenticationController {
     }
 
     public boolean inSession(HttpSession session){
-        Integer employerId = (Integer) session.getAttribute(userSessionKey);
+        Long employerId = (Long) session.getAttribute(userSessionKey);
         if (employerId == null) {
             return false;
         }

@@ -1,6 +1,7 @@
 package com.tipout.Tipout.models;
 
 import com.tipout.Tipout.models.Employees.*;
+import org.hibernate.annotations.GenericGenerator;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
@@ -24,10 +25,10 @@ public class Employer extends AbstractEntity{
     private List<Employee> employees= new ArrayList<>();
 
     //Eventually Employers will ba able to choose the employee types they want to have in their system
-    @OneToMany(mappedBy = "activeRoles")
-    private List<Employee> employeesTypes = new ArrayList<>(Arrays.asList(new Bartender(), new BOH(), new Busser(), new Server()));
+    @ElementCollection(targetClass = String.class)
+    private List<String> employeesTypes = new ArrayList<>(Arrays.asList(Bartender.getRoleType(), BOH.getRoleType(), Busser.getRoleType(), Server.getRoleType()));
 
-    @OneToOne(mappedBy = "employer")
+    @OneToOne(cascade=CascadeType.ALL)
     private EmployeeTipRates tipRates = new EmployeeTipRates();
 
 
@@ -71,11 +72,11 @@ public class Employer extends AbstractEntity{
         return encoder.matches(password, pwHash);
     }
 
-    public List<Employee> getEmployeesTypes() {
+    public List<String> getEmployeesTypes() {
         return employeesTypes;
     }
 
-    public void setEmployeesTypes(List<Employee> employeesTypes) {
+    public void setEmployeesTypes(List<String> employeesTypes) {
         this.employeesTypes = employeesTypes;
     }
 

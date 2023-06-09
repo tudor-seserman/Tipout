@@ -1,11 +1,7 @@
 package com.tipout.Tipout.controllers;
 
-import com.tipout.Tipout.models.DTOs.EmployeesDTO;
 import com.tipout.Tipout.models.Employee;
-import com.tipout.Tipout.models.Employees.BOH;
-import com.tipout.Tipout.models.Employees.Bartender;
-import com.tipout.Tipout.models.Employees.Busser;
-import com.tipout.Tipout.models.Employees.Server;
+import com.tipout.Tipout.models.EmployeeTipRates;
 import com.tipout.Tipout.models.Employer;
 import com.tipout.Tipout.models.data.EmployeeRepository;
 import com.tipout.Tipout.models.data.EmployerRepository;
@@ -16,9 +12,6 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
 import java.util.Optional;
 
 @Controller
@@ -27,7 +20,6 @@ public class SettingsController {
 
     @Autowired
     AuthenticationController authenticationController;
-
     @Autowired
     EmployeeRepository employeeRepository;
     @Autowired
@@ -50,7 +42,7 @@ public class SettingsController {
     }
 
     @PostMapping("archive")
-    public String unArchiveEmployee(@RequestParam Integer employeeToUnArchiveId, Model model,
+    public String unArchiveEmployee(@RequestParam Long employeeToUnArchiveId, Model model,
                                     HttpServletRequest request) {
         HttpSession session = request.getSession();
         Employer employer = authenticationController.getEmployerFromSession(session);
@@ -78,31 +70,34 @@ public class SettingsController {
         HttpSession session = request.getSession();
         Employer employer = authenticationController.getEmployerFromSession(session);
 
-        EmployeesDTO employeeDTO = new EmployeesDTO(new ArrayList<>(Arrays.asList(new Bartender(), new BOH(), new Busser(), new Server())));
-
+        EmployeeTipRates employeeRates = employer.getTipRates();
         model.addAttribute("title", "Tip Distribution");
-        model.addAttribute("employeeDTO", employeeDTO);
+        model.addAttribute("employeeTypes", employer.getEmployeesTypes());
+        model.addAttribute("employeeRates", employeeRates);
         return "settings/tipDistribution";
     }
 
     @PostMapping("tipDistribution")
-    public String processTipDistributionForm(Model model, @ModelAttribute EmployeesDTO employeeDTOParam,
+    public String processTipDistributionForm(Model model,
+                                             @ModelAttribute EmployeeTipRates employeeRates,
                                              HttpServletRequest request) {
         HttpSession session = request.getSession();
         Employer employer = authenticationController.getEmployerFromSession(session);
 
-        System.out.println(employer.getEmployees());
+        employer.setTipRates(employeeRates);
+        employerRepository.save(employer);
+
         for(Employee employee: employer.getEmployees()){
-            System.out.println(employeeDTOParam.getTipoutInput(employee));
-            employee.setPercentOfTipout(employeeDTOParam.getTipoutInput(employee));
+            employee.setPercentOfTipout(employeeRates.getTipoutByRole(employee));
             employeeRepository.save(employee);
         }
 
-    employerRepository.save(employer);
 
-        EmployeesDTO employeeDTO = new EmployeesDTO(new ArrayList<>(Arrays.asList(new Bartender(), new BOH(), new Busser(), new Server())));
+
+        EmployeeTipRates newEmployeeRates = employer.getTipRates();
         model.addAttribute("title", "Tip Distribution");
-        model.addAttribute("employeeDTO", employeeDTO);
+        model.addAttribute("employeeTypes", employer.getEmployeesTypes());
+        model.addAttribute("employeeRates", newEmployeeRates);
         return "settings/tipDistribution";
     }
 
