@@ -17,6 +17,10 @@ import javax.validation.Valid;
 import java.util.Arrays;
 import java.util.Optional;
 
+/*
+This controller is responsible for creating, editing, archiving, and deleting employees.
+The employee archive is managed by the SettingsController.
+ */
 @Controller
 @RequestMapping(value="employees")
 public class EmployeeController {
@@ -32,8 +36,11 @@ public class EmployeeController {
     BusserRepository busserRepository;
     @Autowired
     ServerRepository serverRepository;
-
-
+/*
+This method creates the form to add employees.
+I am currently passing to the view a list of empty employees, but aim to pass in an a list of Employer selected roles.
+This way an employer can customize what employee roles they want to create.
+ */
     @GetMapping("add")
     public String addNewEmployee(Model model) {
 
@@ -44,7 +51,10 @@ public class EmployeeController {
         model.addAttribute("employeeTypes", employeesDTO);
         return "employees/add";
     }
-
+/*
+Employee enrollment is processed by this form. It takes in the logedin Employer, the role name
+and creates the specific kind of Employee that the Employer selected.
+ */
     @PostMapping("add")
     public String processAddNewEmployee(@RequestParam String role,
                                         Model model,
@@ -59,6 +69,8 @@ public class EmployeeController {
         if (errors.hasErrors()) {
             return "employees/add";
         }
+
+//        The variable role determines what kind of employee is created, with the information passed in and the current logged in Employer.
         switch (role) {
             case "Bartender":
                 Bartender newBartender = new Bartender(newEmployee.getFirstName(), newEmployee.getLastName(), employer);
@@ -70,12 +82,10 @@ public class EmployeeController {
                 break;
             case "Busser":
                 Busser newBusser = new Busser(newEmployee.getFirstName(), newEmployee.getLastName(), employer);
-                ;
                 busserRepository.save(newBusser);
                 break;
             case "Server":
                 Server newServer = new Server(newEmployee.getFirstName(), newEmployee.getLastName(), employer);
-                ;
                 serverRepository.save(newServer);
                 break;
             default:
@@ -91,7 +101,7 @@ public class EmployeeController {
         return "employees/add";
     }
 
-
+//This method displays all active employees with the option to edit them.
     @GetMapping("current")
     public String allEmployee(Model model,
                                 HttpServletRequest request) {
@@ -103,6 +113,8 @@ public class EmployeeController {
         return "employees/current";
     }
 
+//    This method displays an employee with the option to edit name, archive, or delete.
+//    Eventually I hope to be able to allow for Employers to change Employee roles and allow for employees to have multiple roles
     @GetMapping("edit/{employeeToEditId}")
     public String editEmployeeForm(@PathVariable Long employeeToEditId, Model model,
                                    HttpServletRequest request) {
@@ -110,6 +122,8 @@ public class EmployeeController {
         Employer employer = authenticationController.getEmployerFromSession(session);
 
         Optional<Employee> optEmployeeToEdit = employeeRepository.findById(employeeToEditId);
+
+//        Handling if employee is not in system
         if (optEmployeeToEdit.isEmpty()) {
             model.addAttribute("title", "Current Employees");
             model.addAttribute("currentEmployees", employeeRepository.findCurrentEmployees(employer.getId()));
@@ -125,6 +139,11 @@ public class EmployeeController {
         return "employees/edit";
     }
 
+    /*This methode handles the employee edit form.
+    If the Employer selects to Archive an employee that is determined by the boolean field archive.
+    In the form the employee name is passed in, whatever is in the form is saved to the new form.
+    If nothing is changed, the same information is saved.
+     */
     @PostMapping("edit/{employeeToEditId}")
     public String editEmployeeProcessing(@PathVariable Long employeeToEditId,
                                          Model model,
@@ -134,7 +153,9 @@ public class EmployeeController {
                                          HttpServletRequest request) {
         HttpSession session = request.getSession();
         Employer employer = authenticationController.getEmployerFromSession(session);
+
         Optional<Employee> optEmployeeToEdit = employeeRepository.findById(employeeToEditId);
+
         if (optEmployeeToEdit.isEmpty()) {
             model.addAttribute("title", "Current Employees");
             model.addAttribute("currentEmployees", employeeRepository.findCurrentEmployees(employer.getId()));
@@ -163,8 +184,16 @@ public class EmployeeController {
         return "employees/edit";
     }
 
+/*    This method brute forces an Employee delete.
+       Employers are asked to confirm and warned that all records associated with that employee will be deleted.
+       If they confirm, employees and all their data is deleted from the datebase.
+       This delete is intend mostly from employees created in error.
+ */
     @PostMapping("delete/{employeeToDeleteId}")
-    public String deleteEmployeeProcessing(@PathVariable Long employeeToDeleteId, Model model, Boolean confirmation) {
+    public String deleteEmployeeProcessing(@PathVariable Long employeeToDeleteId,
+                                           Model model,
+                                           Boolean confirmation) {
+
         Optional<Employee> optEmployeeToDelete = employeeRepository.findById(employeeToDeleteId);
         if (optEmployeeToDelete.isEmpty()) {
             model.addAttribute("title", "Current Employees");
@@ -175,7 +204,9 @@ public class EmployeeController {
 
         Employee employeeToDelete = optEmployeeToDelete.get();
 
+//      Employees are not deleted until Employer confirms this action
         if(confirmation){
+//            In order to delete Employees all their recorded tips have to also be deleted
             employeeRepository.completelyDeleteEmployeeTipRecord(employeeToDeleteId);
             if(employeeToDelete instanceof MoneyHandler){employeeRepository.completelyDeleteMoneyhandlerTipRecord(employeeToDeleteId);}
             if(employeeToDelete instanceof NonMoneyHandler){employeeRepository.completelyDeleteNonMoneyhandlerTipRecord(employeeToDelete.getId());}

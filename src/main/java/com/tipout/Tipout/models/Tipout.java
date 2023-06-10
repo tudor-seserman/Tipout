@@ -5,7 +5,6 @@ import javax.persistence.Entity;
 import javax.persistence.OneToMany;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
-import java.text.NumberFormat;
 import java.util.*;
 @Entity
 public class Tipout extends AbstractEntity{
@@ -16,12 +15,21 @@ public class Tipout extends AbstractEntity{
     }
 /*
 This is the first tipout schema I have instantiated.
-Employee rates are best understood as the fractional shares of tippool.
-The amount of
+Employee rates are best understood as the number of employee shares of the tippool at calculation:
+employee tipout rate / all employee rates in tipout pool.
+The more employees in the tip pool the more those shares are diluted.
 
-First all the employee rates are in the tip pool are added together to determine the
-the pool of money is divided by role according to Tip Rate assigned to that role
-The money for each role is divided by members of that role.
+Employees payout is expressed as their fractional share,
+ employee tipout rate / all employee rates in pool tipout ,multiplied by the total money in the tip pool.
+
+Mathematically employee distribution is described as their rate divided by the total rates in this tippool multiplied by the money in the tippool.
+
+In order to calculate the tip out:
+1. All the employee rates are in the tip pool are added together to determine the
+the the size of the tippool.
+2. The money that is to be distributed is divided by the total rates in the tippool to determine the monetary value of each share.
+3. Individual tipouts are calculated by multiplying the number of shares an employee has of the tip pool by the value of each of those shares.
+4. This information is pushed to the tipPoolDistribution Map.
  */
     public Map<Employee, Tips> calculateTippoolDistribution(List<Integer> tippoolRates, BigDecimal totalTippool, List<Employee> employeesInTippool){
 

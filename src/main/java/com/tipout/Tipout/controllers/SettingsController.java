@@ -15,7 +15,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 import java.util.Optional;
-
+/*
+THis controller allows for the Employer to customize settings for their use
+ */
 @Controller
 @RequestMapping(value="settings")
 public class SettingsController {
@@ -26,13 +28,14 @@ public class SettingsController {
     EmployeeRepository employeeRepository;
     @Autowired
     EmployerRepository employerRepository;
-
+//Landing page with the option to select the settings they would like to adjust
     @GetMapping
     public String returnIndex(Model model){
         model.addAttribute("title", "Settings");
         return "settings/index";
     }
 
+//    Displays Employer's Employee archive. Employees are archived if their deletd field is set to true
     @GetMapping("archive")
     public String allArchivedEmployee(Model model,
                                       HttpServletRequest request) {
@@ -42,7 +45,7 @@ public class SettingsController {
         model.addAttribute("archivedEmployees", employeeRepository.findArhievedEmployees(employer.getId()));
         return "settings/archive";
     }
-
+//If an Employer reinstates an Employee this form sets the Employees delete field to false
     @PostMapping("archive")
     public String unArchiveEmployee(@RequestParam Long employeeToUnArchiveId, Model model,
                                     HttpServletRequest request) {
@@ -66,6 +69,7 @@ public class SettingsController {
         return "settings/archive";
     }
 
+//    Employer adjust tip rates for Employee roles
     @GetMapping("tipDistribution")
     public String returnTipDistribution(Model model,
                                         HttpServletRequest request) {
@@ -87,6 +91,8 @@ public class SettingsController {
         HttpSession session = request.getSession();
         Employer employer = authenticationController.getEmployerFromSession(session);
 
+
+//         Checking for validation issues
         if(errors.hasErrors()){
             model.addAttribute("title", "Tip Distribution");
             model.addAttribute("employeeTipRates", employeeTipRates);
@@ -94,10 +100,11 @@ public class SettingsController {
             return "settings/tipDistribution";
         }
 
-
+//         Saves the passed in EmployeeTipRated rates for the current Employer
         employer.setTipRates(employeeTipRates);
         employerRepository.save(employer);
 
+//        Changes the tip rates for current employees to the new rate
         for(Employee employee: employer.getEmployees()){
             employee.setPercentOfTipout(employeeTipRates.getTipoutByRole(employee));
             employeeRepository.save(employee);

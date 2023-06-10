@@ -4,6 +4,7 @@ import com.tipout.Tipout.models.Employees.MoneyHandler;
 import com.tipout.Tipout.models.Employees.NonMoneyHandler;
 
 import javax.persistence.*;
+import java.math.BigDecimal;
 import java.util.*;
 
 /*
@@ -12,9 +13,6 @@ as the Employees that will receive money from the tip pool.
  */
 @Entity
 public class TipsCollected extends AbstractEntity{
-//    I don't think I need this field
-//    @OneToMany(mappedBy ="tips")
-//    private final List<MoneyHandler> totalTipsCollected= new ArrayList<>();
 
     @OneToMany(cascade = CascadeType.PERSIST)
     private final Map<Employee, Tips> employeeTipsMap = new LinkedHashMap<>();
@@ -45,9 +43,17 @@ public class TipsCollected extends AbstractEntity{
         this.nonMoneyHandlerTipsMap.put(employee, tips);
     }
 
+//    This method filters through the other two maps, excluding anyone who does not have a set value.
+//    If no money is added to the tippool, an error is thrown.
     public void mergeTables(){
         this.moneyHandlerTipsMap.forEach((k,v)->{ if(v.getTips() !=null)this.employeeTipsMap.put(k,v);});
+//  If there are no Employees that collect tips an error is thrown
         if(employeeTipsMap.isEmpty()){throw new RuntimeException("No tips have been declared.");}
+//  If no money is collected an error is thrown.
+        BigDecimal currentTipPool = new BigDecimal(0);
+        this.employeeTipsMap.forEach((k,v)->{currentTipPool.add(v.getTips());});
+        if (currentTipPool.equals(new BigDecimal(0))){throw new RuntimeException("No tips have been declared.");}
+
         this.nonMoneyHandlerTipsMap.forEach((k,v)->{if(v.getTips() != null)this.employeeTipsMap.put(k,v);});
     }
 }
