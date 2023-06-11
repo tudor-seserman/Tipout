@@ -7,27 +7,29 @@
 <nav th:replace="fragments :: navigation"></nav>
 
 <div>
-    <h2  th:if="${newEmployee != null}" th:text="${newEmployee+' added successfully!'}"></h2>
-    <h2  th:if="${error != null}" th:text="${error}"></h2>
+    <p  class="alert alert-success" th:if="${newEmployee != null}" th:text="${newEmployee+' added successfully!'}"></p>
+    <p  class="alert alert-danger" th:if="${error != null}" th:text="${error}"></p>
     <form method="post">
         <div class="form-group">
             <label>First Name
-                <input th:field="${employee.firstName}" class="form-control"/>
+                <input th:field="${createEmployeeDTO.firstName}" class="form-control"/>
             </label>
-            <p class="error" th:errors="${employee.firstName}"></p>
+            <p class="error" th:errors="${createEmployeeDTO.firstName}"></p>
         </div>
         <div class="form-group">
             <label>Last Name
-                <input th:field="${employee.lastName}" class="form-control"/>
+                <input th:field="${createEmployeeDTO.lastName}" class="form-control"/>
             </label>
-            <p class="error" th:errors="${employee.lastName}"></p>
+            <p class="error" th:errors="${createEmployeeDTO.lastName}"></p>
         </div>
         <div class="form-group">
             <label>What is their role?
-                <select  name="role" class="form-control">
-                    <option th:each="position : ${employeeTypes.employees}"
-                    th:value="${position.roleDetail}"
-                    th:text="${position.roleDetail}"
+
+                <select  name="role" class="form-control" th:field="${createEmployeeDTO.employeeRole}">
+                    <option
+                            th:each=" role : ${employeeTypes}"
+                            th:value="${role}"
+                            th:text="${role}"
                     ></option>
                 </select>
             </label>

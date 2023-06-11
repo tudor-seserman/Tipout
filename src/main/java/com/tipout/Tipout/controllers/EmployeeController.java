@@ -1,5 +1,6 @@
 package com.tipout.Tipout.controllers;
 
+import com.tipout.Tipout.models.DTOs.CreateEmployeeDTO;
 import com.tipout.Tipout.models.DTOs.EmployeesDTO;
 import com.tipout.Tipout.models.Employee;
 import com.tipout.Tipout.models.Employees.*;
@@ -28,27 +29,22 @@ public class EmployeeController {
     AuthenticationController authenticationController;
     @Autowired
     EmployeeRepository employeeRepository;
-    @Autowired
-    BartenderRepository bartenderRepository;
-    @Autowired
-    BOHRepository bohRepository;
-    @Autowired
-    BusserRepository busserRepository;
-    @Autowired
-    ServerRepository serverRepository;
+
 /*
 This method creates the form to add employees.
 I am currently passing to the view a list of empty employees, but aim to pass in an a list of Employer selected roles.
 This way an employer can customize what employee roles they want to create.
  */
     @GetMapping("add")
-    public String addNewEmployee(Model model) {
-
-        EmployeesDTO employeesDTO = new EmployeesDTO(Arrays.asList(new Bartender(), new BOH(), new Busser(), new Server()));
+    public String addNewEmployee(Model model,
+                                 HttpServletRequest request
+    ) {
+        HttpSession session = request.getSession();
+        Employer employer = authenticationController.getEmployerFromSession(session);
 
         model.addAttribute("title", "Add Employee");
-        model.addAttribute("employee", new Employee());
-        model.addAttribute("employeeTypes", employeesDTO);
+        model.addAttribute("createEmployeeDTO", new CreateEmployeeDTO());
+        model.addAttribute("employeeTypes", employer.getEmployeesTypes());
         return "employees/add";
     }
 /*
@@ -56,9 +52,8 @@ Employee enrollment is processed by this form. It takes in the logedin Employer,
 and creates the specific kind of Employee that the Employer selected.
  */
     @PostMapping("add")
-    public String processAddNewEmployee(@RequestParam String role,
-                                        Model model,
-                                        @ModelAttribute @Valid Employee newEmployee,
+    public String processAddNewEmployee(Model model,
+                                        @ModelAttribute @Valid CreateEmployeeDTO employee,
                                         Errors errors,
                                         HttpServletRequest request
     ) {
@@ -67,37 +62,23 @@ and creates the specific kind of Employee that the Employer selected.
 
 
         if (errors.hasErrors()) {
+            model.addAttribute("title", "Add Employee");
+            model.addAttribute("employeeTypes", employer.getEmployeesTypes());
+            return "employees/add";
+        }
+        try{
+            employee.createEmployee(employer);
+        }catch(RuntimeException e) {
+            model.addAttribute("error", "Something went wrong");
+            model.addAttribute("title", "Add Employee");
+            model.addAttribute("employeeTypes", employer.getEmployeesTypes());
             return "employees/add";
         }
 
-//        The variable role determines what kind of employee is created, with the information passed in and the current logged in Employer.
-        switch (role) {
-            case "Bartender":
-                Bartender newBartender = new Bartender(newEmployee.getFirstName(), newEmployee.getLastName(), employer);
-                bartenderRepository.save(newBartender);
-                break;
-            case "BOH":
-                BOH newBOH = new BOH(newEmployee.getFirstName(), newEmployee.getLastName(), employer);
-                bohRepository.save(newBOH);
-                break;
-            case "Busser":
-                Busser newBusser = new Busser(newEmployee.getFirstName(), newEmployee.getLastName(), employer);
-                busserRepository.save(newBusser);
-                break;
-            case "Server":
-                Server newServer = new Server(newEmployee.getFirstName(), newEmployee.getLastName(), employer);
-                serverRepository.save(newServer);
-                break;
-            default:
-                model.addAttribute("error", "Something went wrong");
-        }
-//Eventually Employers will ba able to choose the employee types they want to have in their system
-        EmployeesDTO employeesDTO = new EmployeesDTO(Arrays.asList(new Bartender(), new BOH(), new Busser(), new Server()));
-
         model.addAttribute("title", "Add Employee");
-        model.addAttribute("employeeTypes", employeesDTO);
-        model.addAttribute("newEmployee", newEmployee.getFirstName());
-        model.addAttribute("employee", new Employee());
+        model.addAttribute("createEmployeeDTO", new CreateEmployeeDTO());
+        model.addAttribute("employeeTypes", employer.getEmployeesTypes());
+        model.addAttribute("newEmployee", employee.getFirstName());
         return "employees/add";
     }
 
