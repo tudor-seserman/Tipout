@@ -10,7 +10,6 @@ This class will be used to create a base employee,
 different roles will inherit from this class.
  */
 @Entity
-//This creates different tables for the child classes, not sure if it is being helpful
 @Inheritance(strategy = InheritanceType.JOINED)
 public class Employee extends AbstractEntity {
     @NotNull
@@ -22,10 +21,9 @@ public class Employee extends AbstractEntity {
     @ManyToOne
     private Employer employer;
     private BigInteger percentOfTipOut;
-
+//Quick way to get role name
     private String roleDetail = this.getClass().getSimpleName();
-    private BigDecimal moneyToBeTippedOut;
-
+//Field is used to filter out archived employees from active Employees
     private boolean deleted = Boolean.FALSE;
 
 
@@ -66,13 +64,6 @@ public class Employee extends AbstractEntity {
         this.employer = employer;
     }
 
-    public BigDecimal getMoneyToBeTippedOut() {
-        return moneyToBeTippedOut;
-    }
-
-    public void setMoneyToBeTippedOut(BigDecimal moneyToBeTippedOut) {
-        this.moneyToBeTippedOut = moneyToBeTippedOut;
-    }
 
     public String getRoleDetail() {
         return roleDetail;

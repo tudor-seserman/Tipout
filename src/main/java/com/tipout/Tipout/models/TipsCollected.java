@@ -23,11 +23,12 @@ public class TipsCollected extends AbstractEntity{
 
     public TipsCollected() {}
 
-
+// All Employees that are in the tip pool with the amount they re contributing
     public Map<Employee, Tips> getEmployeeTipsMap() {
         return employeeTipsMap;
     }
 
+//Employees eligible to be put in tip pool separated by whether they collect tips from customers
     public Map<MoneyHandler, Tips> getMoneyHandlerTipsMap() {
         return moneyHandlerTipsMap;
     }

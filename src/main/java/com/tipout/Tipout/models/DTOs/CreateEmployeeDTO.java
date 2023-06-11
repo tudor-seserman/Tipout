@@ -6,25 +6,41 @@ import com.tipout.Tipout.models.Employees.Bartender;
 import com.tipout.Tipout.models.Employees.Busser;
 import com.tipout.Tipout.models.Employees.Server;
 
-import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.ListIterator;
+
 /*
 Way to use a list of Employee Types an Employer chooses to use.
  */
-public class EmployeesDTO {
+public class CreateEmployeeDTO {
     private Bartender bartender;
     private BOH boh;
     private Server server;
     private Busser busser;
     private List<Employee> employees = new ArrayList<>();
 
-    public EmployeesDTO() {
+    public CreateEmployeeDTO() {
     }
 
-    public EmployeesDTO(List<Employee> employees) {
-        for(Employee employee: employees) {
+    public CreateEmployeeDTO(List<String> employeeRoles) {
+        for(String role: employeeRoles)
+        {switch (role) {
+            case "Bartender":
+                this.bartender = new Bartender();
+                break;
+            case "BOH":
+                this.boh = new BOH();
+                break;
+            case "Busser":
+                this.busser = new Busser();
+                break;
+            case "Server":
+                Server newServer = new Server();
+                break;
+            default:
+//                Error message
+                break;
+        }
             if(employee instanceof Bartender) {
                 this.bartender = (Bartender) employee;
                 this.employees.add(employee);

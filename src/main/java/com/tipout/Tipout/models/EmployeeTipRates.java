@@ -9,7 +9,11 @@ import javax.persistence.Entity;
 import javax.persistence.OneToOne;
 import javax.validation.constraints.*;
 import java.math.BigInteger;
-
+/*
+Employee tip rates tied to Employer
+Fields in this class should follow the naming convention [capital case role]Rate
+The tip distribution template access fields using this naming convention
+ */
 @Entity
 public class EmployeeTipRates extends AbstractEntity{
     @OneToOne(mappedBy = "tipRates")
@@ -73,7 +77,7 @@ public class EmployeeTipRates extends AbstractEntity{
     public void setServerRate(BigInteger serverRate) {
         this.ServerRate = serverRate;
     }
-
+//Method used to retrieve role tipout rate by taking in Employee
     public BigInteger getTipoutByRole(Employee employee){
         if(employee instanceof Bartender) {
             return getBartenderRate();

@@ -6,6 +6,9 @@ import javax.persistence.OneToMany;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.util.*;
+/*
+This class handles calculations for different tip schemas it will be paired with methods from TipCollector
+ */
 @Entity
 public class Tipout extends AbstractEntity{
     @OneToMany(cascade = CascadeType.ALL)
