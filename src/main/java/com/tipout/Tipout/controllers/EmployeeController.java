@@ -26,9 +26,46 @@ The employee archive is managed by the SettingsController.
 @RequestMapping(value="employees")
 public class EmployeeController {
     @Autowired
+    BartenderRepository bartenderRepository;
+    @Autowired
+    BOHRepository bohRepository;
+    @Autowired
+    BusserRepository busserRepository;
+    @Autowired
+    ServerRepository serverRepository;
+    @Autowired
     AuthenticationController authenticationController;
     @Autowired
     EmployeeRepository employeeRepository;
+
+/*
+    Creates a specific kind of employee depending on the Employer passed in and information from the CreateEmployeeDTO
+    The main vehicle by which Employees are created by Employer
+    This method might be better placed in its own Service class
+
+ */
+    public void createEmployee(Employer employer, CreateEmployeeDTO employee){
+        switch (employee.getEmployeeRole()) {
+            case "Bartender":
+                Bartender newBartender = new Bartender(employee.getFirstName(), employee.getLastName(), employer);
+                bartenderRepository.save(newBartender);
+                break;
+            case "BOH":
+                BOH newBOH = new BOH(employee.getFirstName(), employee.getLastName(), employer);
+                bohRepository.save(newBOH);
+                break;
+            case "Busser":
+                Busser newBusser = new Busser(employee.getFirstName(), employee.getLastName(), employer);
+                busserRepository.save(newBusser);
+                break;
+            case "Server":
+                Server newServer = new Server(employee.getFirstName(), employee.getLastName(), employer);
+                serverRepository.save(newServer);
+                break;
+            default:
+                throw new RuntimeException();
+        }
+    }
 
 /*
 This method creates the form to add employees.
@@ -47,6 +84,7 @@ This way an employer can customize what employee roles they want to create.
         model.addAttribute("employeeTypes", employer.getEmployeesTypes());
         return "employees/add";
     }
+
 /*
 Employee enrollment is processed by this form. It takes in the logedin Employer, the role name
 and creates the specific kind of Employee that the Employer selected.
@@ -67,9 +105,9 @@ and creates the specific kind of Employee that the Employer selected.
             return "employees/add";
         }
         try{
-            employee.createEmployee(employer);
+            createEmployee(employer, employee);
         }catch(RuntimeException e) {
-            model.addAttribute("error", "Something went wrong");
+            model.addAttribute("error", "Something went wrong. Please try again or contact customer support if problem persists.");
             model.addAttribute("title", "Add Employee");
             model.addAttribute("employeeTypes", employer.getEmployeesTypes());
             return "employees/add";
