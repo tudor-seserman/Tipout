@@ -3,6 +3,7 @@ package com.tipout.Tipout.models.DTOs;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
+//Wrapper class to facilitate Employer login extended
 
 public class EmployerLoginFormDTO {
 

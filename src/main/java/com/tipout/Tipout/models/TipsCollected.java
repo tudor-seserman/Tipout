@@ -51,10 +51,14 @@ public class TipsCollected extends AbstractEntity{
 //  If there are no Employees that collect tips an error is thrown
         if(employeeTipsMap.isEmpty()){throw new RuntimeException("No tips have been declared.");}
 //  If no money is collected an error is thrown.
-        BigDecimal currentTipPool = new BigDecimal(0);
-        this.employeeTipsMap.forEach((k,v)->{currentTipPool.add(v.getTips());});
-        if (currentTipPool.equals(new BigDecimal(0))){throw new RuntimeException("No tips have been declared.");}
-
-        this.nonMoneyHandlerTipsMap.forEach((k,v)->{if(v.getTips() != null)this.employeeTipsMap.put(k,v);});
+//  Check to see if there is a nonzero value, if there is one, tables are merged and the method ends.
+//  If there are no dollar amounts an error is thrown.
+        for(Tips tips : employeeTipsMap.values()){
+           if((tips.getTips()).compareTo(BigDecimal.ZERO) > 0){
+               this.nonMoneyHandlerTipsMap.forEach((k,v)->{if(v.getTips() != null)this.employeeTipsMap.put(k,v);});
+           return;
+           }
+        }
+   throw new RuntimeException("No tips have been declared.");
     }
 }

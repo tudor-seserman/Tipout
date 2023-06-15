@@ -1,5 +1,5 @@
 package com.tipout.Tipout.models.DTOs;
-
+//Wrapper class to facilitate Employer creation
 public class EmployerRegistrationFormDTO extends EmployerLoginFormDTO{
     private String verifyPassword;
     private String businessName;

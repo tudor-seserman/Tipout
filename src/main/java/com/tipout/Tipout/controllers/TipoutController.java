@@ -98,14 +98,14 @@ public class TipoutController {
 //        1) The total amount in the tippool
         BigDecimal totalTippool = tipsCollectedRepository.findTotalTippool(id);
 //        2) The different types of employees in the tip pool
-        List<Integer> employeeTypesInTippool = tipsCollectedRepository.findEmployeeTypesInTippool(id);
+        Integer totalEmployeeTipRates = tipsCollectedRepository.findTotalEmployeeTipoutPercentInTippool(id);
 //        3) The Employees in the tip pool
         List<Employee> employeesInTipPool = new ArrayList<>(employeesMap.keySet());
 
 
         Tipout tipout = new Tipout();
 //        We call the calculateTippoolDistribution from the Tipout class which will return a list of Employees with money they are owed
-        Map<Employee, Tips> employeeShareofTipoolMap = tipout.calculateTippoolDistribution(employeeTypesInTippool, totalTippool, employeesInTipPool);
+        Map<Employee, Tips> employeeShareofTipoolMap = tipout.calculateTippoolDistribution(totalEmployeeTipRates, totalTippool, employeesInTipPool);
 
         model.addAttribute("title","Calculated Tips");
         model.addAttribute("tippool", totalTippool);

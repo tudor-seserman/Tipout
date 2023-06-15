@@ -3,7 +3,9 @@ package com.tipout.Tipout.models.Employees;
 import com.tipout.Tipout.models.Employer;
 
 import javax.persistence.Entity;
+/*
 
+ */
 @Entity
 public class Bartender extends MoneyHandler {
     private static String roleType = "Bartender";

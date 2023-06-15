@@ -34,15 +34,13 @@ the the size of the tippool.
 3. Individual tipouts are calculated by multiplying the number of shares an employee has of the tip pool by the value of each of those shares.
 4. This information is pushed to the tipPoolDistribution Map.
  */
-    public Map<Employee, Tips> calculateTippoolDistribution(List<Integer> tippoolRates, BigDecimal totalTippool, List<Employee> employeesInTippool){
+    public Map<Employee, Tips> calculateTippoolDistribution(Integer totalTippoolRates, BigDecimal totalTippool, List<Employee> employeesInTippool){
 
-//        This method receives three pieces of information from the TipoutController, total tips, rates in tip pool, employees that need to be tipped out
+//        This method receives three pieces of information from the TipoutController, total tips, total rates in tip pool, employees that need to be tipped out
 
-//        We first add up all the different tip rates in the tip pool
-        BigDecimal totalTippoolRates = BigDecimal.valueOf(tippoolRates.stream().mapToInt(i -> i).sum());
 //        We divide the total money by all the rates of the employees in the tip pool
 //        shareOfTippool is the monatery value of each employee share of the tippool
-        BigDecimal shareOfTippool = totalTippool.divide(totalTippoolRates, 4, RoundingMode.HALF_UP);
+        BigDecimal shareOfTippool = totalTippool.divide(BigDecimal.valueOf(totalTippoolRates), 4, RoundingMode.HALF_UP);
 
 
         for(Employee employeeInTippool: employeesInTippool){

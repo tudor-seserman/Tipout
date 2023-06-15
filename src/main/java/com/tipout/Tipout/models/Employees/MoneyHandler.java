@@ -6,11 +6,14 @@ import com.tipout.Tipout.models.Tips;
 import com.tipout.Tipout.models.TipsCollected;
 
 import javax.persistence.*;
-
+/*
+One of two main Employee class.
+Employees in this class handle money. They collect payments from guests.
+Usually will have to declare tips at the end of the shift.
+ */
 @Entity
 public class MoneyHandler extends Employee {
-//    @ManyToOne
-//    private TipsCollected tipsCollected;
+
     @OneToOne
     private Tips tips;
 
@@ -20,16 +23,6 @@ public class MoneyHandler extends Employee {
     public MoneyHandler(String firstName, String lastName, Employer employer) {
         super(firstName, lastName, employer);
     }
-
-//    public TipsCollected getTipsCollected() {
-//        return tipsCollected;
-//    }
-//
-//    public void setTipsCollected(TipsCollected tipsCollected) {
-//        this.tipsCollected = tipsCollected;
-//    }
-
-
 
 
     public Tips getTips() {

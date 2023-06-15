@@ -18,6 +18,8 @@ public class Employee extends AbstractEntity {
     @NotNull
     @NotBlank
     private String lastName;
+
+// Employees are tied to employer
     @ManyToOne
     private Employer employer;
     private BigInteger percentOfTipOut;

@@ -10,12 +10,7 @@ import java.util.List;
 
 @Repository
 public interface TipsCollectedRepository extends CrudRepository<TipsCollected,Long> {
-//    @Query(value = "SELECT Employee.firstName, Employee.lastName, Tips.tips " +
-//            "FROM tipout.TipsCollected_employeeTipsMap " +
-//            "Join Tips on Tips.id=employeeTipsMap_id " +
-//            "Join Employee on Employee.id =employeeTipsMap_KEY " +
-//            "Where tipout.TipsCollected_employeeTipsMap.TipsCollected_id = 16",
-//            nativeQuery = true)
+//Query to  calculate to money in the tippool for submission
     @Query(value="SELECT Sum(Tips.tips)\n" +
             "FROM TipsCollected_employeeTipsMap\n" +
             "Join Tips on Tips.id=employeeTipsMap_id\n" +
@@ -23,12 +18,14 @@ public interface TipsCollectedRepository extends CrudRepository<TipsCollected,Lo
                 nativeQuery = true)
     BigDecimal findTotalTippool(long id);
 
-    @Query(value="Select Employee.percentOfTipout \n" +
+//Query returns all the Employee tipout rates
+    @Query(value="Select SUM(Employee.percentOfTipout) \n" +
             "From TipsCollected_employeeTipsMap\n" +
             "Join Employee on Employee.id=employeeTipsMap_KEY\n" +
             "Where TipsCollected_employeeTipsMap.TipsCollected_id = ?1", nativeQuery = true)
-    List<Integer> findEmployeeTypesInTippool(long id);
+    Integer findTotalEmployeeTipoutPercentInTippool(long id);
 
+//    Query returns all the Employees included in the tip pool
     @Query(value="Select Employee.id \n" +
             "From TipsCollected_employeeTipsMap\n" +
             "Join Employee on Employee.id=employeeTipsMap_KEY\n" +

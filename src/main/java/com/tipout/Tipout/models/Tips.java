@@ -29,6 +29,8 @@ public class Tips extends AbstractEntity{
         this.tips = tips;
     }
 
+
+//Formats Tips to dollar amount rounded to two decimal places
     public String getDisplayTips() {
         NumberFormat usdCostFormat = NumberFormat.getCurrencyInstance(Locale.US);
         usdCostFormat.setMinimumFractionDigits( 2 );

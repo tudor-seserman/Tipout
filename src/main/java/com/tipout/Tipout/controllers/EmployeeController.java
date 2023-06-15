@@ -1,7 +1,6 @@
 package com.tipout.Tipout.controllers;
 
 import com.tipout.Tipout.models.DTOs.CreateEmployeeDTO;
-import com.tipout.Tipout.models.DTOs.EmployeesDTO;
 import com.tipout.Tipout.models.Employee;
 import com.tipout.Tipout.models.Employees.*;
 import com.tipout.Tipout.models.Employer;
@@ -160,7 +159,7 @@ and creates the specific kind of Employee that the Employer selected.
 
     /*This methode handles the employee edit form.
     If the Employer selects to Archive an employee that is determined by the boolean field archive.
-    In the form the employee name is passed in, whatever is in the form is saved to the new form.
+    In the form the employee name is passed in, whatever is in the form when submitted is saved to the database as updated information
     If nothing is changed, the same information is saved.
      */
     @PostMapping("edit/{employeeToEditId}")

@@ -20,9 +20,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 /*
-Way to use a list of Employee Types an Employer chooses to use.
+Object to help gather information for the creation of new employees.
  */
-@Service
 public class CreateEmployeeDTO {
 
     @NotNull
