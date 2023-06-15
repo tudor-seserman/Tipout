@@ -9,5 +9,7 @@ import java.util.List;
 
 @Repository
 public interface MoneyHandlerRepository extends CrudRepository<MoneyHandler,Long>{
+
+//    Query to find all Employer's Employees that are active
     List<MoneyHandler> findAllByDeletedFalseAndEmployer_Id(long Employer_Id);
 }

@@ -4,7 +4,7 @@ import com.tipout.Tipout.models.Employer;
 
 import javax.persistence.Entity;
 /*
-
+One of the roles Employees can occupy
  */
 @Entity
 public class Bartender extends MoneyHandler {

@@ -4,7 +4,9 @@ import com.tipout.Tipout.models.Employer;
 
 import javax.persistence.Entity;
 import java.math.BigDecimal;
-
+/*
+One of the roles Employees can occupy
+ */
 @Entity
 public class Busser extends NonMoneyHandler {
     private static String roleType = "Busser";

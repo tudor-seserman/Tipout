@@ -3,8 +3,9 @@ package com.tipout.Tipout.models.Employees;
 import com.tipout.Tipout.models.Employer;
 
 import javax.persistence.*;
-import java.math.BigDecimal;
-
+/*
+One of the roles Employees can occupy
+ */
 @Entity
 public class BOH extends NonMoneyHandler {
     private static String roleType = "BOH";
