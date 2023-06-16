@@ -14,6 +14,9 @@ import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
 
+/*
+Responsible for displaying only parts of the page to those users that are not in session
+ */
 public class AuthenticationFilter implements HandlerInterceptor {
 
     @Autowired
@@ -21,24 +24,27 @@ public class AuthenticationFilter implements HandlerInterceptor {
 
     @Autowired
     AuthenticationController authenticationController;
+
+//  List of pages that anyone can view
     private static final List<String> whitelist = Arrays.asList("/login", "/register", "/logout", "/styles.css", "/");
 
     public boolean preHandle(HttpServletRequest request,
                              HttpServletResponse response,
                              Object handler) throws IOException {
+//   If is open to anyone, user can see page
         if (isWhitelisted(request.getRequestURI())) {return true;}
 
+//   Check to see if user is an Employer in session, if they are they can see restricted pages
         HttpSession session = request.getSession();
         Employer employer = authenticationController.getEmployerFromSession(session);
-
         if (employer != null) {
             return true;
         }
-
+//  If an Employer is not in session they are redirected to the login page.
         response.sendRedirect("/login");
         return false;
     }
-
+//  Method to see if a page is on the whitelist List.
     private static boolean isWhitelisted(String path) {
         for (String pathRoot : whitelist) {
             if (path.equals(pathRoot)) {
