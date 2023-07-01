@@ -29,6 +29,10 @@ will return what is due to each employee
 
 Extended Features:
 --Improve UI
+    --Update navbar
+    --Add logo
+    --Add date/time to each report
+    --Add employee/employer icons
 --Be able to handle different strategies for
     distributing money from tip pool:
     --One pool that aggregates money and then is divided to Employees
@@ -36,6 +40,7 @@ Extended Features:
         --Server tips out Bar and Busser
         --Server tips out Bar and Busser and Bartender tips out Busser
     --Some Employees pool tips but others do not
+--See/adjust past tipouts by date/time
 --Control access to who can see what
 --User can have multiple roles
 --Custom Roles
