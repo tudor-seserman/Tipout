@@ -26,7 +26,7 @@ public class AuthenticationFilter implements HandlerInterceptor {
     AuthenticationController authenticationController;
 
 //  List of pages that anyone can view
-    private static final List<String> whitelist = Arrays.asList("/login", "/register", "/logout", "/styles.css", "/");
+    private static final List<String> whitelist = Arrays.asList("/login", "/register", "/logout", "/styles.css", "/", "/api/employees");
 
     public boolean preHandle(HttpServletRequest request,
                              HttpServletResponse response,

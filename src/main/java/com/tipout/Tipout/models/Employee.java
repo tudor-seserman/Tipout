@@ -1,7 +1,12 @@
 package com.tipout.Tipout.models;
 
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
+
 import javax.persistence.*;
 import javax.validation.constraints.*;
+import java.io.Serializable;
 import java.math.BigDecimal;
 import java.math.BigInteger;
 
@@ -11,7 +16,8 @@ different roles will inherit from this class.
  */
 @Entity
 @Inheritance(strategy = InheritanceType.JOINED)
-public class Employee extends AbstractEntity {
+@JsonIdentityInfo(generator= ObjectIdGenerators.UUIDGenerator.class, property="@id")
+public class Employee extends AbstractEntity implements Serializable {
     @NotNull
     @NotBlank
     private String firstName;

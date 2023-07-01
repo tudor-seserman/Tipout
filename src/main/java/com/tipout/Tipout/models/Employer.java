@@ -1,10 +1,14 @@
 package com.tipout.Tipout.models;
 
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import com.tipout.Tipout.models.Employees.*;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -14,7 +18,8 @@ One of two user classes. Employers handle Employee enrollment and setting Tipout
  */
 
 @Entity
-public class Employer extends AbstractEntity{
+@JsonIdentityInfo(generator= ObjectIdGenerators.UUIDGenerator.class, property="@id")
+public class Employer extends AbstractEntity implements Serializable {
     @NotNull
     private String username;
     @NotNull
