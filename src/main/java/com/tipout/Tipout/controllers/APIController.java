@@ -18,7 +18,7 @@ import java.util.List;
 public class APIController {
     @Autowired
     EmployeeRepository employeeRepository;
-    @CrossOrigin(origins = "http://localhost:5173")
+//    @CrossOrigin(origins = "http://localhost:5173")
     @GetMapping
     public ResponseEntity<List<Employee>> getEmployees() {
         return new ResponseEntity<List<Employee>>((List)employeeRepository.findAll(), HttpStatus.OK);
