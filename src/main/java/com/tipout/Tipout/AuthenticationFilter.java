@@ -47,7 +47,7 @@ public class AuthenticationFilter implements HandlerInterceptor {
 //  Method to see if a page is on the whitelist List.
     private static boolean isWhitelisted(String path) {
         for (String pathRoot : whitelist) {
-            if (path.equals(pathRoot)) {
+            if (path.startsWith(pathRoot)) {
                 return true;
             }
         }
