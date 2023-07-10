@@ -21,7 +21,7 @@ import java.util.Optional;
 This controller is responsible for creating, editing, archiving, and deleting employees.
 The employee archive is managed by the SettingsController.
  */
-@Controller
+@RestController
 @RequestMapping(value="employees")
 public class EmployeeController {
     @Autowired
