@@ -1,48 +1,45 @@
 import React, { useState } from "react";
 import api from "../../API/axiosConfig";
 import Banner from "../Banner";
-import RegisterForm from "./RegisterForm";
+import { Button } from "react-bootstrap";
 
 const Register = () => {
-  const [employerRegistrationFormDTO, setEmployerRegistrationFormDTO] =
-    useState({
-      businessName: "",
-      username: "",
-      password: "",
-      verifyPassword: "",
-    });
+  const [businessNameI, setBusinessNameI] = useState("");
+  const [usernameI, setUsernameI] = useState("");
+  const [passwordI, setPasswordI] = useState("");
+  const [verifyPasswordI, setVerifyPasswordI] = useState("");
 
-  const [businessNameInput, setBusinessNameInput] = useState("");
-  const [usernameInput, setUsernameInput] = useState("");
-  const [passwordInput, setPasswordInput] = useState("");
-  const [verifyPasswordInput, setVerifyPasswordInput] = useState("");
+  // class employerRegistrationFormDTO {
+  //   constructor(
+  //     businessName: string,
+  //     username: string,
+  //     password: string,
+  //     verifyPassword: string
+  //   ) {
+  //     businessName;
+  //     username;
+  //     password;
+  //     verifyPassword;
+  //   }
+  // }
 
-  // const handleChange = (e: React.ChangeEvent<any>) => {
-  //   let updatedValue = {
-  //     businessName: e.businessName.value,
-  //     username: username.target.value,
-  //     password: password.target.value,
-  //     verifyPassword: verifyPassword.target.value,
-  //   };
-
-  //   setEmployerRegistrationFormDTO((employerRegistrationFormDTO) => ({
-  //     ...employerRegistrationFormDTO,
-  //     ...updatedValue,
-  //   }));
-  // };
+  const employerRegistrationFormDTO = {
+    businessName: businessNameI,
+    username: usernameI,
+    password: passwordI,
+    verifyPassword: verifyPasswordI,
+  };
 
   const addEmployer = async (e: React.ChangeEvent<any>) => {
     e.preventDefault();
-    setEmployerRegistrationFormDTO({
-      businessName: businessNameInput,
-      username: usernameInput,
-      password: passwordInput,
-      verifyPassword: verifyPasswordInput,
-    });
 
     try {
+      console.log(employerRegistrationFormDTO);
       const response = await api.post("http://localhost:8080/register", {
-        employerRegistrationFormDTO: employerRegistrationFormDTO,
+        method: "POST",
+        EmployerRegistrationFormDTO: JSON.stringify(
+          employerRegistrationFormDTO
+        ),
       });
       console.log(response.status);
     } catch (err) {
@@ -53,13 +50,66 @@ const Register = () => {
   return (
     <>
       <Banner />
-      <RegisterForm
-        handleSubmit={addEmployer}
-        setBusinessName={setBusinessNameInput}
-        setUsername={setUsernameInput}
-        setPassword={setPasswordInput}
-        setVerifyPassword={setVerifyPasswordInput}
-      />
+      <form method="post">
+        <div className="form-group">
+          <label>
+            Business Name
+            <input
+              className="form-control"
+              name={businessNameI}
+              onChange={(e) => setBusinessNameI(e.target.value)}
+            />
+          </label>
+          {/* <p
+          className="error"
+          th:errors="${employerRegistrationFormDTO.businessName}"
+        ></p> */}
+        </div>
+        <div className="form-group">
+          <label>
+            Username
+            <input
+              className="form-control"
+              name={usernameI}
+              onChange={(e) => setUsernameI(e.target.value)}
+            />
+          </label>
+          {/* <p className="error" th:errors="${username}"></p> */}
+        </div>
+        <div className="form-group">
+          <label>
+            Password
+            <input
+              className="form-control"
+              name="password"
+              value={passwordI}
+              onChange={(e) => setPasswordI(e.target.value)}
+              type="password"
+            />
+          </label>
+          {/* <p className="error" th:errors="${password}"></p> */}
+        </div>
+        <div className="form-group">
+          <label>
+            Verify Password
+            <input
+              className="form-control"
+              name="verifyPassword"
+              value={verifyPasswordI}
+              onChange={(e) => setVerifyPasswordI(e.target.value)}
+              type="password"
+            />
+          </label>
+        </div>
+
+        <Button
+          onClick={addEmployer}
+          className="btn btn-primary"
+          value="Register"
+        >
+          Register
+        </Button>
+      </form>
     </>
   );
 };
