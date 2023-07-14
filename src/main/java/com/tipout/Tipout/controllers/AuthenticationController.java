@@ -5,21 +5,24 @@ import com.tipout.Tipout.models.DTOs.EmployerRegistrationFormDTO;
 import com.tipout.Tipout.models.Employer;
 import com.tipout.Tipout.models.data.EmployerRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.Errors;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 import java.util.Optional;
+
+import static org.springframework.web.bind.annotation.RequestMethod.POST;
+
 /*
 Controls authentication for Employers currently
  */
-@Controller
+@RestController
+@RequestMapping("")
 public class AuthenticationController {
     @Autowired
     EmployerRepository employerRepository;
@@ -72,13 +75,24 @@ public class AuthenticationController {
         return "register";
     }
 
+    @RequestMapping(value = "/register", method = POST, produces = "application/json")
+    public HttpStatus processRegistrationForm(@RequestBody EmployerRegistrationFormDTO employerRegistrationFormDTO) {
+//        System.out.println(employerRegistrationFormDTO+employerRegistrationFormDTO.getUsername()+" "+employerRegistrationFormDTO.getPassword());
+        System.out.println(employerRegistrationFormDTO);
+//        System.out.println(employerRegistrationFormDTO.getBusinessName());
+        return HttpStatus.OK;
+    }
+
 // Processes registration form.
-    @PostMapping("/register")
-    public String processRegistrationForm(@ModelAttribute @Valid EmployerRegistrationFormDTO employerRegistrationFormDTO,
-                                          Errors errors,
+    /*
+    @RequestMapping(value = "/register", method = POST, produces = "application/json")
+    public HttpStatus processRegistrationForm(@RequestBody EmployerRegistrationFormDTO employerRegistrationFormDTO,
+                                              @RequestBody String test,
                                           HttpServletRequest request,
                                           Model model) {
-// Checks for validation errors
+        System.out.println(employerRegistrationFormDTO+employerRegistrationFormDTO.getUsername()+" "+employerRegistrationFormDTO.getPassword());
+        System.out.println(test);
+ Checks for validation errors
         if (errors.hasErrors()) {
             model.addAttribute("title", "Register");
             return "register";
@@ -107,8 +121,9 @@ public class AuthenticationController {
         employerRepository.save(newUser);
         setEmployerInSession(request.getSession(), newUser);
 
-        return "redirect:";
+        return HttpStatus.OK;
     }
+    */
 
 //  Displays login page
     @GetMapping("/login")

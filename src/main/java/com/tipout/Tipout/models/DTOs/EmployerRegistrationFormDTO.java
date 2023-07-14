@@ -19,4 +19,12 @@ public class EmployerRegistrationFormDTO extends EmployerLoginFormDTO{
     public void setBusinessName(String businessName) {
         this.businessName = businessName;
     }
+
+    @Override
+    public String toString() {
+        return "EmployerRegistrationFormDTO{" +
+                "verifyPassword='" + verifyPassword + '\'' +
+                ", businessName='" + businessName + '\'' +
+                '}';
+    }
 }

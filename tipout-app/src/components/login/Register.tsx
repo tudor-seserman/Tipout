@@ -35,12 +35,10 @@ const Register = () => {
 
     try {
       console.log(employerRegistrationFormDTO);
-      const response = await api.post("http://localhost:8080/register", {
-        method: "POST",
-        EmployerRegistrationFormDTO: JSON.stringify(
-          employerRegistrationFormDTO
-        ),
-      });
+      const response = await api.post(
+        "http://localhost:8080/register",
+        employerRegistrationFormDTO
+      );
       console.log(response.status);
     } catch (err) {
       console.error(err);
