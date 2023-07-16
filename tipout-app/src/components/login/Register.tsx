@@ -9,20 +9,6 @@ const Register = () => {
   const [passwordI, setPasswordI] = useState("");
   const [verifyPasswordI, setVerifyPasswordI] = useState("");
 
-  // class employerRegistrationFormDTO {
-  //   constructor(
-  //     businessName: string,
-  //     username: string,
-  //     password: string,
-  //     verifyPassword: string
-  //   ) {
-  //     businessName;
-  //     username;
-  //     password;
-  //     verifyPassword;
-  //   }
-  // }
-
   const employerRegistrationFormDTO = {
     businessName: businessNameI,
     username: usernameI,
@@ -34,14 +20,15 @@ const Register = () => {
     e.preventDefault();
 
     try {
-      console.log(employerRegistrationFormDTO);
+      // console.log(employerRegistrationFormDTO);
       const response = await api.post(
         "http://localhost:8080/register",
         employerRegistrationFormDTO
       );
-      console.log(response.status);
-    } catch (err) {
-      console.error(err);
+      console.log("a");
+    } catch (err: any) {
+      console.log("b");
+      console.error(err.reason);
     }
   };
 
