@@ -70,60 +70,21 @@ public class AuthenticationController {
 
         return true;
     }
-//Displays registration form
-    @GetMapping("/register")
-    public String displayRegistrationForm(Model model) {
-        model.addAttribute(new EmployerRegistrationFormDTO());
-        model.addAttribute("title", "Register");
-        return "register";
-    }
 
 
     @RequestMapping(value = "/register", method = POST, produces = "application/json")
     public HttpStatus processRegistrationForm(@RequestBody @Valid EmployerRegistrationFormDTO employerRegistrationFormDTO,
-                                                Errors errors) {
+                                              Errors errors,
+                                              HttpServletRequest request) {
 
         if(errors.hasErrors()){
-            System.out.println(errors.getAllErrors());
                 throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Could not create account");
         }
 
         Employer existingUser = employerRepository.findByUsername(employerRegistrationFormDTO.getUsername());
 
-
         if (existingUser != null) {
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "A user with that username already exists");
-        }
-
-
-
-        Employer newUser = new Employer(employerRegistrationFormDTO.getBusinessName(), employerRegistrationFormDTO.getUsername(), employerRegistrationFormDTO.getPassword());
-        employerRepository.save(newUser);
-        return HttpStatus.OK;
-    }
-
-// Processes registration form.
-    /*
-    @RequestMapping(value = "/register", method = POST, produces = "application/json")
-    public HttpStatus processRegistrationForm(@RequestBody EmployerRegistrationFormDTO employerRegistrationFormDTO,
-                                              @RequestBody String test,
-                                          HttpServletRequest request,
-                                          Model model) {
-        System.out.println(employerRegistrationFormDTO+employerRegistrationFormDTO.getUsername()+" "+employerRegistrationFormDTO.getPassword());
-        System.out.println(test);
- Checks for validation errors
-        if (errors.hasErrors()) {
-            model.addAttribute("title", "Register");
-            return "register";
-        }
-
-        Employer existingUser = employerRepository.findByUsername(employerRegistrationFormDTO.getUsername());
-
-//Makes sure that username isn't duplicated
-        if (existingUser != null) {
-            errors.rejectValue("username", "username.alreadyexists", "A user with that username already exists");
-            model.addAttribute("title", "Register");
-            return "register";
+                throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "A user with that username already exists, please select another.");
         }
 
         String password = employerRegistrationFormDTO.getPassword();
@@ -131,18 +92,17 @@ public class AuthenticationController {
 
 //      Makes sure that the passwords match up.
         if (!password.equals(verifyPassword)) {
-            errors.rejectValue("password", "passwords.mismatch", "Passwords do not match");
-            model.addAttribute("title", "Register");
-            return "register";
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Passwords do not match");
         }
-//     After checks, Employer is created, saved, and set as in session.
+
         Employer newUser = new Employer(employerRegistrationFormDTO.getBusinessName(), employerRegistrationFormDTO.getUsername(), employerRegistrationFormDTO.getPassword());
         employerRepository.save(newUser);
-        setEmployerInSession(request.getSession(), newUser);
 
+        setEmployerInSession(request.getSession(), newUser);
         return HttpStatus.OK;
     }
-    */
+
+
 
 //  Displays login page
     @GetMapping("/login")
