@@ -9,6 +9,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.Errors;
+import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
@@ -77,21 +78,24 @@ public class AuthenticationController {
         return "register";
     }
 
-//    @ExceptionHandler
-//    @ResponseStatus(HttpStatus.BAD_REQUEST)
-//    public ErrorResponse handleException(MethodArgumentNotValidException exception) {        String errorMsg = exception.getBindingResult().getFieldErrors().stream()
-//            .map(DefaultMessageSourceResolvable::getDefaultMessage)
-//            .findFirst()
-//            .orElse(exception.getMessage());        return ErrorResponse.builder().message(errorMsg).build();
-//    }
 
     @RequestMapping(value = "/register", method = POST, produces = "application/json")
     public HttpStatus processRegistrationForm(@RequestBody @Valid EmployerRegistrationFormDTO employerRegistrationFormDTO,
                                                 Errors errors) {
 
         if(errors.hasErrors()){
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Your Message...");
+            System.out.println(errors.getAllErrors());
+                throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Could not create account");
         }
+
+        Employer existingUser = employerRepository.findByUsername(employerRegistrationFormDTO.getUsername());
+
+
+        if (existingUser != null) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "A user with that username already exists");
+        }
+
+
 
         Employer newUser = new Employer(employerRegistrationFormDTO.getBusinessName(), employerRegistrationFormDTO.getUsername(), employerRegistrationFormDTO.getPassword());
         employerRepository.save(newUser);
