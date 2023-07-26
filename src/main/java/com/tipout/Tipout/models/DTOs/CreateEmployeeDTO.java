@@ -10,6 +10,8 @@ import com.tipout.Tipout.models.data.BOHRepository;
 import com.tipout.Tipout.models.data.BartenderRepository;
 import com.tipout.Tipout.models.data.BusserRepository;
 import com.tipout.Tipout.models.data.ServerRepository;
+import jdk.jfr.DataAmount;
+import lombok.Data;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
@@ -22,6 +24,7 @@ import java.util.List;
 /*
 Object to help gather information for the creation of new employees.
  */
+@Data
 public class CreateEmployeeDTO {
 
     @NotNull
@@ -33,32 +36,4 @@ public class CreateEmployeeDTO {
     @NotNull
     @NotBlank
     private String employeeRole;
-
-    public CreateEmployeeDTO() {
-    }
-
-    public String getFirstName() {
-        return firstName;
-    }
-
-    public void setFirstName(String firstName) {
-        this.firstName = firstName;
-    }
-
-    public String getLastName() {
-        return lastName;
-    }
-
-    public void setLastName(String lastName) {
-        this.lastName = lastName;
-    }
-
-    public String getEmployeeRole() {
-        return employeeRole;
-    }
-
-    public void setEmployeeRole(String employeeRole) {
-        this.employeeRole = employeeRole;
-    }
-
 }

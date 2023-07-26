@@ -1,10 +1,8 @@
-import React, { ChangeEvent, useState } from "react";
+import React, { useState } from "react";
 import api from "../../API/axiosConfig";
 import Banner from "../Banner";
-// import { Button } from "react-bootstrap";
+import { redirect } from "react-router-dom";
 import { useForm, SubmitHandler } from "react-hook-form";
-// import { findInputError, isFormInvalid } from "../utils";
-// import { faDatabase } from "@fortawesome/free-solid-svg-icons";
 
 type Inputs = {
   businessName: String;
@@ -42,6 +40,16 @@ const Register = () => {
         "http://localhost:8080/register",
         employerRegistrationFormDTO
       );
+      setBusinessNameI("");
+      setPasswordI("");
+      setUsernameI("");
+      setVerifyPasswordI("");
+
+      await console.log(response.headers.getUserAgent);
+      localStorage.setItem("token", response.data.token);
+      if (localStorage.getItem("token")) {
+        return redirect("/login");
+      }
     } catch (error: any) {
       if (error.response) {
         // The request was made and the server responded with a status code

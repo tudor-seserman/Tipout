@@ -4,13 +4,11 @@ import com.tipout.Tipout.models.DTOs.EmployerLoginFormDTO;
 import com.tipout.Tipout.models.DTOs.EmployerRegistrationFormDTO;
 import com.tipout.Tipout.models.Employer;
 import com.tipout.Tipout.models.data.EmployerRepository;
+import com.tipout.Tipout.models.data.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.Errors;
-import org.springframework.validation.ObjectError;
-import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
@@ -27,63 +25,66 @@ Controls authentication for Employers currently
 @RestController
 @RequestMapping("")
 public class AuthenticationController {
-    @Autowired
+
+    UserRepository userRepository;
     EmployerRepository employerRepository;
+
+    @Autowired
 
 // Name to be used as a key tied to employee id a session
     private static final String userSessionKey = "employer";
 
 //Method to extract Employer information from session information
-    public Employer getEmployerFromSession(HttpSession session) {
-        Long employerId = (Long) session.getAttribute(userSessionKey);
-        if (employerId == null) {
-            return null;
-        }
-
-        Optional<Employer> employer = employerRepository.findById(employerId);
-
-        if (employer.isEmpty()) {
-            return null;
-        }
-
-        return employer.get();
-    }
+//    public Employer getEmployerFromSession(HttpSession session) {
+//        Long employerId = (Long) session.getAttribute(userSessionKey);
+//        if (employerId == null) {
+//            return null;
+//        }
+//
+//        Optional<Employer> employer = userRepository.findById(employerId);
+//
+//        if (employer.isEmpty()) {
+//            return null;
+//        }
+//
+//        return employer.get();
+//    }
 
 //    Method to create Employer sessions
-    private static void setEmployerInSession(HttpSession session,
-                                             Employer employer) {
-        session.setAttribute(userSessionKey, employer.getId());
-    }
+//    private static void setEmployerInSession(HttpSession session,
+//                                             Employer employer) {
+//        session.setAttribute(userSessionKey, employer.getId());
+//    }
 
 //Method to see if a user is in session. Used to conditionally display content.
-    public boolean inSession(HttpSession session){
-        Long employerId = (Long) session.getAttribute(userSessionKey);
-        if (employerId == null) {
-            return false;
-        }
-
-        Optional<Employer> employer = employerRepository.findById(employerId);
-
-        if (employer.isEmpty()) {
-            return false;
-        }
-
-        return true;
-    }
+//    public boolean inSession(HttpSession session){
+//        Long employerId = (Long) session.getAttribute(userSessionKey);
+//        if (employerId == null) {
+//            return false;
+//        }
+//
+//        Optional<Employer> employer = userRepository.findById(employerId);
+//
+//        if (employer.isEmpty()) {
+//            return false;
+//        }
+//
+//        return true;
+//    }
 
 
     @RequestMapping(value = "/register", method = POST, produces = "application/json")
     public HttpStatus processRegistrationForm(@RequestBody @Valid EmployerRegistrationFormDTO employerRegistrationFormDTO,
                                               Errors errors,
-                                              HttpServletRequest request) {
+                                              ) {
 
         if(errors.hasErrors()){
                 throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Could not create account");
         }
 
-        Employer existingUser = employerRepository.findByUsername(employerRegistrationFormDTO.getUsername());
+        Optional<Employer> existingUser = userRepository.findByUsername(employerRegistrationFormDTO.getUsername());
 
-        if (existingUser != null) {
+        if (existingUser.isPresent()) {
                 throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "A user with that username already exists, please select another.");
         }
 
@@ -96,9 +97,8 @@ public class AuthenticationController {
         }
 
         Employer newUser = new Employer(employerRegistrationFormDTO.getBusinessName(), employerRegistrationFormDTO.getUsername(), employerRegistrationFormDTO.getPassword());
-        employerRepository.save(newUser);
+        userRepository.save(newUser);
 
-        setEmployerInSession(request.getSession(), newUser);
         return HttpStatus.OK;
     }
 
@@ -125,21 +125,21 @@ public class AuthenticationController {
             return "login";
         }
 
-        Employer theEmployer = employerRepository.findByUsername(employerLoginFormDTO.getUsername());
+        Optional<Employer> optTheEmployer = userRepository.findByUsername(employerLoginFormDTO.getUsername());
 //If the Employer is not found error message is presented
-        if (theEmployer == null) {
+        if (optTheEmployer.isEmpty()) {
             errors.rejectValue("username", "user.invalid", "The given username does not exist");
             model.addAttribute("title", "Log In");
             return "login";
         }
-
+        Employer theEmployer = optTheEmployer.get();
         String password = employerLoginFormDTO.getPassword();
 //If password is not correct error message is presented
-        if (!theEmployer.isMatchingPassword(password)) {
-            errors.rejectValue("password", "password.invalid", "Invalid password");
-            model.addAttribute("title", "Log In");
-            return "login";
-        }
+//        if (!theEmployer.isMatchingPassword(password)) {
+//            errors.rejectValue("password", "password.invalid", "Invalid password");
+//            model.addAttribute("title", "Log In");
+//            return "login";
+//        }
 //If no errors are present Employer is set in session
         setEmployerInSession(request.getSession(), theEmployer);
 

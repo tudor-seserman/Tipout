@@ -19,13 +19,11 @@ One of two user classes. Employers handle Employee enrollment and setting Tipout
 
 @Entity
 @JsonIdentityInfo(generator= ObjectIdGenerators.UUIDGenerator.class, property="@id")
-public class Employer extends AbstractEntity implements Serializable {
-    @NotNull
-    private String username;
+public class Employer extends UserEntity implements Serializable {
+
     @NotNull
     private String businessName;
-    @NotNull
-    private String pwHash;
+
 
 //List of Employees tied to Employer
     @OneToMany(mappedBy = "employer", cascade=CascadeType.ALL)
@@ -40,25 +38,15 @@ public class Employer extends AbstractEntity implements Serializable {
     private EmployeeTipRates tipRates = new EmployeeTipRates();
 
 
-    private static final BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
 
     public Employer() {
     }
 
     public Employer(String username, String businessName, String pwHash) {
-        this.username = username;
+
         this.businessName = businessName;
-        this.pwHash = encoder.encode(pwHash);
     }
 
-
-    public String getUsername() {
-        return username;
-    }
-
-    public void setUsername(String username) {
-        this.username = username;
-    }
 
     public String getBusinessName() {
         return businessName;
@@ -74,10 +62,6 @@ public class Employer extends AbstractEntity implements Serializable {
 
     public void setEmployees(List<Employee> employees) {
         this.employees = employees;
-    }
-
-    public boolean isMatchingPassword(String password) {
-        return encoder.matches(password, pwHash);
     }
 
     public List<String> getEmployeesTypes() {
