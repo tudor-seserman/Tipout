@@ -18,21 +18,21 @@ Controls the landing page with information about the app and the ability go log-
 If authenticated the nav bar is accessible
 
  */
-
-@Controller
-public class HomeController {
-
-    @Autowired
-    AuthenticationController authenticationController;
-
-
-    @GetMapping
-    public String returnIndex(HttpServletRequest request,
-                              Model model){
-        HttpSession session = request.getSession();
-        Boolean loggedin = authenticationController.inSession(session);
-        model.addAttribute("loggedin",loggedin);
-        model.addAttribute("title", "Welcome to Tipout");
-        return "index";
-    }
-}
+//
+//@Controller
+//public class HomeController {
+//
+//    @Autowired
+//    AuthenticationController authenticationController;
+//
+//
+//    @GetMapping
+//    public String returnIndex(HttpServletRequest request,
+//                              Model model){
+//        HttpSession session = request.getSession();
+//        Boolean loggedin = authenticationController.inSession(session);
+//        model.addAttribute("loggedin",loggedin);
+//        model.addAttribute("title", "Welcome to Tipout");
+//        return "index";
+//    }
+//}

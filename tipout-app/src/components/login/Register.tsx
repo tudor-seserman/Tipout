@@ -37,9 +37,10 @@ const Register = () => {
     try {
       // console.log(employerRegistrationFormDTO);
       const response = await api.post(
-        "http://localhost:8080/register",
+        "http://localhost:8080/auth/register",
         employerRegistrationFormDTO
       );
+
       setBusinessNameI("");
       setPasswordI("");
       setUsernameI("");
@@ -133,7 +134,7 @@ const Register = () => {
             <input
               className="form-control"
               {...register("verifyPassword", {
-                validate: (val: string) => {
+                validate: (val: String) => {
                   if (watch("password") != val) {
                     return "Your passwords do not match";
                   }
