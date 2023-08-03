@@ -4,24 +4,24 @@ import "./App.css";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import Home from "./components/Home";
 import Register from "./components/login/Register";
-import Login from "./components/login/login";
+import Login from "./components/login/Login";
 
 function App() {
-  const [employees, setEmployees] = useState();
+  // const [employees, setEmployees] = useState();
 
-  const getEmployees = async () => {
-    try {
-      const response = await api.get("api/employees");
+  // const getEmployees = async () => {
+  //   try {
+  //     const response = await api.get("api/employees");
 
-      setEmployees(response.data);
-    } catch (err) {
-      console.log(err);
-    }
-  };
+  //     setEmployees(response.data);
+  //   } catch (err) {
+  //     console.log(err);
+  //   }
+  // };
 
-  useEffect(() => {
-    getEmployees();
-  }, []);
+  // useEffect(() => {
+  //   getEmployees();
+  // }, []);
 
   return (
     <BrowserRouter>

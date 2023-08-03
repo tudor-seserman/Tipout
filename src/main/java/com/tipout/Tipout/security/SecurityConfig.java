@@ -2,6 +2,11 @@ package com.tipout.Tipout.security;
 
 import java.util.List;
 
+import com.nimbusds.jose.JOSEException;
+import com.nimbusds.jose.jwk.JWKSet;
+import com.nimbusds.jose.jwk.RSAKey;
+import com.nimbusds.jose.jwk.source.JWKSource;
+import com.nimbusds.jose.proc.SecurityContext;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -40,6 +45,8 @@ import com.nimbusds.jose.jwk.RSAKey;
 import com.nimbusds.jose.jwk.source.ImmutableJWKSet;
 import com.nimbusds.jose.jwk.source.JWKSource;
 import com.nimbusds.jose.proc.SecurityContext;
+import org.springframework.web.servlet.config.annotation.CorsRegistry;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 import static org.springframework.security.config.Customizer.*;
 
@@ -51,43 +58,27 @@ public class SecurityConfig {
 
 //    private CustomUserDetailsService userDetailsService;
 
-    private final RSAKeyProperties rsaKeys;
+    private  RSAKey rsaKey;
 
-
-    public SecurityConfig(RSAKeyProperties rsaKeys) {
-        this.rsaKeys = rsaKeys;
-    }
 
     @Bean
     public UserDetailsService users() {
         return new InMemoryUserDetailsManager(User.withUsername("test").password("{noop}password").authorities("read").build());
     }
 
-    @Bean
-    public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-        return http
-                .csrf(AbstractHttpConfigurer::disable)
-                .authorizeHttpRequests(auth -> auth.anyRequest().authenticated())
-                .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
-                .oauth2ResourceServer(OAuth2ResourceServerConfigurer::jwt)
-                .exceptionHandling(
-                        (ex) -> ex.authenticationEntryPoint(new BearerTokenAuthenticationEntryPoint())
-                                .accessDeniedHandler(new BearerTokenAccessDeniedHandler()))
-                .build();
-    }
 
     @Order(Ordered.HIGHEST_PRECEDENCE)
     @Bean
     SecurityFilterChain tokenSecurityFilterChain(HttpSecurity http) throws Exception {
         return http
-                .requestMatcher(new AntPathRequestMatcher("/auth/**"))
-                .authorizeHttpRequests(auth -> auth.anyRequest().authenticated())
-                .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+                .cors(withDefaults())
                 .csrf(AbstractHttpConfigurer::disable)
-                .exceptionHandling(ex -> {
-                    ex.authenticationEntryPoint(new BearerTokenAuthenticationEntryPoint());
-                    ex.accessDeniedHandler(new BearerTokenAccessDeniedHandler());
-                })
+                .authorizeHttpRequests( auth -> auth
+                        .requestMatchers(new AntPathRequestMatcher("/auth/**")).permitAll()
+                        .anyRequest().authenticated()
+                )
+                .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+                .oauth2ResourceServer(OAuth2ResourceServerConfigurer::jwt)
                 .build();
     }
 
@@ -99,51 +90,38 @@ public class SecurityConfig {
         return new ProviderManager(authProvider);
     }
 
+
 //    @Bean
 //    PasswordEncoder passwordEncoder() {
 //        return new BCryptPasswordEncoder();
 //    }
 
     @Bean
-    JwtDecoder jwtDecoder() {
-        return NimbusJwtDecoder.withPublicKey(rsaKeys.publicKey()).build();
+    public JWKSource<SecurityContext> jwkSource() {
+        rsaKey = Jwks.generateRsa();
+        JWKSet jwkSet = new JWKSet(rsaKey);
+        return (jwkSelector, securityContext) -> jwkSelector.select(jwkSet);
     }
 
     @Bean
-    JwtEncoder jwtEncoder() {
-        JWK jwk = new RSAKey.Builder(rsaKeys.publicKey()).privateKey(rsaKeys.privateKey()).build();
-        JWKSource<SecurityContext> jwks = new ImmutableJWKSet<>(new JWKSet(jwk));
+    JwtEncoder jwtEncoder(JWKSource<SecurityContext> jwks) {
         return new NimbusJwtEncoder(jwks);
     }
 
-//    @Bean
-//    public  JWTAuthenticationFilter jwtAuthenticationFilter() {
-//        return new JWTAuthenticationFilter();
-//    }
-
-    //    Allows the frontend to access this server for development use
-//    @Bean
-//    public WebMvcConfigurer corsConfigurer() {
-//        return new WebMvcConfigurer() {
-//            @Override
-//            public void addCorsMappings(CorsRegistry registry) {
-//                registry.addMapping("/**")
-//                        .allowedOrigins("*")
-//                        .allowedMethods("*")
-//                        .allowedHeaders("*")
-//                        .allowCredentials(false).maxAge(3600);
-//                ;
-//            }
-//        };
-//    }
     @Bean
+    JwtDecoder jwtDecoder() throws JOSEException {
+        return NimbusJwtDecoder.withPublicKey(rsaKey.toRSAPublicKey()).build();
+    }
+
+  @Bean
     CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
-        configuration.setAllowedOrigins(List.of("https://localhost:5173"));
+        configuration.setAllowedOrigins(List.of("http://localhost:5173"));
         configuration.setAllowedHeaders(List.of("*"));
         configuration.setAllowedMethods(List.of("GET", "POST"));
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         source.registerCorsConfiguration("/**", configuration);
         return source;
     }
+
 }

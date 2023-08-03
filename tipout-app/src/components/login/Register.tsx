@@ -37,8 +37,14 @@ const Register = () => {
     try {
       // console.log(employerRegistrationFormDTO);
       const response = await api.post(
-        "http://localhost:8080/auth/register",
-        employerRegistrationFormDTO
+        "auth/register",
+        employerRegistrationFormDTO,
+        {
+          headers: {
+            Accept: "application/json",
+            "Content-Type": "application/json",
+          },
+        }
       );
 
       setBusinessNameI("");

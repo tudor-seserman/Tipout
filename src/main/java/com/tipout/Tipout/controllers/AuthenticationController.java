@@ -137,6 +137,7 @@ public class AuthenticationController {
 
     @PostMapping("login")
     public ResponseEntity<AuthResponseDTO> login(@RequestBody LoginFormDTO loginDto) {
+        System.out.println(loginDto.toString());
         Authentication authentication = authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(
                         loginDto.getUsername(),

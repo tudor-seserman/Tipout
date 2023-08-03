@@ -24,7 +24,6 @@ import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 
-import static com.tipout.Tipout.security.SecurityConstraints.EXPIRATION_TIME;
 
 /*
 Responsible for displaying only parts of the page to those users that are not in session

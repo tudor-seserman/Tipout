@@ -29,11 +29,13 @@ function Login() {
 
   const login = async () => {
     try {
-      // console.log(employerRegistrationFormDTO);
-      const response = await api.post(
-        "http://localhost:8080/auth/login",
-        loginFormDTO
-      );
+      console.log(loginFormDTO);
+      const response = await api.post("auth/login", loginFormDTO, {
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json",
+        },
+      });
 
       setPasswordI("");
       setUsernameI("");
@@ -72,10 +74,16 @@ function Login() {
       {/* <input defaultValue="test" {...register("example")} /> */}
 
       {/* include validation with required or other standard HTML validation rules */}
-      <input {...register("username", { required: true })} />
+      <input
+        {...register("username", { required: true })}
+        onChange={(e) => setUsernameI(e.target.value)}
+      />
       {/* errors will return when field validation fails  */}
       {errors.username && <span>This field is required</span>}
-      <input {...register("password", { required: true })} />
+      <input
+        {...register("password", { required: true })}
+        onChange={(e) => setPasswordI(e.target.value)}
+      />
       {/* errors will return when field validation fails  */}
       {errors.password && <span>This field is required</span>}
 
