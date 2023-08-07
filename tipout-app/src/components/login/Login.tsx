@@ -3,6 +3,7 @@ import api from "../../API/axiosConfig";
 import LoginForm from "./LoginForm";
 import Banner from "../Banner";
 import { Button } from "react-bootstrap";
+import { useNavigate } from "react-router-dom";
 import { useForm, SubmitHandler } from "react-hook-form";
 
 type Inputs = {
@@ -12,6 +13,7 @@ type Inputs = {
 function Login() {
   const [usernameI, setUsernameI] = useState("");
   const [passwordI, setPasswordI] = useState("");
+  let navigate = useNavigate();
 
   const {
     register,
@@ -40,16 +42,15 @@ function Login() {
       setPasswordI("");
       setUsernameI("");
 
-      await console.log(response.headers.getUserAgent);
-      localStorage.setItem("token", response.data.token);
-      // if (localStorage.getItem("token")) {
-      //   return redirect("/login");
-      // }
+      localStorage.setItem("token", response.data.accessToken);
+      if (localStorage.getItem("token")) {
+        return navigate("/");
+      }
     } catch (error: any) {
       if (error.response) {
         // The request was made and the server responded with a status code
         // that falls out of the range of 2xx
-        alert(error.response.data.message);
+        alert("Does not match user information on record.");
         console.log(error.response.data);
         console.log(error.response.status);
         console.log(error.response.headers);
@@ -65,30 +66,36 @@ function Login() {
     }
   };
 
-  // console.log(watch("example")); // watch input value by passing the name of it
-
   return (
-    /* "handleSubmit" will validate your inputs before invoking "onSubmit" */
-    <form onSubmit={handleSubmit(onSubmit)}>
-      {/* register your input into the hook by invoking the "register" function */}
-      {/* <input defaultValue="test" {...register("example")} /> */}
+    <>
+      <Banner />
 
-      {/* include validation with required or other standard HTML validation rules */}
-      <input
-        {...register("username", { required: true })}
-        onChange={(e) => setUsernameI(e.target.value)}
-      />
-      {/* errors will return when field validation fails  */}
-      {errors.username && <span>This field is required</span>}
-      <input
-        {...register("password", { required: true })}
-        onChange={(e) => setPasswordI(e.target.value)}
-      />
-      {/* errors will return when field validation fails  */}
-      {errors.password && <span>This field is required</span>}
+      <form onSubmit={handleSubmit(onSubmit)}>
+        <div className="form-group">
+          <label>
+            Username
+            <input
+              {...register("username", { required: true })}
+              onChange={(e) => setUsernameI(e.target.value)}
+            />
+            {errors.username && <span>This field is required</span>}
+          </label>
+        </div>
+        <div className="form-group">
+          <label>
+            Password
+            <input
+              type="password"
+              {...register("password", { required: true })}
+              onChange={(e) => setPasswordI(e.target.value)}
+            />
+            {errors.password && <span>This field is required</span>}
+          </label>
+        </div>
 
-      <input type="submit" className="btn btn-primary" value="Login"></input>
-    </form>
+        <input type="submit" className="btn btn-primary" value="Login"></input>
+      </form>
+    </>
   );
 }
 

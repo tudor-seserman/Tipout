@@ -1,77 +1,77 @@
 package com.tipout.Tipout.controllers;
 
-//import com.tipout.Tipout.models.DTOs.CreateEmployeeDTO;
-//import com.tipout.Tipout.models.Employee;
-//import com.tipout.Tipout.models.Employees.*;
-//import com.tipout.Tipout.models.Employer;
-//import com.tipout.Tipout.models.data.*;
-//import org.springframework.beans.factory.annotation.Autowired;
-//import org.springframework.stereotype.Controller;
-//import org.springframework.ui.Model;
-//import org.springframework.validation.Errors;
-//import org.springframework.web.bind.annotation.*;
+import com.tipout.Tipout.models.DTOs.CreateEmployeeDTO;
+import com.tipout.Tipout.models.Employee;
+import com.tipout.Tipout.models.Employees.*;
+import com.tipout.Tipout.models.Employer;
+import com.tipout.Tipout.models.data.*;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.validation.Errors;
+import org.springframework.web.bind.annotation.*;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
+import javax.validation.Valid;
+import java.util.Arrays;
+import java.util.Optional;
+
+/*
+This controller is responsible for creating, editing, archiving, and deleting employees.
+The employee archive is managed by the SettingsController.
+ */
+
+@RestController
+@RequestMapping(value="employees")
+public class EmployeeController {
+    @Autowired
+    BartenderRepository bartenderRepository;
+    @Autowired
+    BOHRepository bohRepository;
+    @Autowired
+    BusserRepository busserRepository;
+    @Autowired
+    ServerRepository serverRepository;
+    @Autowired
+    AuthenticationController authenticationController;
+    @Autowired
+    EmployeeRepository employeeRepository;
+
 //
-//import javax.servlet.http.HttpServletRequest;
-//import javax.servlet.http.HttpSession;
-//import javax.validation.Valid;
-//import java.util.Arrays;
-//import java.util.Optional;
+//    Creates a specific kind of employee depending on the Employer passed in and information from the CreateEmployeeDTO
+//    The main vehicle by which Employees are created by Employer
+//    This method might be better placed in its own Service class
 //
-///*
-//This controller is responsible for creating, editing, archiving, and deleting employees.
-//The employee archive is managed by the SettingsController.
-// */
 //
-//@RestController
-//@RequestMapping(value="employees")
-//public class EmployeeController {
-//    @Autowired
-//    BartenderRepository bartenderRepository;
-//    @Autowired
-//    BOHRepository bohRepository;
-//    @Autowired
-//    BusserRepository busserRepository;
-//    @Autowired
-//    ServerRepository serverRepository;
-//    @Autowired
-//    AuthenticationController authenticationController;
-//    @Autowired
-//    EmployeeRepository employeeRepository;
+    public void createEmployee(Employer employer, CreateEmployeeDTO employee){
+        switch (employee.getEmployeeRole()) {
+            case "Bartender":
+                Bartender newBartender = new Bartender(employee.getFirstName(), employee.getLastName(), employer);
+                bartenderRepository.save(newBartender);
+                break;
+            case "BOH":
+                BOH newBOH = new BOH(employee.getFirstName(), employee.getLastName(), employer);
+                bohRepository.save(newBOH);
+                break;
+            case "Busser":
+                Busser newBusser = new Busser(employee.getFirstName(), employee.getLastName(), employer);
+                busserRepository.save(newBusser);
+                break;
+            case "Server":
+                Server newServer = new Server(employee.getFirstName(), employee.getLastName(), employer);
+                serverRepository.save(newServer);
+                break;
+            default:
+                throw new RuntimeException();
+        }
+    }
+
+
+//This method creates the form to add employees.
+//I am currently passing to the view a list of empty employees, but aim to pass in an a list of Employer selected roles.
+//This way an employer can customize what employee roles they want to create.
 //
-////
-////    Creates a specific kind of employee depending on the Employer passed in and information from the CreateEmployeeDTO
-////    The main vehicle by which Employees are created by Employer
-////    This method might be better placed in its own Service class
-////
-////
-//    public void createEmployee(Employer employer, CreateEmployeeDTO employee){
-//        switch (employee.getEmployeeRole()) {
-//            case "Bartender":
-//                Bartender newBartender = new Bartender(employee.getFirstName(), employee.getLastName(), employer);
-//                bartenderRepository.save(newBartender);
-//                break;
-//            case "BOH":
-//                BOH newBOH = new BOH(employee.getFirstName(), employee.getLastName(), employer);
-//                bohRepository.save(newBOH);
-//                break;
-//            case "Busser":
-//                Busser newBusser = new Busser(employee.getFirstName(), employee.getLastName(), employer);
-//                busserRepository.save(newBusser);
-//                break;
-//            case "Server":
-//                Server newServer = new Server(employee.getFirstName(), employee.getLastName(), employer);
-//                serverRepository.save(newServer);
-//                break;
-//            default:
-//                throw new RuntimeException();
-//        }
-//    }
-//
-////
-////This method creates the form to add employees.
-////I am currently passing to the view a list of empty employees, but aim to pass in an a list of Employer selected roles.
-////This way an employer can customize what employee roles they want to create.
-////
 //    @GetMapping("add")
 //    public String addNewEmployee(Model model,
 //                                 HttpServletRequest request
@@ -84,11 +84,40 @@ package com.tipout.Tipout.controllers;
 //        model.addAttribute("employeeTypes", employer.getEmployeesTypes());
 //        return "employees/add";
 //    }
+
 //
-////
 ////Employee enrollment is processed by this form. It takes in the logedin Employer, the role name
 ////and creates the specific kind of Employee that the Employer selected.
 ////
+
+        @PostMapping("add")
+    public String processAddNewEmployee(@RequestBody @Valid CreateEmployeeDTO employee,
+                                        Errors errors) {
+        HttpSession session = request.getSession();
+        Employer employer = authenticationController.getEmployerFromSession(session);
+
+
+        if (errors.hasErrors()) {
+            model.addAttribute("title", "Add Employee");
+            model.addAttribute("employeeTypes", employer.getEmployeesTypes());
+            return "employees/add";
+        }
+        try{
+            createEmployee(employer, employee);
+        }catch(RuntimeException e) {
+            model.addAttribute("error", "Something went wrong. Please try again or contact customer support if problem persists.");
+            model.addAttribute("title", "Add Employee");
+            model.addAttribute("employeeTypes", employer.getEmployeesTypes());
+            return "employees/add";
+        }
+
+        model.addAttribute("title", "Add Employee");
+        model.addAttribute("createEmployeeDTO", new CreateEmployeeDTO());
+        model.addAttribute("employeeTypes", employer.getEmployeesTypes());
+        model.addAttribute("newEmployee", employee.getFirstName());
+        return "employees/add";
+    }
+
 //    @PostMapping("add")
 //    public String processAddNewEmployee(Model model,
 //                                        @ModelAttribute @Valid CreateEmployeeDTO employee,
@@ -244,5 +273,4 @@ package com.tipout.Tipout.controllers;
 //        model.addAttribute("employeeToDeletedId", employeeToDeleteId);
 //        return "employees/delete";
 //    }
-//}
-//
+}

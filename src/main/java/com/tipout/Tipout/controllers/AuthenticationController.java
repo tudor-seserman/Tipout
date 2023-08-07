@@ -88,6 +88,7 @@ public class AuthenticationController {
 
     @PostMapping("login")
     public ResponseEntity<AuthResponseDTO> login(@RequestBody LoginRequest loginRequest) {
+        try{
             Authentication authentication = authenticationManager.authenticate(
                     new UsernamePasswordAuthenticationToken(
                             loginRequest.username(),
@@ -95,6 +96,9 @@ public class AuthenticationController {
             SecurityContextHolder.getContext().setAuthentication(authentication);
             String token = tokenService.generateToken(authentication);
             return new ResponseEntity<>(new AuthResponseDTO(token), HttpStatus.OK);
+        }catch (AuthenticationException e){
+            return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
+        }
     }
 
 }
