@@ -7,7 +7,7 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 //Wrapper class to facilitate Employer login extended
 @Data
-public class LoginFormDTO {
+public class EmployerLoginFormDTO {
 
     @NotNull
     @NotBlank

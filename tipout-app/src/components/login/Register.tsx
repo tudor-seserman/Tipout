@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import api from "../../API/axiosConfig";
 import Banner from "../Banner";
-import { redirect, useNavigate } from "react-router-dom";
+import { redirect } from "react-router-dom";
 import { useForm, SubmitHandler } from "react-hook-form";
 
 type Inputs = {
@@ -16,7 +16,6 @@ const Register = () => {
   const [usernameI, setUsernameI] = useState("");
   const [passwordI, setPasswordI] = useState("");
   const [verifyPasswordI, setVerifyPasswordI] = useState("");
-  let navigate = useNavigate();
 
   const {
     register,
@@ -38,23 +37,18 @@ const Register = () => {
     try {
       // console.log(employerRegistrationFormDTO);
       const response = await api.post(
-        "auth/register",
-        employerRegistrationFormDTO,
-        {
-          headers: {
-            Accept: "application/json",
-            "Content-Type": "application/json",
-          },
-        }
+        "http://localhost:8080/register",
+        employerRegistrationFormDTO
       );
-
       setBusinessNameI("");
       setPasswordI("");
       setUsernameI("");
       setVerifyPasswordI("");
 
-      if (response.status === 200) {
-        return navigate("/login");
+      await console.log(response.headers.getUserAgent);
+      localStorage.setItem("token", response.data.token);
+      if (localStorage.getItem("token")) {
+        return redirect("/login");
       }
     } catch (error: any) {
       if (error.response) {
@@ -139,7 +133,7 @@ const Register = () => {
             <input
               className="form-control"
               {...register("verifyPassword", {
-                validate: (val: String) => {
+                validate: (val: string) => {
                   if (watch("password") != val) {
                     return "Your passwords do not match";
                   }

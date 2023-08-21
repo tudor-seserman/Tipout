@@ -4,7 +4,6 @@ import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import com.tipout.Tipout.models.Employees.*;
-import lombok.NoArgsConstructor;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import javax.persistence.*;
@@ -19,7 +18,6 @@ One of two user classes. Employers handle Employee enrollment and setting Tipout
  */
 
 @Entity
-@NoArgsConstructor
 @JsonIdentityInfo(generator= ObjectIdGenerators.UUIDGenerator.class, property="@id")
 public class Employer extends UserEntity implements Serializable {
 
@@ -39,12 +37,13 @@ public class Employer extends UserEntity implements Serializable {
     @OneToOne(cascade=CascadeType.ALL)
     private EmployeeTipRates tipRates = new EmployeeTipRates();
 
-    public Employer(String username, String password) {
-        super(username, password);
+
+
+    public Employer() {
     }
 
     public Employer(String username, String businessName, String pwHash) {
-        super(username, pwHash);
+
         this.businessName = businessName;
     }
 

@@ -6,17 +6,17 @@ plugins {
 
 group = 'com.tipout'
 version = '0.0.1-SNAPSHOT'
-sourceCompatibility = "16"
+sourceCompatibility = '11'
 
 repositories {
 	mavenCentral()
 }
 
 dependencies {
-	compileOnly 'org.projectlombok:lombok:1.18.22'
-	annotationProcessor 'org.projectlombok:lombok:1.18.22'
-	testCompileOnly 'org.projectlombok:lombok:1.18.22'
-	testAnnotationProcessor 'org.projectlombok:lombok:1.18.22'
+	compileOnly 'org.projectlombok:lombok:1.18.16'
+	annotationProcessor 'org.projectlombok:lombok:1.18.16'
+	testCompileOnly 'org.projectlombok:lombok:1.18.16'
+	testAnnotationProcessor 'org.projectlombok:lombok:1.18.16'
 	//	implementation 'org.springframework.boot:spring-boot-starter-data-jdbc'
 	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
 	implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
@@ -33,9 +33,6 @@ dependencies {
 	implementation 'org.springframework.security:spring-security-core'
 	implementation 'org.springframework.security:spring-security-web'
 	implementation 'org.springframework.security:spring-security-config'
-	implementation 'io.jsonwebtoken:jjwt-api:0.11.5'
-	implementation 'io.jsonwebtoken:jjwt-impl:0.11.5'
-	implementation 'io.jsonwebtoken:jjwt-jackson:0.11.5'
 	implementation 'javax.servlet:javax.servlet-api:4.0.1'
 	implementation 'com.auth0:mvc-auth-commons:1.9.3'
 
@@ -44,4 +41,3 @@ dependencies {
 tasks.named('test') {
 	useJUnitPlatform()
 }
-targetCompatibility = JavaVersion.VERSION_16

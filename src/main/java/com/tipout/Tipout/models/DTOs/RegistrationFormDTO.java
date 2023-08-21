@@ -4,7 +4,7 @@ import lombok.Data;
 
 //Wrapper class to facilitate Employer creation
 @Data
-public class RegistrationFormDTO extends LoginFormDTO {
+public class EmployerRegistrationFormDTO extends EmployerLoginFormDTO{
     private String verifyPassword;
     private String businessName;
 

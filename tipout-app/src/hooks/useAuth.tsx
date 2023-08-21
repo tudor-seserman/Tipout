@@ -2,15 +2,19 @@ import { createContext, useContext, useMemo } from "react";
 import { useNavigate } from "react-router-dom";
 import { useLocalStorage } from "./useLocalStorage";
 
-const AuthContext = createContext();
+interface AuthContextProps {
+  children: React.ReactNode;
+}
 
-export const AuthProvider = ({ children }) => {
-  const [user, setUser] = useLocalStorage("user", null);
+const AuthContext = createContext({ user: {} });
+
+export const AuthProvider = ({ children }: AuthContextProps) => {
+  const [user, setUser] = useLocalStorage("user", "");
   const navigate = useNavigate();
 
   // call this function when you want to authenticate the user
-  const login = async (data) => {
-    localStorage.setItem("token", response.data.accessToken);
+  const login = async (data: any) => {
+    localStorage.setItem("token", Response.data.accessToken);
     if (localStorage.getItem("token")) {
       return navigate("/");
     }
