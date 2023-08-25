@@ -4,8 +4,11 @@ import com.tipout.Tipout.models.DTOs.CreateEmployeeDTO;
 import com.tipout.Tipout.models.Employee;
 import com.tipout.Tipout.models.Employees.*;
 import com.tipout.Tipout.models.Employer;
+import com.tipout.Tipout.models.UserEntity;
 import com.tipout.Tipout.models.data.*;
+import com.tipout.Tipout.service.AuthenticatedUser;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.Errors;
@@ -26,24 +29,30 @@ The employee archive is managed by the SettingsController.
 @RestController
 @RequestMapping(value="employees")
 public class EmployeeController {
-    @Autowired
     BartenderRepository bartenderRepository;
-    @Autowired
     BOHRepository bohRepository;
-    @Autowired
     BusserRepository busserRepository;
-    @Autowired
     ServerRepository serverRepository;
-    @Autowired
     AuthenticationController authenticationController;
-    @Autowired
     EmployeeRepository employeeRepository;
-    @Autowired
     EmployerRepository employerRepository;
+    AuthenticatedUser authenticatedUser;
+    @Autowired
+    public EmployeeController(BartenderRepository bartenderRepository, BOHRepository bohRepository, BusserRepository busserRepository, ServerRepository serverRepository, AuthenticationController authenticationController, EmployeeRepository employeeRepository, EmployerRepository employerRepository, AuthenticatedUser authenticatedUser) {
+        this.bartenderRepository = bartenderRepository;
+        this.bohRepository = bohRepository;
+        this.busserRepository = busserRepository;
+        this.serverRepository = serverRepository;
+        this.authenticationController = authenticationController;
+        this.employeeRepository = employeeRepository;
+        this.employerRepository = employerRepository;
+        this.authenticatedUser = authenticatedUser;
+    }
 
     @GetMapping
     public Iterable<Employer> getAllEmployers(){
-        System.out.println("a");
+        UserEntity test = authenticatedUser.getUser();
+        System.out.println(test);
         return employerRepository.findAll();
 
     }
