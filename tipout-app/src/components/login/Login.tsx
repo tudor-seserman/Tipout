@@ -1,37 +1,60 @@
-import React from "react";
-import LoginForm from "./LoginForm";
+import React, { useState } from "react";
 import Banner from "../Banner";
-import { Button } from "react-bootstrap";
 import { useForm, SubmitHandler } from "react-hook-form";
+import { useAuth } from "../../hooks/useAuth";
 
 type Inputs = {
-  example: string;
-  exampleRequired: string;
+  username: string;
+  password: string;
 };
 function Login() {
+  const [usernameI, setUsernameI] = useState("");
+  const [passwordI, setPasswordI] = useState("");
+
   const {
     register,
     handleSubmit,
-    watch,
     formState: { errors },
   } = useForm<Inputs>();
-  const onSubmit: SubmitHandler<Inputs> = (data) => console.log(data);
 
-  // console.log(watch("example")); // watch input value by passing the name of it
+  const loginFormDTO = {
+    username: usernameI,
+    password: passwordI,
+  };
+
+  const { login } = useAuth();
+  const onSubmit: SubmitHandler<Inputs> = () => login(loginFormDTO);
 
   return (
-    /* "handleSubmit" will validate your inputs before invoking "onSubmit" */
-    <form onSubmit={handleSubmit(onSubmit)}>
-      {/* register your input into the hook by invoking the "register" function */}
-      {/* <input defaultValue="test" {...register("example")} /> */}
+    <>
+      <Banner />
 
-      {/* include validation with required or other standard HTML validation rules */}
-      <input {...register("exampleRequired", { required: true })} />
-      {/* errors will return when field validation fails  */}
-      {errors.exampleRequired && <span>This field is required</span>}
+      <form onSubmit={handleSubmit(onSubmit)}>
+        <div className="form-group">
+          <label>
+            Username
+            <input
+              {...register("username", { required: true })}
+              onChange={(e) => setUsernameI(e.target.value)}
+            />
+            {errors.username && <span>This field is required</span>}
+          </label>
+        </div>
+        <div className="form-group">
+          <label>
+            Password
+            <input
+              type="password"
+              {...register("password", { required: true })}
+              onChange={(e) => setPasswordI(e.target.value)}
+            />
+            {errors.password && <span>This field is required</span>}
+          </label>
+        </div>
 
-      <input type="submit" className="btn btn-primary" value="Register"></input>
-    </form>
+        <input type="submit" className="btn btn-primary" value="Login"></input>
+      </form>
+    </>
   );
 }
 
