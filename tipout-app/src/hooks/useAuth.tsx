@@ -7,7 +7,7 @@ interface AuthContextProps {
   children: React.ReactNode;
 }
 interface AuthProviderType {
-  user: {};
+  user: { keyName: "token"; accessToken: "" };
   login: (loginFormDTO: {}) => NavigateFunction;
   logout: () => null;
 }
@@ -17,7 +17,7 @@ const AuthContext = createContext({});
 export const AuthProvider = ({ children }: AuthContextProps) => {
   const [user, setUser] = useLocalStorage({
     keyName: "token",
-    defaultValue: "",
+    accessToken: "",
   });
 
   const navigate = useNavigate();
@@ -33,7 +33,7 @@ export const AuthProvider = ({ children }: AuthContextProps) => {
       });
       setUser({
         keyName: "token",
-        defaultValue: response.data.accessToken,
+        accessToken: response.data.accessToken,
       });
       // localStorage.setItem("token", response.data.accessToken);
       if (localStorage.getItem("token")) {

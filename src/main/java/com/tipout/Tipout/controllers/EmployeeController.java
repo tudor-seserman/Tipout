@@ -15,6 +15,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 import java.util.Arrays;
+import java.util.List;
 import java.util.Optional;
 
 /*
@@ -37,6 +38,15 @@ public class EmployeeController {
     AuthenticationController authenticationController;
     @Autowired
     EmployeeRepository employeeRepository;
+    @Autowired
+    EmployerRepository employerRepository;
+
+    @GetMapping
+    public Iterable<Employer> getAllEmployers(){
+        System.out.println("a");
+        return employerRepository.findAll();
+
+    }
 
 //
 //    Creates a specific kind of employee depending on the Employer passed in and information from the CreateEmployeeDTO

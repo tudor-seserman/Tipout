@@ -2,12 +2,12 @@ import { useState } from "react";
 
 interface UseLocalStorageProps {
   keyName: string;
-  defaultValue: string;
+  accessToken: string;
 }
 
 export const useLocalStorage = ({
   keyName,
-  defaultValue,
+  accessToken: accessToken,
 }: UseLocalStorageProps) => {
   const [storedValue, setStoredValue] = useState(() => {
     try {
@@ -16,11 +16,11 @@ export const useLocalStorage = ({
       if (value) {
         return JSON.parse(value);
       } else {
-        window.localStorage.setItem(keyName, JSON.stringify(defaultValue));
-        return defaultValue;
+        window.localStorage.setItem(keyName, JSON.stringify(accessToken));
+        return accessToken;
       }
     } catch (err) {
-      return defaultValue;
+      return accessToken;
     }
   });
 
