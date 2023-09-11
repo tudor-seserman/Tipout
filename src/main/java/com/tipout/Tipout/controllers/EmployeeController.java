@@ -8,6 +8,8 @@ import com.tipout.Tipout.models.UserEntity;
 import com.tipout.Tipout.models.data.*;
 import com.tipout.Tipout.service.AuthenticatedUser;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -50,10 +52,9 @@ public class EmployeeController {
     }
 
     @GetMapping
-    public Iterable<Employer> getAllEmployers(){
-        UserEntity test = authenticatedUser.getUser();
-        System.out.println(test);
-        return employerRepository.findAll();
+    public Iterable<String> getAllEmployers(){
+        Employer employer = (Employer)authenticatedUser.getUser();
+        return employer.getEmployeesTypes();
 
     }
 
@@ -63,27 +64,30 @@ public class EmployeeController {
 //    This method might be better placed in its own Service class
 //
 //
-    public void createEmployee(Employer employer, CreateEmployeeDTO employee){
-        switch (employee.getEmployeeRole()) {
-            case "Bartender":
-                Bartender newBartender = new Bartender(employee.getFirstName(), employee.getLastName(), employer);
-                bartenderRepository.save(newBartender);
-                break;
-            case "BOH":
-                BOH newBOH = new BOH(employee.getFirstName(), employee.getLastName(), employer);
-                bohRepository.save(newBOH);
-                break;
-            case "Busser":
-                Busser newBusser = new Busser(employee.getFirstName(), employee.getLastName(), employer);
-                busserRepository.save(newBusser);
-                break;
-            case "Server":
-                Server newServer = new Server(employee.getFirstName(), employee.getLastName(), employer);
-                serverRepository.save(newServer);
-                break;
-            default:
-                throw new RuntimeException();
-        }
+    @PostMapping
+    public ResponseEntity createEmployee(@RequestBody CreateEmployeeDTO employee){
+            Employer employer = (Employer) authenticatedUser.getUser();
+            switch (employee.getEmployeeRole()) {
+                case "Bartender":
+                    Bartender newBartender = new Bartender(employee.getFirstName(), employee.getLastName(), employer);
+                    bartenderRepository.save(newBartender);
+                    break;
+                case "BOH":
+                    BOH newBOH = new BOH(employee.getFirstName(), employee.getLastName(), employer);
+                    bohRepository.save(newBOH);
+                    break;
+                case "Busser":
+                    Busser newBusser = new Busser(employee.getFirstName(), employee.getLastName(), employer);
+                    busserRepository.save(newBusser);
+                    break;
+                case "Server":
+                    Server newServer = new Server(employee.getFirstName(), employee.getLastName(), employer);
+                    serverRepository.save(newServer);
+                    break;
+                default:
+                    new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+            }
+            return new ResponseEntity<>(HttpStatus.OK);
     }
 
 
