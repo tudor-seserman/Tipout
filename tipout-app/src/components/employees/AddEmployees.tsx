@@ -3,6 +3,7 @@ import Select from "react-select";
 import Banner from "../Banner";
 import api from "../../API/axiosConfig";
 import { useAuth } from "../../hooks/useAuth";
+import EmployeeRoleSelect from "./EmployeeRoleSelect";
 
 const AddEmployees = () => {
   const { user } = useAuth();
@@ -10,33 +11,6 @@ const AddEmployees = () => {
   const [lastName, setLastName] = useState("");
   const [employeeRole, setEmployeeRole] = useState("test");
   const [employerRoles, setEmployerRoles] = useState([]);
-
-  const customStyles = {
-    control: (base, state) => ({
-      ...base,
-      color: "#f9f9f9",
-      background: "#1a1a1a",
-      borderRadius: state.isFocused ? "3px 3px 0 0" : 3,
-      borderColor: state.isFocused ? "#646cff" : "green",
-      boxShadow: state.isFocused ? null : null,
-      "&:hover": {
-        borderColor: state.isFocused ? "red" : "blue",
-      },
-    }),
-    menu: (base) => ({
-      ...base,
-      color: "#f9f9f9",
-      background: "#1a1a1a",
-      borderRadius: 0,
-      marginTop: 0,
-    }),
-    menuList: (base) => ({
-      ...base,
-      color: "#f9f9f9",
-      background: "#1a1a1a",
-      padding: 0,
-    }),
-  };
 
   useEffect(() => {
     api
@@ -59,7 +33,6 @@ const AddEmployees = () => {
 
   const handleSubmit = async (e: any) => {
     e.preventDefault();
-    console.log("stuff");
     try {
       const response = await api.post("/employees", CreateEmployeeDTO, {
         headers: {
@@ -90,7 +63,7 @@ const AddEmployees = () => {
 
   return (
     <>
-      <Banner></Banner>
+      <Banner />
       <form onSubmit={handleSubmit}>
         <div className="form-group">
           <label>
@@ -104,7 +77,8 @@ const AddEmployees = () => {
             <input onChange={(e) => setLastName(e.target.value)} />
           </label>
         </div>
-        <div className="form-group">
+        <EmployeeRoleSelect employerRoles={employerRoles} />
+        {/* <div className="form-group">
           <label>
             What is their role?
             <Select
@@ -113,7 +87,7 @@ const AddEmployees = () => {
               styles={customStyles}
             />
           </label>
-        </div>
+        </div> */}
         <div className="form-group">
           <input type="submit"></input>
         </div>
