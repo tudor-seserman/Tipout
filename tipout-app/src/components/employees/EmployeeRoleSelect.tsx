@@ -1,19 +1,15 @@
 import React from "react";
-import Select from "react-select";
+import Select, { ActionMeta } from "react-select";
 
 type EmployeeRoleSelectProps = {
-  map(
-    arg0: (t: string) => { value: string; label: string }
-  ):
-    | import("react-select").OptionsOrGroups<
-        string,
-        import("react-select").GroupBase<string>
-      >
-    | undefined;
-  employerRoles: string[];
+  options: readonly unknown[];
+  handleChange: (newValue: unknown, actionMeta: ActionMeta<unknown>) => void;
 };
 
-const EmployeeRoleSelect = (employerRoles: EmployeeRoleSelectProps) => {
+const EmployeeRoleSelect = ({
+  options,
+  handleChange,
+}: EmployeeRoleSelectProps) => {
   const customStyles = {
     control: (base, state) => ({
       ...base,
@@ -47,8 +43,8 @@ const EmployeeRoleSelect = (employerRoles: EmployeeRoleSelectProps) => {
         <label>
           What is their role?
           <Select
-            onChange={(value) => setEmployeeRole(value.value)}
-            options={employerRoles.map((t: string) => ({ value: t, label: t }))}
+            onChange={handleChange}
+            options={options}
             styles={customStyles}
           />
         </label>

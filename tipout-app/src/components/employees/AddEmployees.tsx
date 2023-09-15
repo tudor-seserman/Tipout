@@ -77,17 +77,11 @@ const AddEmployees = () => {
             <input onChange={(e) => setLastName(e.target.value)} />
           </label>
         </div>
-        <EmployeeRoleSelect employerRoles={employerRoles} />
-        {/* <div className="form-group">
-          <label>
-            What is their role?
-            <Select
-              onChange={(value) => setEmployeeRole(value.value)}
-              options={employerRoles.map((t) => ({ value: t, label: t }))}
-              styles={customStyles}
-            />
-          </label>
-        </div> */}
+        <EmployeeRoleSelect
+          handleChange={(value) => setEmployeeRole(value.value)}
+          options={employerRoles.map((t: string) => ({ value: t, label: t }))}
+        />
+
         <div className="form-group">
           <input type="submit"></input>
         </div>
