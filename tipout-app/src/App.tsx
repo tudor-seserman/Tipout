@@ -7,6 +7,7 @@ import Register from "./components/login/Register";
 import Login from "./components/login/Login";
 import AddEmployees from "./components/employees/AddEmployees";
 import { ProtectedRoute } from "./components/authentication/ProtectedRoute";
+import InputCollectedTips from "./components/calculate/InputCollectedTips";
 
 function App() {
   return (
@@ -20,6 +21,16 @@ function App() {
           <ProtectedRoute>
             <Routes>
               <Route path="/" element={<AddEmployees />} />
+            </Routes>
+          </ProtectedRoute>
+        }
+      ></Route>
+      <Route
+        path="/calculate/*"
+        element={
+          <ProtectedRoute>
+            <Routes>
+              <Route path="/" element={<InputCollectedTips />} />
             </Routes>
           </ProtectedRoute>
         }
