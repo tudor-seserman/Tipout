@@ -1,6 +1,9 @@
 package com.tipout.Tipout.controllers;
 
 import com.tipout.Tipout.models.*;
+import com.tipout.Tipout.models.DTOs.CollectTipsEmployeeDTO;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import com.tipout.Tipout.models.Employees.MoneyHandler;
 import com.tipout.Tipout.models.Employees.NonMoneyHandler;
 import com.tipout.Tipout.models.data.*;
@@ -57,14 +60,58 @@ public class TipoutController {
 
 
     @GetMapping("MoneyHandler")
-    public List<MoneyHandler> getMoneyHandler(){
+    public ResponseEntity<List<CollectTipsEmployeeDTO>> getMoneyHandler(){
         Employer employer = (Employer)authenticatedUser.getUser();
-         return moneyHandlerRepository.findAllByDeletedFalseAndEmployer_Id(employer.getId());
+        List<MoneyHandler> moneyHandlerEmployees =moneyHandlerRepository.findAllByDeletedFalseAndEmployer_Id(employer.getId());
+        List<CollectTipsEmployeeDTO> listToReturn = new ArrayList<>();
+        moneyHandlerEmployees.forEach(x -> listToReturn.add(new CollectTipsEmployeeDTO(x)));
+        return ResponseEntity.ok(listToReturn);
     }
     @GetMapping("NonMoneyHandler")
-    public Iterable<NonMoneyHandler> getNoNMoneyHandler(){
+    public ResponseEntity<List<CollectTipsEmployeeDTO>> getNoNMoneyHandler(){
         Employer employer = (Employer)authenticatedUser.getUser();
-        return nonMoneyHandlerRepository.findAllByDeletedFalseAndEmployer_Id(employer.getId());
+        List<NonMoneyHandler> nonMoneyHandlerEmployees =nonMoneyHandlerRepository.findAllByDeletedFalseAndEmployer_Id(employer.getId());
+        List<CollectTipsEmployeeDTO> listToReturn = new ArrayList<>();
+        nonMoneyHandlerEmployees.forEach(x -> listToReturn.add(new CollectTipsEmployeeDTO(x)));
+        return ResponseEntity.ok(listToReturn);
+    }
+
+    @PostMapping("report")
+    public ResponseEntity tipReport(@RequestBody List<CollectTipsEmployeeDTO> collectTipsEmployees){
+        System.out.println(collectTipsEmployees);
+        //Employees with different roles are fed into the same table,
+        // any employees that are not included in the tippool are not included in the new table
+        // if no tips are declared an error is thrown
+//        try {
+//            tipsCollected.mergeTables();
+//        }catch (RuntimeException e){
+//            attributes.addAttribute("error", e.getMessage());
+//            return "redirect:/calculate";
+//        }
+//        Map<Employee,Tips> employeesMap= tipsCollected.getEmployeeTipsMap();
+//
+//        tipsCollectedRepository.save(tipsCollected);
+//
+////        In order to calculate the distribution for the current schema, we need to use the
+////        Tipout object which handles the calculation for the current schema we need to pass in three pieces of information:
+//        long id = tipsCollected.getId();
+////        1) The total amount in the tippool
+//        BigDecimal totalTippool = tipsCollectedRepository.findTotalTippool(id);
+////        2) The different types of employees in the tip pool
+//        Integer totalEmployeeTipRates = tipsCollectedRepository.findTotalEmployeeTipoutPercentInTippool(id);
+////        3) The Employees in the tip pool
+//        List<Employee> employeesInTipPool = new ArrayList<>(employeesMap.keySet());
+//
+//
+//        Tipout tipout = new Tipout();
+////        We call the calculateTippoolDistribution from the Tipout class which will return a list of Employees with money they are owed
+//        Map<Employee, Tips> employeeShareofTipoolMap = tipout.calculateTippoolDistribution(totalEmployeeTipRates, totalTippool, employeesInTipPool);
+//
+//        model.addAttribute("title","Calculated Tips");
+//        model.addAttribute("tippool", totalTippool);
+//        model.addAttribute("payouts", employeeShareofTipoolMap);
+
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 
 

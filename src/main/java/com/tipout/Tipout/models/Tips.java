@@ -20,6 +20,8 @@ public class Tips extends AbstractEntity{
     public Tips(BigDecimal tips) {
         this.tips = tips;
     }
+    public Tips(Double numberTips){this.tips = new BigDecimal(numberTips);}
+    public Tips(Integer numberTips){this.tips = new BigDecimal(numberTips);}
 
     public BigDecimal getTips() {
         return tips;
