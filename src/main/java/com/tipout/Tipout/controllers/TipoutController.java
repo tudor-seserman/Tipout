@@ -17,9 +17,8 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
+
 /*
 This controller handles calculations and the display of those calculations for the app.
 It takes employer input and displays how tips are to be distributed.
@@ -77,7 +76,7 @@ public class TipoutController {
     }
 
     @PostMapping("report")
-    public ResponseEntity tipReport(@RequestBody List<CollectTipsEmployeeDTO> collectTipsEmployees){
+    public ResponseEntity<Map<Employee, Tips>> tipReport(@RequestBody List<CollectTipsEmployeeDTO> collectTipsEmployees){
         System.out.println(collectTipsEmployees);
         //Employees with different roles are fed into the same table,
         // any employees that are not included in the tippool are not included in the new table
@@ -88,30 +87,40 @@ public class TipoutController {
 //            attributes.addAttribute("error", e.getMessage());
 //            return "redirect:/calculate";
 //        }
+        Map<Employee,Tips> employeesMap=new HashMap<>();
+
+        for(CollectTipsEmployeeDTO collectTipsEmployeeDTO: collectTipsEmployees){
+            if(collectTipsEmployeeDTO.getTips() != null){
+            Optional<Employee> optionalEmployee = employeeRepository.findById(collectTipsEmployeeDTO.getId());
+            if (optionalEmployee.isEmpty()){throw new RuntimeException();}
+            Employee employee =  optionalEmployee.get();
+            employeesMap.put(employee, collectTipsEmployeeDTO.getTips());}
+        }
 //        Map<Employee,Tips> employeesMap= tipsCollected.getEmployeeTipsMap();
 //
-//        tipsCollectedRepository.save(tipsCollected);
+        TipsCollected tipsCollected =new TipsCollected(employeesMap);
+        tipsCollectedRepository.save(tipsCollected);
 //
 ////        In order to calculate the distribution for the current schema, we need to use the
 ////        Tipout object which handles the calculation for the current schema we need to pass in three pieces of information:
-//        long id = tipsCollected.getId();
+        long id = tipsCollected.getId();
 ////        1) The total amount in the tippool
-//        BigDecimal totalTippool = tipsCollectedRepository.findTotalTippool(id);
+        BigDecimal totalTippool = tipsCollectedRepository.findTotalTippool(id);
 ////        2) The different types of employees in the tip pool
-//        Integer totalEmployeeTipRates = tipsCollectedRepository.findTotalEmployeeTipoutPercentInTippool(id);
+        Integer totalEmployeeTipRates = tipsCollectedRepository.findTotalEmployeeTipoutPercentInTippool(id);
 ////        3) The Employees in the tip pool
-//        List<Employee> employeesInTipPool = new ArrayList<>(employeesMap.keySet());
+        List<Employee> employeesInTipPool = new ArrayList<>(employeesMap.keySet());
 //
 //
-//        Tipout tipout = new Tipout();
+        Tipout tipout = new Tipout();
 ////        We call the calculateTippoolDistribution from the Tipout class which will return a list of Employees with money they are owed
-//        Map<Employee, Tips> employeeShareofTipoolMap = tipout.calculateTippoolDistribution(totalEmployeeTipRates, totalTippool, employeesInTipPool);
+        Map<Employee, Tips> employeeShareofTipoolMap = tipout.calculateTippoolDistribution(totalEmployeeTipRates, totalTippool, employeesInTipPool);
 //
 //        model.addAttribute("title","Calculated Tips");
 //        model.addAttribute("tippool", totalTippool);
 //        model.addAttribute("payouts", employeeShareofTipoolMap);
 
-        return new ResponseEntity<>(HttpStatus.OK);
+        return ResponseEntity.ok(employeeShareofTipoolMap);
     }
 
 

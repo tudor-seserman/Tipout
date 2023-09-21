@@ -15,13 +15,15 @@ as the Employees that will receive money from the tip pool.
 public class TipsCollected extends AbstractEntity{
 
     @OneToMany(cascade = CascadeType.PERSIST)
-    private final Map<Employee, Tips> employeeTipsMap = new LinkedHashMap<>();
+    private Map<Employee, Tips> employeeTipsMap = new LinkedHashMap<>();
     @OneToMany(cascade = CascadeType.PERSIST)
     private final Map<MoneyHandler, Tips> moneyHandlerTipsMap = new LinkedHashMap<>();
     @OneToMany(cascade = CascadeType.PERSIST)
     private final Map<NonMoneyHandler, Tips> nonMoneyHandlerTipsMap = new LinkedHashMap<>();
 
     public TipsCollected() {}
+
+    public TipsCollected(Map<Employee, Tips> employeeTipsMap) {this.employeeTipsMap=employeeTipsMap;}
 
 // All Employees that are in the tip pool with the amount they re contributing
     public Map<Employee, Tips> getEmployeeTipsMap() {
