@@ -1,5 +1,6 @@
 import React, { useCallback, useEffect, useState } from "react";
 import api from "../../API/axiosConfig";
+import { NavigateFunction, useNavigate } from "react-router-dom";
 import Banner from "../Banner";
 import { useAuth } from "../../hooks/useAuth";
 
@@ -13,6 +14,7 @@ const InputCollectedTips = () => {
   const [moneyHandlers, setMoneyHandlers] = useState<Employee[]>([]);
   const [nonMoneyHandlers, setNonMoneyHandlers] = useState<Employee[]>([]);
   const [tipsCollected, setTipsCollected] = useState<Employee[]>([]);
+  const navigate = useNavigate();
 
   const handleMoneyHandlersChange = (event, index) => {
     let data = [...moneyHandlers];
@@ -65,7 +67,9 @@ const InputCollectedTips = () => {
         },
       });
 
-      console.log(response.data);
+      //   console.log(typeof response.data);
+
+      navigate("/calculate/report", { state: response.data });
     } catch (error: any) {
       if (error.response) {
         // The request was made and the server responded with a status code
@@ -89,18 +93,6 @@ const InputCollectedTips = () => {
   return (
     <>
       <Banner />
-      {/* moneyHandlers
-      <ul>
-        {moneyHandlers.map(function (moneyHandler) {
-          return <li key={moneyHandler.id}> {moneyHandler.name}</li>;
-        })}
-      </ul>
-      nonMoneyHandlers
-      <ul>
-        {nonMoneyHandlers.map(function (nonMoneyHandler) {
-          return <li key={nonMoneyHandler.id}> {nonMoneyHandler.name}</li>;
-        })}
-      </ul> */}
       <form onSubmit={handleSubmit}>
         <div>
           <h3>Enter Tips</h3>

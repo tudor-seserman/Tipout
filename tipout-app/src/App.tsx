@@ -8,6 +8,7 @@ import Login from "./components/login/Login";
 import AddEmployees from "./components/employees/AddEmployees";
 import { ProtectedRoute } from "./components/authentication/ProtectedRoute";
 import InputCollectedTips from "./components/calculate/InputCollectedTips";
+import TipoutReport from "./components/calculate/TipoutReport";
 
 function App() {
   return (
@@ -31,6 +32,7 @@ function App() {
           <ProtectedRoute>
             <Routes>
               <Route path="/" element={<InputCollectedTips />} />
+              <Route path="/report" element={<TipoutReport />} />
             </Routes>
           </ProtectedRoute>
         }

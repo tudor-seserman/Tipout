@@ -1,8 +1,8 @@
 package com.tipout.Tipout.models;
 
-import javax.persistence.CascadeType;
-import javax.persistence.Entity;
-import javax.persistence.OneToMany;
+import lombok.Data;
+
+import javax.persistence.*;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.util.*;
@@ -10,9 +10,16 @@ import java.util.*;
 This class handles calculations for different tip schemas it will be paired with methods from TipCollector
  */
 @Entity
+@Data
 public class Tipout extends AbstractEntity{
     @OneToMany(cascade = CascadeType.ALL)
     private final Map<Employee, Tips> tipPoolDistribution = new HashMap<>();
+    @ElementCollection
+//    @CollectionTable(name = "order_item_mapping",
+//            joinColumns = {@JoinColumn(name = "order_id", referencedColumnName = "id")})
+    @MapKeyColumn(name = "employee")
+    @Column(name = "employee_tips")
+    private Map<String, String> displayMap = new HashMap<>();
 
     public Tipout() {
     }
@@ -34,7 +41,7 @@ the the size of the tippool.
 3. Individual tipouts are calculated by multiplying the number of shares an employee has of the tip pool by the value of each of those shares.
 4. This information is pushed to the tipPoolDistribution Map.
  */
-    public Map<Employee, Tips> calculateTippoolDistribution(Integer totalTippoolRates, BigDecimal totalTippool, List<Employee> employeesInTippool){
+    public Map<String, String> calculateTippoolDistribution(Integer totalTippoolRates, BigDecimal totalTippool, List<Employee> employeesInTippool){
 
 //        This method receives three pieces of information from the TipoutController, total tips, total rates in tip pool, employees that need to be tipped out
 
@@ -45,9 +52,11 @@ the the size of the tippool.
 
         for(Employee employeeInTippool: employeesInTippool){
             BigDecimal portionOfTippool = shareOfTippool.multiply(new BigDecimal(employeeInTippool.getPercentOfTipout()));
-            tipPoolDistribution.put(employeeInTippool, new Tips(portionOfTippool));
+            Tips tip = new Tips(portionOfTippool);
+            tipPoolDistribution.put(employeeInTippool, tip);
+            displayMap.put(employeeInTippool.toString(), tip.getDisplayTips());
         }
-        return tipPoolDistribution;
+        return displayMap;
     }
 
 }

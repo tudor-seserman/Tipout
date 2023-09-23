@@ -34,15 +34,17 @@ public class TipoutController {
     NonMoneyHandlerRepository nonMoneyHandlerRepository;
     TipsCollectedRepository tipsCollectedRepository;
     AuthenticatedUser authenticatedUser;
+    TipoutRepository tipoutRepository;
 
     @Autowired
-    public TipoutController(AuthenticationController authenticationController, EmployeeRepository employeeRepository, MoneyHandlerRepository moneyHandlerRepository, NonMoneyHandlerRepository nonMoneyHandlerRepository, TipsCollectedRepository tipsCollectedRepository, AuthenticatedUser authenticatedUser) {
+    public TipoutController(AuthenticationController authenticationController, EmployeeRepository employeeRepository, MoneyHandlerRepository moneyHandlerRepository, NonMoneyHandlerRepository nonMoneyHandlerRepository, TipsCollectedRepository tipsCollectedRepository, AuthenticatedUser authenticatedUser, TipoutRepository tipoutRepository) {
         this.authenticationController = authenticationController;
         this.employeeRepository = employeeRepository;
         this.moneyHandlerRepository = moneyHandlerRepository;
         this.nonMoneyHandlerRepository = nonMoneyHandlerRepository;
         this.tipsCollectedRepository = tipsCollectedRepository;
         this.authenticatedUser = authenticatedUser;
+        this.tipoutRepository = tipoutRepository;
     }
 
 
@@ -76,7 +78,7 @@ public class TipoutController {
     }
 
     @PostMapping("report")
-    public ResponseEntity<Map<Employee, Tips>> tipReport(@RequestBody List<CollectTipsEmployeeDTO> collectTipsEmployees){
+    public ResponseEntity<Map<String, String>> tipReport(@RequestBody List<CollectTipsEmployeeDTO> collectTipsEmployees){
         System.out.println(collectTipsEmployees);
         //Employees with different roles are fed into the same table,
         // any employees that are not included in the tippool are not included in the new table
@@ -114,7 +116,8 @@ public class TipoutController {
 //
         Tipout tipout = new Tipout();
 ////        We call the calculateTippoolDistribution from the Tipout class which will return a list of Employees with money they are owed
-        Map<Employee, Tips> employeeShareofTipoolMap = tipout.calculateTippoolDistribution(totalEmployeeTipRates, totalTippool, employeesInTipPool);
+        Map<String, String> employeeShareofTipoolMap = tipout.calculateTippoolDistribution(totalEmployeeTipRates, totalTippool, employeesInTipPool);
+        tipoutRepository.save(tipout);
 //
 //        model.addAttribute("title","Calculated Tips");
 //        model.addAttribute("tippool", totalTippool);
