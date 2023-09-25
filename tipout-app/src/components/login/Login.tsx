@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import Banner from "../Banner";
+import Form from "react-bootstrap/Form";
 import { useForm, SubmitHandler } from "react-hook-form";
 import { useAuth } from "../../hooks/useAuth";
 
@@ -29,31 +30,29 @@ function Login() {
     <>
       <Banner />
 
-      <form onSubmit={handleSubmit(onSubmit)}>
-        <div className="form-group">
-          <label>
-            Username
-            <input
-              {...register("username", { required: true })}
-              onChange={(e) => setUsernameI(e.target.value)}
-            />
-            {errors.username && <span>This field is required</span>}
-          </label>
-        </div>
-        <div className="form-group">
-          <label>
-            Password
-            <input
-              type="password"
-              {...register("password", { required: true })}
-              onChange={(e) => setPasswordI(e.target.value)}
-            />
-            {errors.password && <span>This field is required</span>}
-          </label>
-        </div>
+      <Form onSubmit={handleSubmit(onSubmit)}>
+        <Form.Group>
+          <Form.Control
+            placeholder="Username"
+            aria-label="Username"
+            {...register("username", { required: true })}
+            onChange={(e) => setUsernameI(e.target.value)}
+          />
+          {errors.username && <span>This field is required</span>}
+        </Form.Group>
+        <Form.Group>
+          <Form.Control
+            placeholder="Password"
+            aria-label="Password"
+            type="password"
+            {...register("password", { required: true })}
+            onChange={(e) => setPasswordI(e.target.value)}
+          />
+          {errors.password && <span>This field is required</span>}
+        </Form.Group>
 
         <input type="submit" className="btn btn-primary" value="Login"></input>
-      </form>
+      </Form>
     </>
   );
 }

@@ -1,5 +1,6 @@
 import React from "react";
 import Select, { ActionMeta } from "react-select";
+import Form from "react-bootstrap/Form";
 
 type EmployeeRoleSelectProps = {
   options: readonly unknown[];
@@ -38,18 +39,12 @@ const EmployeeRoleSelect = ({
   };
 
   return (
-    <>
-      <div className="form-group">
-        <label>
-          What is their role?
-          <Select
-            onChange={handleChange}
-            options={options}
-            styles={customStyles}
-          />
-        </label>
-      </div>
-    </>
+    <Form.Group>
+      <Form.Label>
+        What is their role?
+        <Select onChange={handleChange} options={options} />
+      </Form.Label>
+    </Form.Group>
   );
 };
 

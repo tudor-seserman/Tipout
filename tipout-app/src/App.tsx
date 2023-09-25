@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import api from "./API/axiosConfig";
+import "bootstrap/dist/css/bootstrap.min.css";
 import "./App.css";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import Home from "./components/Home";

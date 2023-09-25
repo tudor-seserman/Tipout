@@ -4,6 +4,7 @@ import Banner from "../Banner";
 import api from "../../API/axiosConfig";
 import { useAuth } from "../../hooks/useAuth";
 import EmployeeRoleSelect from "./EmployeeRoleSelect";
+import Form from "react-bootstrap/Form";
 
 const AddEmployees = () => {
   const { user } = useAuth();
@@ -64,28 +65,29 @@ const AddEmployees = () => {
   return (
     <>
       <Banner />
-      <form onSubmit={handleSubmit}>
-        <div className="form-group">
-          <label>
-            First Name
-            <input onChange={(e) => setFirstName(e.target.value)} />
-          </label>
-        </div>
-        <div className="form-group">
-          <label>
-            Last Name
-            <input onChange={(e) => setLastName(e.target.value)} />
-          </label>
-        </div>
+      <Form onSubmit={handleSubmit}>
+        <Form.Group>
+          <Form.Control
+            placeholder="First Name"
+            aria-label="First Name"
+            onChange={(e) => setFirstName(e.target.value)}
+          />
+        </Form.Group>
+        <Form.Group>
+          <Form.Control
+            placeholder="Last Name"
+            aria-label="Lat Name"
+            onChange={(e) => setLastName(e.target.value)}
+          />
+        </Form.Group>
         <EmployeeRoleSelect
           handleChange={(value) => setEmployeeRole(value.value)}
           options={employerRoles.map((t: string) => ({ value: t, label: t }))}
         />
-
-        <div className="form-group">
-          <input type="submit"></input>
-        </div>
-      </form>
+        <Form.Group>
+          <Form.Control type="submit" value="Add Employee" />
+        </Form.Group>
+      </Form>
     </>
   );
 };

@@ -1,7 +1,8 @@
-import React, { useCallback, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import api from "../../API/axiosConfig";
-import { NavigateFunction, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import Banner from "../Banner";
+import Form from "react-bootstrap/Form";
 import { useAuth } from "../../hooks/useAuth";
 
 type Employee = {
@@ -93,26 +94,26 @@ const InputCollectedTips = () => {
   return (
     <>
       <Banner />
-      <form onSubmit={handleSubmit}>
+      <Form onSubmit={handleSubmit}>
         <div>
           <h3>Enter Tips</h3>
           <div>
             {moneyHandlers.map(function (moneyHandler, index) {
               return (
                 <div key={moneyHandler.id}>
-                  <label>
+                  <Form.Label>
                     {moneyHandler.name}
-                    <input
+
+                    <Form.Control
                       type="number"
                       step="any"
-                      placeholder="Enter Collected Tips"
+                      placeholder={"Tips for " + moneyHandler.name}
                       defaultValue={moneyHandler.tips}
                       onChange={(event) =>
                         handleMoneyHandlersChange(event, index)
                       }
-                      //    class="form-control"
                     />
-                  </label>
+                  </Form.Label>
                 </div>
               );
             })}
@@ -128,15 +129,15 @@ const InputCollectedTips = () => {
             {nonMoneyHandlers.map(function (nonMoneyHandler, index) {
               return (
                 <div key={nonMoneyHandler.id}>
-                  <label>
+                  <Form.Label>
                     {nonMoneyHandler.name}
-                    <input
+                    <Form.Check
                       type="checkbox"
                       onChange={(event) =>
                         handleNonMoneyHandlersChange(event, index)
                       }
-                    ></input>
-                  </label>
+                    ></Form.Check>
+                  </Form.Label>
                 </div>
               );
             })}
@@ -148,10 +149,10 @@ const InputCollectedTips = () => {
           <input
             type="submit"
             value="Calculate Tips"
-            className="btn btn-success"
+            className="btn btn-primary"
           />
         </div>
-      </form>
+      </Form>
     </>
   );
 };

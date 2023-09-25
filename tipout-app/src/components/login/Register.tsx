@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import api from "../../API/axiosConfig";
 import Banner from "../Banner";
+import Form from "react-bootstrap/Form";
 import { redirect, useNavigate } from "react-router-dom";
 import { useForm, SubmitHandler } from "react-hook-form";
 
@@ -79,85 +80,76 @@ const Register = () => {
   return (
     <>
       <Banner />
-
-      <form method="post" onSubmit={handleSubmit(onSubmit)}>
-        <div className="form-group">
-          <label>
-            Business Name
-            <input
-              className="form-control"
-              {...register("businessName", { required: true, minLength: 3 })}
-              onChange={(e) => setBusinessNameI(e.target.value)}
-            />
-          </label>
+      <Form method="post" onSubmit={handleSubmit(onSubmit)}>
+        <Form.Group>
+          <Form.Control
+            placeholder="Business Name"
+            aria-label="Business Name"
+            {...register("businessName", { required: true, minLength: 3 })}
+            onChange={(e) => setBusinessNameI(e.target.value)}
+          />
           {errors.businessName && (
             <div>
               Business Name is required to be at least 3 characters long
             </div>
           )}
-        </div>
-        <div className="form-group">
-          <label>
-            Username
-            <input
-              className="form-control"
-              {...register("username", {
-                required: true,
-                minLength: 3,
-              })}
-              onChange={(e) => setUsernameI(e.target.value)}
-            />
-          </label>
+        </Form.Group>
+        <Form.Group>
+          <Form.Control
+            placeholder="Username"
+            aria-label="Username"
+            {...register("username", {
+              required: true,
+              minLength: 3,
+            })}
+            onChange={(e) => setUsernameI(e.target.value)}
+          />
           {errors.username && (
             <div>Username is required to be at least 3 characters long</div>
           )}
-        </div>
-        <div className="form-group">
-          <label>
-            Password
-            <input
-              className="form-control"
-              {...register("password", {
-                required: true,
-                minLength: 5,
-                maxLength: 30,
-              })}
-              value={passwordI}
-              onChange={(e) => setPasswordI(e.target.value)}
-              type="password"
-            />
-          </label>
+        </Form.Group>
+        <Form.Group>
+          <Form.Control
+            placeholder="Password"
+            aria-label="Password"
+            {...register("password", {
+              required: true,
+              minLength: 5,
+              maxLength: 30,
+            })}
+            value={passwordI}
+            onChange={(e) => setPasswordI(e.target.value)}
+            type="password"
+          />
           {errors.password && (
             <div>
               Password is required to be between 5 and 30 characters long
             </div>
           )}
-        </div>
-        <div className="form-group">
-          <label>
-            Verify Password
-            <input
-              className="form-control"
-              {...register("verifyPassword", {
-                validate: (val: String) => {
-                  if (watch("password") != val) {
-                    return "Your passwords do not match";
-                  }
-                },
-              })}
-              value={verifyPasswordI}
-              onChange={(e) => setVerifyPasswordI(e.target.value)}
-              type="password"
-            />
-          </label>
+        </Form.Group>
+        <Form.Group>
+          <Form.Control
+            placeholder="Verify Password"
+            aria-label="Verify Password"
+            {...register("verifyPassword", {
+              validate: (val: String) => {
+                if (watch("password") != val) {
+                  return "Your passwords do not match";
+                }
+              },
+            })}
+            value={verifyPasswordI}
+            onChange={(e) => setVerifyPasswordI(e.target.value)}
+            type="password"
+          />
           {errors.verifyPassword && <div> Your passwords do not match</div>}
-        </div>
+        </Form.Group>
         <input
           type="submit"
           className="btn btn-primary"
           value="Register"
         ></input>
-      </form>
+      </Form>
     </>
   );
 };
