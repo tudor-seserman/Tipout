@@ -10,6 +10,7 @@ import AddEmployees from "./components/employees/AddEmployees";
 import { ProtectedRoute } from "./components/authentication/ProtectedRoute";
 import InputCollectedTips from "./components/calculate/InputCollectedTips";
 import TipoutReport from "./components/calculate/TipoutReport";
+import CurrentEmployees from "./components/employees/CurrentEmployees";
 
 function App() {
   return (
@@ -18,11 +19,12 @@ function App() {
       <Route path="/login" element={<Login />}></Route>
       <Route path="/register" element={<Register />}></Route>
       <Route
-        path="/addEmployee/*"
+        path="/employees/*"
         element={
           <ProtectedRoute>
             <Routes>
-              <Route path="/" element={<AddEmployees />} />
+              <Route path="/add" element={<AddEmployees />} />
+              <Route path="/current" element={<CurrentEmployees />} />
             </Routes>
           </ProtectedRoute>
         }

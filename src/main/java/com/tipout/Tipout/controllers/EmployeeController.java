@@ -172,7 +172,16 @@ public class EmployeeController {
 //        return "employees/add";
 //    }
 //
+
+
 ////This method displays all active employees with the option to edit them.
+    @GetMapping("current")
+    public ResponseEntity<List<Employee>> allEmployee(){
+        Employer employer = (Employer)authenticatedUser.getUser();
+        List<Employee> employees = employeeRepository.findCurrentEmployees(employer.getId());
+        return ResponseEntity.ok(employees);
+    }
+
 //    @GetMapping("current")
 //    public String allEmployee(Model model,
 //                                HttpServletRequest request) {
