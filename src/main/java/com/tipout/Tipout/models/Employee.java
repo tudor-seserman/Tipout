@@ -3,6 +3,7 @@ package com.tipout.Tipout.models;
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
+import com.google.gson.annotations.Expose;
 
 import javax.persistence.*;
 import javax.validation.constraints.*;
@@ -20,18 +21,23 @@ different roles will inherit from this class.
 public class Employee extends AbstractEntity implements Serializable {
     @NotNull
     @NotBlank
+    @Expose
     private String firstName;
     @NotNull
     @NotBlank
+    @Expose
     private String lastName;
 
 // Employees are tied to employer
     @ManyToOne
     private Employer employer;
+    @Expose
     private BigInteger percentOfTipOut;
 //Quick way to get role name
+@Expose
     private String roleDetail = this.getClass().getSimpleName();
 //Field is used to filter out archived employees from active Employees
+@Expose
     private boolean deleted = Boolean.FALSE;
 
 

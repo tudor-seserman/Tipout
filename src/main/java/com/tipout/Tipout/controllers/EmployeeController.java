@@ -1,5 +1,7 @@
 package com.tipout.Tipout.controllers;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.tipout.Tipout.models.DTOs.CreateEmployeeDTO;
 import com.tipout.Tipout.models.Employee;
 import com.tipout.Tipout.models.Employees.*;
@@ -22,6 +24,7 @@ import javax.validation.Valid;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 /*
 This controller is responsible for creating, editing, archiving, and deleting employees.
@@ -176,10 +179,12 @@ public class EmployeeController {
 
 ////This method displays all active employees with the option to edit them.
     @GetMapping("current")
-    public ResponseEntity<List<Employee>> allEmployee(){
+    public ResponseEntity<List<String>> allEmployee(){
         Employer employer = (Employer)authenticatedUser.getUser();
         List<Employee> employees = employeeRepository.findCurrentEmployees(employer.getId());
-        return ResponseEntity.ok(employees);
+        Gson gson = new GsonBuilder().excludeFieldsWithoutExposeAnnotation().create();;
+        List<String> JSONemplpyees= employees.stream().map(gson::toJson).collect(Collectors.toList());
+        return ResponseEntity.ok(JSONemplpyees);
     }
 
 //    @GetMapping("current")
