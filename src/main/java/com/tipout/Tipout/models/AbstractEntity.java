@@ -1,5 +1,7 @@
 package com.tipout.Tipout.models;
 
+import com.google.gson.annotations.Expose;
+
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.MappedSuperclass;
@@ -12,6 +14,7 @@ public abstract class AbstractEntity {
 
     @Id
     @GeneratedValue
+    @Expose
     private long id;
 
 

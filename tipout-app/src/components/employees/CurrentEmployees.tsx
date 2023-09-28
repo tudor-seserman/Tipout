@@ -2,10 +2,11 @@ import React, { useEffect, useState } from "react";
 import api from "../../API/axiosConfig";
 import Banner from "../Banner";
 import { useAuth } from "../../hooks/useAuth";
+import { Table } from "react-bootstrap";
 
 const CurrentEmployees = () => {
   const { user } = useAuth();
-  const [employees, setEmployees] = useState({});
+  const [employees, setEmployees] = useState([]);
 
   useEffect(() => {
     api
@@ -15,6 +16,7 @@ const CurrentEmployees = () => {
         },
       })
       .then((res) => {
+        console.log(res.data);
         setEmployees(res.data);
       });
   }, []);
@@ -22,14 +24,27 @@ const CurrentEmployees = () => {
   return (
     <>
       <Banner />
-      {Object.entries(employees).map((x, index) => {
-        return <div key={index}>{x.firstName}</div>;
-      })}
-      {/* {Object.entries(employees).forEach((employee) => {
-        Object.entries(employee).map((field, index) => {
-          return <div key={index}>{field}</div>;
-        });
-      })} */}
+      <Table striped bordered hover>
+        <thead>
+          <tr>
+            <th>Name</th>
+            <th>Role</th>
+          </tr>
+        </thead>
+        <tbody>
+          {employees.map(function (employee) {
+            const employeeObject: Object = JSON.parse(employee);
+            return (
+              <tr key={employeeObject.id}>
+                <td>
+                  {employeeObject.firstName} {employeeObject.lastName}
+                </td>
+                <td>{employeeObject.roleDetail}</td>
+              </tr>
+            );
+          })}
+        </tbody>
+      </Table>
     </>
   );
 };
