@@ -6,26 +6,28 @@ import Table from "react-bootstrap/Table";
 const TipoutReport = () => {
   const { state } = useLocation();
 
-  console.log(state);
-
   return (
     <>
       <Banner />
       <br />
       <h1>Tip Distribution</h1>
       <Table striped bordered>
-        <tr>
-          <th>Employee</th>
-          <th>Money Owed</th>
-        </tr>
-        {Object.entries(state).map(function ([key, val]) {
-          return (
-            <tr>
-              <td>{key}</td>
-              <td>{val}</td>
-            </tr>
-          );
-        })}
+        <thead>
+          <tr>
+            <th>Employee</th>
+            <th>Money Owed</th>
+          </tr>
+        </thead>
+        <tbody>
+          {Object.entries(state).map(function ([key, val], index) {
+            return (
+              <tr key={index}>
+                <td>{key}</td>
+                <td>{val}</td>
+              </tr>
+            );
+          })}
+        </tbody>
       </Table>
     </>
   );
