@@ -1,5 +1,6 @@
-FROM node:alpine as ts-compiler
+FROM node:alpine3.18 as ts-compiler
 WORKDIR /app
+LABEL author="Tudor Seserman"
 COPY package*.json ./
 COPY tsconfig*.json ./
 RUN npm i
